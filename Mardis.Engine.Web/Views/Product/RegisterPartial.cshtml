@@ -1,0 +1,40 @@
+﻿
+
+
+<div class="modal fade" role="dialog" id="divRegisterProduct">
+    <div class="modal-dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">REGISTRO DE PRODUCTO</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="control-label">CATEGORÍA</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <select id="ddlStatusTask" class="form-control input-sm"
+                                    data-bind="value:modelViewProduct.RegisterProduct.IdProductCategory,
+                                                options: modelViewProduct.ProductCategories, optionsText: 'Name', optionsValue: 'Id',
+                                                optionsCaption: '--Seleccione--'"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="control-label">NOMBRE</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtName" data-bind="value:modelViewProduct.RegisterProduct.Name" class="form-control input-sm" placeholder="Nombre">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnGuardar" data-dismiss="modal" onclick="SaveProduct()">Guardar</button>
+                    <button class="btn btn-default btn-sm" id="btnCancelar" data-dismiss="modal">Salir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

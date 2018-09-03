@@ -1,0 +1,123 @@
+﻿@model Mardis.Engine.Web.ViewModel.TaskViewModels.TaskPerCampaignViewModel
+@{
+    ViewData["Menu"] = "Tareas";
+    ViewData["Title"] = "Tareas";
+    ViewData["Description"] = "Mis Tareas";
+    Layout = "_Layout";
+
+}
+
+@section buttons{
+    <div class="pull-right">
+        <a title="Listado" class="btn btn-default input-sm" href="@Url.Action(Model.Properties.ActionName, Model.Properties.ControllerName, new { view = "list" })">
+            <i class="fa fa-list-alt"></i>
+        </a>
+        <a title="Kanban" class="btn btn-default input-sm" href="@Url.Action(Model.Properties.ActionName, Model.Properties.ControllerName, new { view = "block" })">
+            <i class="fa fa-th"></i>
+        </a>
+    </div>
+}
+
+@section filters{
+    @Html.Partial("_CoreFilterPartial", Model.Properties)
+}
+
+<link rel="stylesheet" href="~/lib/Slidebars/dist/slidebars.css">
+<link rel="stylesheet" href="~/css/theme/StyleFilter.css">
+
+
+<div id="divMyTask">
+    <div class="row">
+        <div class="row-fluid">
+            @{ var tam = Model.tasks.Count;}
+        
+            @foreach (var task in Model.tasks)
+    {
+  
+                            <div class="col-sm-2-mdr" style="text-align: center; border: thick solid white; background-color: @task.color;">
+                                <h5 class="control-label" style="color: white;">@task.type @(((Model.PageIndex * Model.PageSize) - Model.PageSize + 1) + " - " + (Model.PageIndex * Model.PageSize) + " / " + task.CountTasks)</h5>
+                            </div>
+        
+}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="row-fluid">
+            @foreach (var listtask in Model.tasks)
+            {
+                <div class="col-sm-2-mdr" style="border: thick solid #CCCCCC;">
+
+                    @foreach (var task in listtask.TasksList)
+                    {
+                        <div class="panel panel-default" id="@("row" +task.Id )">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <strong>CAMPAÑA:</strong>
+                                        <a href="@Url.Action("ProfileCampaign", "Campaign", new { idTask = task.Id , idcampaing=Model.IdCampaign})">@task.CampaignName</a>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label style="font-size-adjust: 0.4;">@task.Route</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <strong>
+                                        Local:
+                                            <a href="@Url.Action("Profile", "Branch", new {idBranch = @task.BranchId})">@task.BranchName</a>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label style="font-size-adjust: 0.4;">Código Mardis: </label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label style="font-size-adjust: 0.4;">@task.BranchMardisCode</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <label style="font-size-adjust: 0.4;">@task.StartDate.ToString("dd/MM/yyyy")</label>
+                                    </div>
+                                    <div class="col-sm-2" style="color: @listtask.color">
+                                        &#x2500;&#x25CF;&#x2500;
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div id="divFooter">
+    @Html.Partial("_PagingPartial", Model)
+</div>
+
+@section scripts{
+    <script src="~/js/viewModel/FilterHelper.js"></script>
+    <script>
+        controllerName = "@Model.Properties.ControllerName";
+        actionName = "@Model.Properties.ActionName";
+
+        @foreach (var filter in Model.Properties.FilterValues)
+        {
+            @:var point = { 'IdFilter': "@filter.IdFilter", 'NameFilter': "@filter.NameFilter", 'Criteria': "@filter.Criteria", 'Value': "@filter.Value", 'Visible':'@filter.Visible' };
+            @:filters.push(point);
+        }
+        /*algoritmo de adaptacion*/
+        var maxColummn = '@Html.Raw(tam)';
+        var x = document.getElementsByClassName("col-sm-2-mdr");
+        var i;
+        var max= 100 / maxColummn + "%";
+        for (i = 0; i < x.length; i++) {
+                    x[i].style.width = max;
+                }
+   
+    </script>
+}

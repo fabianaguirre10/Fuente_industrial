@@ -1,0 +1,33 @@
+﻿<h2>Home</h2>
+
+@(Html.DevExtreme().DataGrid()
+    .ShowBorders(true)
+    .DataSource(d => d.WebApi().Controller("Orders").Key("Code"))
+    .Columns(columns =>
+    {
+        //columns.Add().DataField("Id");
+        columns.Add().DataField("Code");
+        columns.Add().DataField("Name");
+        columns.Add().DataField("TypeBusiness");
+    })
+    .Paging(p => p.PageSize(15))
+    .FilterRow(f => f.Visible(true))
+    .HeaderFilter(f => f.Visible(true))
+    .GroupPanel(p => p.Visible(true))
+    .Grouping(g => g.AutoExpandAll(false))
+    .RemoteOperations(true)
+      .ColumnChooser(it => it.Mode(GridColumnChooserMode.DragAndDrop).Enabled(true))
+      .Height(450)
+      .ShowBorders(true)
+      .AllowColumnResizing(true).AllowColumnReordering(true).ColumnAutoWidth(true)
+    //.Summary(s => s
+    //.TotalItems(totalItems =>
+    //{
+    //    totalItems.Add().Column("Name").SummaryType(SummaryType.Count);
+    //})
+    //.GroupItems(groupItems =>
+    //{
+    //    groupItems.Add().SummaryType(SummaryType.Count);
+    //})
+    )
+)

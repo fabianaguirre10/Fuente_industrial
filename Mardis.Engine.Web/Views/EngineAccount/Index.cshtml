@@ -1,0 +1,56 @@
+﻿@model AccountListViewModel
+@{
+    ViewData["Title"] = "Cuentas";
+    ViewData["Description"] = "Cuentas";
+}
+
+@section filters{
+    @Html.Partial("_CoreFilterPartial", Model.Properties)
+}
+
+@section buttons{
+    <div class="pull-right">
+        <a title="Nuevo" class="btn btn-default input-sm" href="@Url.Action("Register","EngineAccount")">
+            <i class="fa fa-plus"></i>
+        </a>
+        <button class="btn btn-default input-sm" type="submit" formaction="DeleteAccount">
+            <i class="fa fa-minus"></i>
+        </button>
+    </div>
+}
+
+<form asp-action="" asp-controller="" method="POST">
+    <div id="divMainBranch">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Accounts.Count; i++)
+                    {
+                        <tr>
+                            <td><input asp-for="@Model.Accounts[i].Selected" /></td>
+                            <td>@Model.Accounts[i].Code</td>
+                            <td>
+                                <a href="@Url.Action("Register", "EngineAccount", new {account = Model.Accounts[i].Id})">
+                                    @Model.Accounts[i].Name
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @Html.Partial("_PagingPartial", Model)
+
+    </div>
+</form>
+
+@section scripts{
+}

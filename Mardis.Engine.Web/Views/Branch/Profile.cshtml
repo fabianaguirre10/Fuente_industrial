@@ -1,0 +1,290 @@
+﻿@using System.Linq
+@model BranchProfileViewModel
+@{
+    ViewData["Menu"] = "Locales";
+    ViewData["Title"] = "Perfil";
+    ViewData["Description"] = "Perfil de Local";
+    Layout = "_Layout";
+}
+
+@section buttons{}
+@section filters{}
+
+<link href="~/css/AdminLTE.css" rel="stylesheet" />
+
+<div id="divRegisterBranch">
+
+    @Html.Partial("ServiceBranchTaskPartial")
+
+    <div class="row-fluid">
+        <div class="col-sm-3" style="text-align: center; border-right: thick solid #a9a9a9; font-size: 12px;">
+            <div>
+                @if (Model.BranchImages.Count > 0)
+                {
+                    <img src="@Model.BranchImages.First().Base64Image" class="img-circle" alt="Imagen-Perfil" style="width: 80%;" />
+                }
+            </div>
+            <br />
+            <br />
+            ACERCA DE
+            <h4>@Model.Name</h4>
+            <br />
+            <div class="row">
+                <div class="col-sm-4" style="text-align: right">
+                    <h5>Propietario</h5>
+                </div>
+                <div class="col-sm-8" style="text-align: left;">
+                    <label>@Model.OwnerName</label>
+                </div>
+            </div>
+
+            <div>
+                <div class="row">
+                    <div class="col-sm-4" style="text-align: right">
+                        @*<label>Categoría</label>*@
+                    </div>
+                    <div class="col-sm-4" style="text-align: left;">
+                        @*<label data-bind="text:RegisterBranch.PersonOwner.Name"></label>*@
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="text-align: right">
+                        @*<label>Tipo de Negocio</label>*@
+                    </div>
+                    <div class="col-sm-4" style="text-align: left;">
+                        @*<label data-bind="text:RegisterBranch.PersonOwner.Name"></label>*@
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="text-align: right">
+                        <h5>Ciudad</h5>
+                    </div>
+                    <div class="col-sm-8" style="text-align: left;">
+                        <label>@Model.DistrictName</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="text-align: right">
+                        <h5>Sector</h5>
+                    </div>
+                    <div class="col-sm-8" style="text-align: left;">
+                        <label>@Model.Zone</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="text-align: right">
+                        <h5>Parroquia</h5>
+                    </div>
+                    <div class="col-sm-8" style="text-align: left;">
+                        <label>@Model.ParishName</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="text-align: right">
+                        <h5>Barrio</h5>
+                    </div>
+                    <div class="col-sm-8" style="text-align: left;">
+                        <label>@Model.Neighborhood</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="text-align: right">
+                        <h5>Dirección</h5>
+                    </div>
+                    <div class="col-sm-8" style="text-align: left;">
+                        <label>@Model.Direction</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="text-align: right">
+                        <h5>Referencia</h5>
+                    </div>
+                    <div class="col-sm-8" style="text-align: left;">
+                        <label>@Model.Reference</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="text-align: right">
+                        <h5>Teléfono</h5>
+                    </div>
+                    <div class="col-sm-8" style="text-align: left;">
+                        <label>@Model.OwnerPhone</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="text-align: right">
+                        <h5>Celular</h5>
+                    </div>
+                    <div class="col-sm-8" style="text-align: left;">
+                        <label>@Model.OwnerMobile</label>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <hr style="border-color: #CCCCCC; margin-top: 0;" />
+                <h5>Localización</h5>
+                <div id="map_canvas" style="width: 100%; height: 200px; overflow: visible; position: fixed;"></div>
+                <hr style="border-color: #CCCCCC; margin-top: 0;" />
+            </div>
+
+            <div>
+                <h5>Imágenes</h5>
+
+                <hr style="border-color: #CCCCCC; margin-top: 0;" />
+                <div class="row">
+                    @foreach (var image in Model.BranchImages)
+                    {
+                        <div class="col-md-3 col-sm-4 gallery-img">
+                            <div class="wrap-image">
+                                <a class="group1" href="@image.Base64Image" title="@image.FileName">
+                                    <img src="@image.Base64Image" alt="" class="img-responsive">
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <hr style="border-color: #CCCCCC; margin-top: 0;" />
+            </div>
+
+        </div>
+        <div class="col-sm-9">
+            <ul class="timeline">
+                @foreach (var task in Model.TaskCampaigns)
+                {
+                    <li>
+                        <i class="glyphicon glyphicon-flag bg-orange"></i>
+                        <div class="timeline-item" style="font-size: 12px;">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-sm-1">
+                                            <p class="text-danger">Campaña:</p>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <strong>
+                                                <label class="control-label">@task.CampaignName</label>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-1">
+                                            <p class="text-danger">Asignado:</p>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <label class="control-label">@task.MerchantName</label>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-1">
+                                            <p class="text-danger">Estado:</p>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <strong>
+                                                <label class="control-label">@task.StatusName</label>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <span class="time"><i class="fa fa-clock-o"></i> <label class="control-label">@task.StartDate.ToString("dd/MM/yyyy")</label> </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="timeline-body">
+                                        <strong>Tarea: <a href="@Url.Action("ProfileCampaign", "Campaign", new { idTask = task.Id , idcampaing=task.Idcampaign})">@task.TaskCode</a></strong>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+
+
+        <div class="col-sm-9">
+            <ul class="timeline">
+                @foreach (var Sms in Model.SmsListas)
+                {
+                    <li>
+                        <i class="glyphicon glyphicon-comment bg-orange"></i>
+                        <div class="timeline-item" style="font-size: 12px;">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-sm-1">
+                                            <p class="text-danger">Estado:</p>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <strong>
+                                                <label class="control-label">@Sms.estado</label>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-1">
+                                            <p class="text-danger">Mensaje:</p>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <strong>
+                                                <label class="control-label">@Sms.Mensaje</label>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-1">
+                                            <p class="text-danger">Motivo:</p>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <strong>
+                                                <label class="control-label">@Sms.motivo</label>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-1">
+                                            <span class="time"><i class="fa fa-clock-o"></i> <label class="control-label">@Sms.hora_envio.ToString("dd/MM/yyyy")</label> </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                               
+
+                            </div>
+
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div style="margin-top: 14px;"></div>
+
+    <div style="text-align: center">
+        <button class="btn btn-default btn-sm" onclick="window.history.back();">OK</button>
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="~/js/viewModel/MapHelper.js"></script>
+    <script>
+   
+        var marcador = [{ LatitudeBranch: "@Model.Latitude", LenghtBranch: "@Model.Longitude", Name: "@Model.Name" }];
+        LoadMarkers(marcador);
+    </script>
+}

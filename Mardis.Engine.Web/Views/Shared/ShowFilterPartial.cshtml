@@ -1,0 +1,13 @@
+﻿@using Mardis.Engine.DataAccess.MardisCore
+@{
+    @model FilterExecution
+}
+
+@foreach (var tempFilterExecutionDetail in Model.FilterExecutionDetails)
+{
+    <a class='btn btn-bricky' href='#'
+       id="@tempFilterExecutionDetail.Id"
+       onclick="DeleteFilter('@tempFilterExecutionDetail.Id')">
+        @tempFilterExecutionDetail.FilterCriteria.TypeFilter.SignFilter  @tempFilterExecutionDetail.Value <i class='clip-close-2'></i>
+    </a>
+}

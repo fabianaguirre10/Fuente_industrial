@@ -1,0 +1,76 @@
+
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+<link href="~/css/vuetify.css" rel="stylesheet" />
+
+<div id="VueEcuestador">
+
+    <div id="responsive" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg modal-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                    <h4 class="modal-title">Encuestadores</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <!-- START LOCK SCREEN ITEM -->
+
+                            <v-select :items="encuestadores"
+                                      :filter="customFilter"
+                                      v-model="imei"
+                                      item-text="name"
+                                      label="Encuestador"
+                                      autocomplete></v-select>
+                            <div class="input-group-btn">
+                                <button type="button" class="btn"  v-on:click="addItem"><i class="fa fa-plus text-muted"></i></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>IMEI</th>
+                                    <th>Nombres</th>
+                                    <th>Celular</th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(enc, x) in poll">
+                                <tr data-bind="attr:{id:'row'+Id}">
+                                    <td>{{x+1}}</td>
+                                    <td>{{enc.Code}} </td>
+                                    <td>{{enc.Name}}</td>
+                                    <td>{{enc.Phone}}</td>
+                                    <td>
+
+                                        <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" v-on:click="addRemove(x,enc.Code)"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" v-on:click="CloseModal" class="btn btn-info">Salir</button>
+                @*<pre>{{poll||json}}</pre>*@
+            </div>
+        </div>
+
+    </div>
+ 
+</div>
+
+
+<script>
+
+</script>

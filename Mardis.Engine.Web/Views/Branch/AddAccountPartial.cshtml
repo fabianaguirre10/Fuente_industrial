@@ -1,0 +1,52 @@
+﻿<div id="divNewAccount" class="modal fade" role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            <h4 class="modal-title">Agregar Cuenta a Local</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label for="selCustomer" class="control-label">
+                        Cliente<span class="symbol required"></span>
+                    </label>
+                </div>
+                <div class="col-sm-8">
+                    <select id="selCustomer" class="form-control input-sm"></select>
+                </div>
+            </div>
+            <div style="margin-top: 7px;"></div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label for="selChannel" class="control-label">
+                        Canal<span class="symbol required"></span>
+                    </label>
+                </div>
+                <div class="col-sm-8">
+                    <select id="selChannel" class="form-control input-sm"></select>
+                </div>
+            </div>
+            <div style="margin-top: 7px;"></div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label for="selTypeBusiness" class="control-label">
+                        Tipo de Negocio<span class="symbol required"></span>
+                    </label>
+                </div>
+                <div class="col-sm-8">
+                    <select id="selTypeBusiness" class="form-control input-sm"></select>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" formaction="AddAccount" onclick="AddAccount();">
+                Guardar
+            </button>
+            <button class="btn btn-link btn-sm" data-dismiss="modal">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>

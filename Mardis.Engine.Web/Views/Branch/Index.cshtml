@@ -1,0 +1,111 @@
+﻿@model BranchListViewModel
+@{
+    ViewData["Menu"] = "Locales";
+    ViewData["Title"] = "Locales";
+    ViewData["Description"] = "Gestión de Locales";
+    Layout = "_Layout";
+}
+
+@section buttons{
+    <div class="row">
+        <div class="col-sm-2 pull-right">
+        </div>
+
+        <div class="col-sm-2 pull-right">
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+                    <i class="clip-list-5"></i>
+                    Opciones
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="@Url.Action("Register","Branch")">
+                            <i class="clip-plus-circle-2"></i> Nuevo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btnDelete" onclick="DeleteSelection();">
+                            <i class="clip-minus-circle-2"></i> Borrar
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btnLocalization">
+                            <i class="clip-location"></i> Vista Georeferenciada
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+@section filters{
+    @Html.Partial("_CoreFilterPartial", Model.Properties)
+}
+
+    <div id="divMainBranch">
+        <div class="mardis_profile">
+            <div class="table-responsive">
+                <table id="table-mardis" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Cod. Mardis</th>
+                            <th>Cod. Cliente</th>
+                            <th>Local</th>
+                            <th></th>
+                            <th>Tipo</th>
+                            <th>Referencia</th>
+                            <th>Ruta</th>
+                            <th>IMEI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var branch in Model.BranchList)
+                    {
+                        <tr id="@("row" + branch.Id)">
+                            <td>
+                                <!--Control de cambios-->
+                                <input id="@branch.Id" onchange="SelectItem(this);" type="checkbox" value="@branch.Id" />
+                            </td>
+                            <td>@branch.Code</td>
+                            <td>@branch.ExternalCode</td>
+                            <td><a href="@Url.Action("Profile", "Branch", new {idBranch = branch.Id})">@branch.Name</a></td>
+                            <td>
+                                <a href="@Url.Action("Register", "Branch", new {idBranch = branch.Id})">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                            </td>
+                            <td>@branch.TypeBusiness</td>
+                            <td>@branch.Reference</td>
+                            <td>@branch.RUTAAGGREGATE</td>
+                            <td>@branch.IMEI_ID</td>
+                        </tr>
+                }
+                    </tbody>
+                </table>
+            </div>
+
+            @Html.Partial("_PagingPartial", Model)
+        </div>
+
+    </div>
+
+
+        @section scripts{
+        <script src="~/js/viewModel/MapHelper.js"></script>
+        <script src="~/js/viewModel/FilterHelper.js"></script>
+        <script src="~/js/viewModel/BranchHelper.js"></script>
+        <script>
+        window.controllerName = "@Model.Properties.ControllerName";
+        window.actionName = "@Model.Properties.ActionName";
+        var filters = [];
+
+        @foreach (var filter in Model.Properties.FilterValues)
+        {
+            @:var point = { 'IdFilter': "@filter.IdFilter", 'NameFilter': "@filter.NameFilter", 'Criteria': "@filter.Criteria", 'Value': "@filter.Value", 'Visible':'@filter.Visible' };
+            @:filters.push(point);
+        }
+        </script>
+        }

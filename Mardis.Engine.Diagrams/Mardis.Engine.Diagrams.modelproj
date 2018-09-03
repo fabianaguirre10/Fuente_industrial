@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5e7ea371-4fe2-47b9-a0c5-51487ff0bba8}</ProjectGuid>
+    <ArchitectureToolsVersion>2.0.0.0</ArchitectureToolsVersion>
+    <Name>Mardis.Engine.Diagrams</Name>
+    <RootNamespace>Mardis.Engine.Diagrams</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ItemGroup>
+    <Content Include="UMLClassDiagram1.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="UMLClassDiagram1.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>UMLClassDiagram1.classdiagram</DependentUpon>
+    </Content>
+    <Folder Include="ModelDefinition\" />
+    <Content Include="ModelDefinition\Mardis.Engine.Diagrams.uml">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Validate Include="Engine.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="Engine.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Engine.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="Engine.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>Engine.layerdiagram</DependentUpon>
+    </Validate>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mardis.Engine.Converter\Mardis.Engine.Converter.csproj">
+      <Name>Mardis.Engine.Converter</Name>
+      <Project>{b61c7d5c-4ea1-4dec-8f31-ea68af4daa25}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Mardis.Engine.DataAccess\Mardis.Engine.DataAccess.csproj">
+      <Name>Mardis.Engine.DataAccess</Name>
+      <Project>{11b9ce2f-ff49-4022-850e-b63954967745}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Mardis.Engine.Framework.Resources\Mardis.Engine.Framework.Resources.csproj">
+      <Name>Mardis.Engine.Framework.Resources</Name>
+      <Project>{7a86087d-7fb6-4b79-8008-db7a02e116df}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Mardis.Engine.Framework\Mardis.Engine.Framework.csproj">
+      <Name>Mardis.Engine.Framework</Name>
+      <Project>{c3dc76a5-1830-4f18-b5f0-c1c73758e416}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Mardis.Engine.Web.ViewModel\Mardis.Engine.Web.ViewModel.csproj">
+      <Name>Mardis.Engine.Web.ViewModel</Name>
+      <Project>{62c7b622-8bee-45c4-92db-d7ded90673b9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Mardis.Engine.Web\Mardis.Engine.Web.xproj">
+      <Name>Mardis.Engine.Web</Name>
+      <Project>{91d8eaa2-45d7-41cd-959a-bd3501c0d765}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

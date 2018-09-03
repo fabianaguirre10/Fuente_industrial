@@ -1,0 +1,366 @@
+﻿@{
+    var Ideu = (string)ViewData[CTask.IdEquipment];
+}
+
+@{
+    ViewData["Title"] = "ViewEquipment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section buttons{}
+@section filters{}
+<link href="~/css/mardis-images.css" rel="stylesheet" />
+<div id="VueDataEquipment">
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Profile Image -->
+                <div class="box box-danger">
+                    <div class="box-body box-profile">
+
+                        <div  v-if="poll.Branches" >
+                            <img class="profile-user-img img-responsive img-circle" v-if="poll.Branches.BranchImages!=0" v-bind:src="poll.Branches.BranchImages[0].UrlImage" style="width:130px ; height:130px" alt="User profile picture">
+                         </div>
+                            <h3 class="profile-username text-center">{{ poll.Model }}</h3>
+                            <p class="text-muted text-center"> {{ poll.EQplate }}</p>
+                            <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item">
+                                    <b>Placa</b> <a class="pull-right  text-black" style="padding-right: 5%;">    {{ poll.EQplate }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Marca</b> <a class="pull-right text-black" style="padding-right: 5%;">    {{ poll.Model }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Modelo</b> <a class="pull-right text-black" style="padding-right: 5%;">    {{ poll.brand }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Estado</b> <a class="pull-right text-black" style="padding-right: 5%;">    {{ poll.Equipament_statuss.Description }}</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                <!-- /.box -->
+                <!-- About Me Box -->
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-map-marker margin-r-5"></i>Localizacion </h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div>
+                            <hr style="border-color: #CCCCCC; margin-top: 0;" />
+
+                            <div id="map_canvas" style="width: 100%; height: 200px; overflow: visible; position: fixed;"></div>
+                            <hr style="border-color: #CCCCCC; margin-top: 0;" />
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Album </h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <strong><i class="fa fa-bus margin-r-5"></i> Camiones</strong>
+                        <br />
+                        <img alt="..." v-for="(fotos, i) in poll.EquipamentImg" v-bind:src="fotos.UrlImage" v-if="fotos.ContentType =='3'" class="margin " style="width:130px; height:100px;">
+                        <hr>
+                        <strong><i class="fa fa-tasks margin-r-5"></i> Implementación</strong>
+                        <br />
+                       
+                            <img alt="..." v-for="(fotos, i) in poll.EquipamentImg" v-bind:src="fotos.UrlImage" v-if="fotos.ContentType =='1'" class="margin " style="width:130px; height:100px;">
+                        
+                        <hr>
+                        <strong><i class="fa fa-home  margin-r-5"></i> Bodegas</strong>
+                        <br />
+                        <img alt="..." v-for="(fotos, i) in poll.EquipamentImg" v-bind:src="fotos.UrlImage" v-if="fotos.ContentType =='4' || fotos.ContentType =='5'" class="margin " style="width:130px; height:100px;">
+
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="nav-tabs-custom">
+
+                    <div class="tab-content box box-mardis ">
+
+                        <!-- /.tab-pane -->
+                        <div v-if="poll.Idbranch != '00000000-0000-0000-0000-000000000000'">
+                            <div id="timeline">
+                                <!-- The timeline -->
+
+                                <ul v-for="(task, x) in poll.Branches.TaskCampaigns" class="timeline timeline-inverse box">
+                                    <!-- timeline time label -->
+                                    <li class="box-header  time-label">
+
+                                        <button type="button" class="btn btn-box btn bg-timeline btn-flat" data-widget="collapse">
+                                            {{moment(task.DateCreation).format('ll')}}
+                                        </button>
+                                    </li>
+                                    <!-- /.timeline-label -->
+                                    <!-- timeline item -->
+
+                                    <li class="box-body">
+
+                                        <i class="fa fa-tasks bg-red-active"></i>
+                                        <div class="timeline-item" style="border-radius:0px !important">
+
+                                            <span class="time"><i class="fa fa-clock-o"></i>   {{moment(task.DateModification).format('LT')}}</span>
+                                            <h3 class="timeline-header"><a href="#">Encuesta :</a>  {{task.Code}}</h3>
+                                            <div class="timeline-body">
+                                                <div class=" invoice-col">
+
+                                                    <br>
+                                                    <b>Ruta:</b> {{task.Route}}<br>
+                                                    <b>Campana:</b> {{task.Campaign.Name}}<br>
+                                                    <b>Descripcion:</b> {{task.Description}}
+                                                </div>
+
+                                            </div>
+                                            <div class="timeline-footer pull-right ">
+
+                                                <a v-bind:href="'../Campaign/TaskPoll?idTask='+ task.Id" class="btn btn-app btn-xs">
+                                                    <i class="fa fa-tasks"></i> Tarea
+                                                </a>
+                                                <a v-bind:href="'../Branch/Profile?idBranch='+ task.IdBranch" class="btn btn-app btn-xs">
+                                                    <i class="fa fa-user"></i> local
+
+                                                </a>
+
+                                                @*<a v-bind:href="'../Campaign/TaskPoll?idTask='+ task.Id" class="btn btn-google btn-flat btn-xs">Ver Tarea</a>
+                        <a v-bind:href="'../Branch/Profile?idBranch='+ task.IdBranch" class="btn btn-linkedin btn-flat btn-xs">Ir a local</a>*@
+
+                                            </div>
+                                        </div>
+                                    </li>
+
+
+                                    <li class="box-body" v-if="poll.Branches.BranchImages!=''">
+
+                                        <i class="fa fa-camera bg-purple"></i>
+
+                                        <div class="timeline-item" style="border-radius:0px !important">
+
+                                            <h3 class="timeline-header"><a href="#">Multimedia</a>  </h3>
+                                            <div class="timeline-body" style="display: -webkit-inline-box;">
+
+                                                <img alt="..." v-for="(fotos, imgs) in poll.Branches.BranchImages" v-bind:src="fotos.UrlImage" v-on:click="[openModal(), currentSlide(imgs + 1)]" v-if="fotos.IdCampaign==task.IdCampaign" class="margin " style="width:150px; height:100px;">
+
+
+                                            </div>
+                                        </div>
+
+                                    </li>
+
+                                </ul>
+
+                                <ul v-for="(task, x) in poll.Activities" class="timeline timeline-inverse box">
+                                    <!-- timeline time label -->
+                                    <li class="box-header  time-label" v-if="task.typeActivity == 'C'">
+
+                                        <button type="button" class="btn btn-box btn bg-timeline btn-flat" data-widget="collapse">
+                                            {{moment(task.DateCreation).format('ll')}}
+                                        </button>
+                                    </li>
+                                    <!-- /.timeline-label -->
+                                    <!-- timeline item -->
+
+                                    <li class="box-body" v-if="task.typeActivity == 'C' ">
+
+                                        <i class="fa fa-bus bg-green"></i>
+                                        <div class="timeline-item" style="border-radius:0px !important">
+
+                                            <span class="time"><i class="fa fa-clock-o"></i>   {{moment(task.DateModification).format('LT')}}</span>
+                                            <h3 class="timeline-header"><a href="#">Actividad :</a>  {{task.Code}}</h3>
+                                            <div class="timeline-body">
+                                                <div class=" invoice-col">
+
+                                                    <br>
+                                                    <b>Guía:</b> {{task.guide}}<br>
+                                                    <b>Placa:</b> {{task.car_license}}<br>
+                                                    <b>Descripción:</b> {{task.Description}}
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </li>
+
+                                    <li class="box-body" v-if="ExistsImg(3) && task.typeActivity == 'C'">
+
+                                        <i class="fa fa-camera bg-purple"></i>
+
+                                        <div class="timeline-item" style="border-radius:0px !important">
+
+                                            <h3 class="timeline-header"><a href="#">Multimedia</a>  </h3>
+                                            <div class="timeline-body" style="display: -webkit-inline-box;">
+
+                                                <img alt="..." v-for="(fotos, i) in poll.EquipamentImg" v-bind:src="fotos.UrlImage" v-if="fotos.ContentType =='3'" class="margin " style="width:150px; height:100px;" v-on:click="[openModal(), currentSlide(imgs + 1)]">
+
+
+                                            </div>
+                                        </div>
+
+                                    </li>
+
+
+
+
+
+                                </ul>
+                                <ul v-for="(task, x) in poll.Activities" class="timeline timeline-inverse box">
+                                    <!-- timeline time label -->
+                                    <li class="box-header  time-label" v-if="task.typeActivity == 'B' ">
+
+                                        <button type="button" class="btn btn-box btn bg-timeline btn-flat" data-widget="collapse">
+                                            {{moment(task.DateCreation).format('ll')}}
+                                        </button>
+                                    </li>
+                                    <!-- /.timeline-label -->
+                                    <!-- timeline item -->
+
+                                    <li class="box-body" v-if="task.typeActivity == 'B' ">
+
+                                        <i class="fa fa-home bg-blue"></i>
+                                        <div class="timeline-item" style="border-radius:0px !important">
+
+                                            <span class="time"><i class="fa fa-clock-o"></i>   {{moment(task.DateModification).format('LT')}}</span>
+                                            <h3 class="timeline-header"><a href="#">Actividad :</a>  {{task.Code}}</h3>
+                                            <div class="timeline-body">
+                                                <div class=" invoice-col">
+
+                                                    <br>
+                                                    <b>Guía:</b> {{task.guide}}<br>
+                                                    <b>Observación:</b> {{task.car_license}}<br>
+
+                                                    <b>Descripción:</b> {{task.Description}}
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </li>
+
+                                    <li class="box-body" v-if="ExistsImg(4) && task.typeActivity == 'B' ">
+
+                                        <i class="fa fa-camera bg-purple"></i>
+
+                                        <div class="timeline-item" style="border-radius:0px !important">
+
+                                            <h3 class="timeline-header"><a href="#">Multimedia</a>  </h3>
+                                            <div class="timeline-body" style="display: -webkit-inline-box;">
+                                                <img alt="..." v-for="(fotos, i) in poll.EquipamentImg" v-bind:src="fotos.UrlImage" v-if="fotos.ContentType =='4' || fotos.ContentType =='5'" class="margin " style="width:150px; height:100px;" v-on:click="[openModal(), currentSlide(imgs + 1)]">
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </li>
+                                </ul>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- /.nav-tabs-custom -->
+            </div>
+            <!-- /.col -->
+            @*<pre>{{poll.Branches.BranchImages||json}}</pre>*@
+        </div>
+        <!-- /.row -->
+    </section>
+    <div v-if="poll.Branches">
+        <section class="model-mardis" v-if="poll.Branches.BranchImages != '0' ">
+            <div id="myModal" class="modalmardis" style=" position:fixed !important; top:8px !important;">
+                <span class="close cursor" onclick="closeModal()">&times;</span>
+                <div class="modal-content" style="background: black;" id="modalClass">
+
+                    <div class="mySlides" v-for="(image, index) in poll.Branches.BranchImages">
+                        <div class="numbertext">{{index + ' / ' + poll.Branches.BranchImages.length}}</div>
+
+                        <div v-if="image.NameFile.indexOf('vid')>=0 || image.NameFile.indexOf('.mp4')>=0 || image.NameFile.indexOf('.3gp')>=0">
+                            <video style="width: 100%; border-radius: 5px;" class="hover-shadow cursor" controls>
+                                <source v-bind:src="image.UrlImage" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+
+                        <div v-if="image.NameFile.indexOf('.jpg')>=0 || image.NameFile.indexOf('.bmp')>=0 || image.NameFile.indexOf('.gif')>=0 || image.NameFile.indexOf('.png')>=0">
+                            <img v-bind:src="image.UrlImage" style="width: 100%" class="imgClass">
+                        </div>
+
+                        <div v-if="image.NameFile.indexOf('.mp3')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.amr')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.aac')>=0 || image.NameFile.indexOf('.m4a')>=0">
+                            <audio controls>
+                                <source v-bind:src="image.UrlImage" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+
+                    </div>
+
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+                    <div class="downtool center" style="width: 100%; background: black">
+                        <a onclick="rotateLeft()"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                        <a onclick="initialPosition()"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                        <a onclick="rotateRight()"><i class="fa fa-repeat" aria-hidden="true"></i></a>
+                    </div>
+
+                    <div class="caption-container">
+                        <p id="caption"></p>
+                    </div>
+
+                    <div class="column" v-for="(image, index) in poll.Branches.BranchImages" style="display:none">
+
+                        <div v-if="image.NameFile.indexOf('vid')>=0 || image.NameFile.indexOf('.mp4')>=0 || image.NameFile.indexOf('.3gp')>=0">
+                            <video style="width: 100%; border-radius: 5px;" v-on:click="[currentSlide(index + 1)]" class="hover-shadow cursor" controls>
+                                <source v-bind:src="image.UrlImage" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+
+                        <div v-if="image.NameFile.indexOf('.jpg')>=0 || image.NameFile.indexOf('.bmp')>=0 || image.NameFile.indexOf('.gif')>=0 || image.NameFile.indexOf('.png')>=0">
+                            <img class="demo cursor" v-on:click="[currentSlide(index + 1)]" v-bind:src="image.UrlImage" style="width: 100%">
+                        </div>
+
+                        <div v-if="image.NameFile.indexOf('.mp3')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.amr')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.aac')>=0 || image.NameFile.indexOf('.m4a')>=0">
+                            <audio style="width: 100%; border-radius: 5px;" v-on:click="currentSlide(x + 1);" class="hover-shadow cursor" controls>
+                                <source v-bind:src="image.UrlImage" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </section>
+    </div>
+    @*<pre>{{poll||json}}</pre>*@   
+    </div>
+    @section scripts{
+        <script src="~/js/viewModel/MapHelper.js"></script>
+        <script src="~/js/viewModel/FilterHelper.js"></script>
+        <script src="~/js/viewModel/BranchHelper.js"></script>
+        <script src="~/js/viewModel/EquipmentModel.js"></script>
+        <script src="~/js/mardis-images.js"></script>
+        <script>
+        var idDeu = '@Html.Raw(Ideu)';
+
+
+        LoadEquipment(idDeu);
+
+
+        </script>
+    }

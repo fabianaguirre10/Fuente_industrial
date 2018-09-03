@@ -1,0 +1,144 @@
+﻿@model Mardis.Engine.Web.ViewModel.TaskViewModels.TaskPerCampaignViewModel
+
+@{
+    ViewData["Menu"] = "Tareas";
+    ViewData["Title"] = "Tareas";
+    ViewData["Description"] = "Listado de Tareas";
+    Layout = "_Layout";
+}
+
+@section buttons{
+    <div class="pull-right">
+        <a title="Listado" class="btn btn-default input-sm" href="@Url.Action(Model.Properties.ActionName, Model.Properties.ControllerName, new { view = "list" })">
+            <i class="fa fa-list-alt"></i>
+        </a>
+        <a title="Kanban" class="btn btn-default input-sm" href="@Url.Action(Model.Properties.ActionName, Model.Properties.ControllerName, new {view = "block"})">
+            <i class="fa fa-th"></i>
+        </a>
+    </div>
+}
+@section filters{
+    @Html.Partial("_CoreFilterPartial", Model.Properties)
+}
+
+<div id="divTasksPerCampaign">
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Tarea</th>
+                    <th>Cod. Local</th>
+                    <th>Nombre Local</th>
+                    <th>Campaña</th>
+                    <th>Fecha de Inicio</th>
+                    <th></th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in Model.PendingTasksList)
+                {
+                    <tr id="@("row" + task.Id)">
+                        <td>
+                            <a href="@Url.Action("TaskPoll", "Campaign", new {idTask = task.Id})">@task.Code</a>
+                        </td>
+                        <td>@task.BranchCode</td>
+                        <td>@task.BranchName</td>
+                        <td>@task.CampaignName</td>
+                        <td>@task.StartDate</td>
+                        <td><span style="color: red">&#9679;</span></td>
+                        <td>Pendiente</td>
+                    </tr>
+                }
+                @foreach (var task in Model.StartedTasksList)
+                {
+                    <tr id="@("row" + task.Id)">
+                        <td>
+                            <a href="@Url.Action("TaskPoll", "Campaign", new {idTask = task.Id})">@task.Code</a>
+                        </td>
+                        <td>@task.BranchCode</td>
+                        <td>@task.BranchName</td>
+                        <td>@task.CampaignName</td>
+                        <td>@task.StartDate</td>
+                        <td><span style="color: darkorange">&#9679;</span></td>
+                        <td>Iniciado</td>
+                    </tr>
+                }
+                @foreach (var task in Model.ImplementedTasksList)
+                {
+                    <tr id="@("row" + task.Id)">
+                        <td>
+                            <a href="@Url.Action("TaskPoll", "Campaign", new {idTask = task.Id})">@task.Code</a>
+                        </td>
+                        <td>@task.BranchCode</td>
+                        <td>@task.BranchName</td>
+                        <td>@task.CampaignName</td>
+                        <td>@task.StartDate</td>
+                        <td><span style="color: green">&#9679;</span></td>
+                        <td>Implementado</td>
+                    </tr>
+                }
+                @foreach (var task in Model.NotImplementedTasksList)
+               {
+                    <tr id="@("row" + task.Id)">
+                        <td>
+                            <a href="@Url.Action("TaskPoll", "Campaign", new {idTask = task.Id})">@task.Code</a>
+                        </td>
+                        <td>@task.BranchCode</td>
+                        <td>@task.BranchName</td>
+                        <td>@task.CampaignName</td>
+                        <td>@task.StartDate</td>
+                        <td><span style="color: blue">&#9679;</span></td>
+                        <td>No Implementado</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @Html.Partial("_PagingPartial", Model)
+</div>
+
+@section scripts{
+    <script src="~/js/viewModel/TaskCommon.js"></script>
+    <script src="~/js/viewModel/CommonScript.js"></script>
+    <script src="~/js/viewModel/FilterHelper.js"></script>
+    <script>
+
+        controllerName = "@Model.Properties.ControllerName";
+        actionName = "@Model.Properties.ActionName";
+
+        var pageIndex = parseInt("@Model.PageIndex");
+        var pageSize = 10;
+
+
+        function OpenProfileTaskClick(element) {
+            $.blockUI({ message: '' });
+            var idTask = element.id;
+            $.ajax({
+                url: "/Campaign/TaskPoll",
+                type: "get",
+                async: false,
+                data: {
+                    idTask: idTask
+                },
+                success: function (viewHtml) {
+                    $("#divMain").html(viewHtml);
+                    $.unblockUI();
+                },
+                error: function (error) {
+                    console.log(error);
+                    $.unblockUI();
+                }
+            });
+        }
+
+        @foreach (var filter in Model.Properties.FilterValues)
+        {
+            @:var point = { 'IdFilter': "@filter.IdFilter", 'NameFilter': "@filter.NameFilter", 'Criteria': "@filter.Criteria", 'Value': "@filter.Value", 'Visible': '@filter.Visible' };
+                                                    @:filters.push(point);
+                                                }
+
+    </script>
+}

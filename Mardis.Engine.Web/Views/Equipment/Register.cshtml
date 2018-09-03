@@ -1,0 +1,151 @@
+﻿@model Mardis.Engine.Web.ViewModel.EquipmentViewModels.EquipmentRegisterViewModel
+@{
+    ViewData["Title"] = "Gestión de Equipos";
+    ViewData["Description"] = "Agregar/Editar Tareas";
+}
+
+@section buttons{}
+@section filters{}
+
+    <div class="mardis_profile">
+        <form asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST" class="form-horizontal">
+            <input asp-for="ReturnUrl" class="hidden" />
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="col-md-7 control-label-back">Información General del Equipo</label>
+                    <input asp-for="CreationDate" id="CreationDateText  " class="hidden" />
+                    <label class="col-md-offset-5  col-md-3 control-label-back  text-title">Fecha: <small> @Model.CreationDate</small></label>
+
+                </div>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger "></div>
+                <div class="form-group">
+                    <label asp-for="Id" class="col-md-2 control-label  text-title"></label>
+                    <div class="col-md-1">
+                        <input asp-for="Id" class="form-control " name="Id" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Sticker" class="col-md-2 control-label  text-title"></label>
+                    <div class="col-md-3">
+                        <input asp-for="Sticker" class="form-control" name="Sticker" placeholder="Ingrese el Sticker" />
+                        <span asp-validation-for="Sticker" class="text-danger"></span>
+                    </div>
+                    <label asp-for="EQplate" class="col-md-2 control-label text-title"></label>
+                    <div class="col-md-3">
+                        <input asp-for="EQplate" class="form-control" placeholder="Ingrese la Placa del Equipo" />
+                        <span asp-validation-for="EQplate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Series" class="col-md-2 control-label text-title"></label>
+                    <div class="col-md-3">
+                        <input asp-for="Series" class="form-control" placeholder="Ingrese la serie" />
+                        <span asp-validation-for="Series" class="text-danger"></span>
+                    </div>
+                    <label asp-for="brand" class="col-md-2 control-label text-title"></label>
+                    <div class="col-md-3">
+                        <input asp-for="brand" class="form-control" placeholder="Repita el brandeo " />
+                        <span asp-validation-for="brand" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Model" class="col-md-2 control-label text-title"></label>
+                    <div class="col-md-3">
+                        <input asp-for="Model" class="form-control" placeholder="Ingrese el Modelo" />
+                        <span asp-validation-for="Model" class="text-danger"></span>
+                    </div>
+                    <label asp-for="NDoor" class="col-md-2 control-label text-title"></label>
+                    <div class="col-md-3">
+                        <input asp-for="NDoor" class="form-control" placeholder="Repita el numero de puertas" />
+                        <span asp-validation-for="NDoor" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdType" class="col-md-2 control-label text-title"></label>
+                    <div class="col-md-3">
+                        <select asp-for="IdType" class="form-control" asp-items="@ViewBag.TypeEq"></select>
+
+                    </div>
+                    <label asp-for="Status" class="col-md-2 control-label text-title"></label>
+                    <div class="col-md-3">
+                        <select asp-for="Status" class="form-control" asp-items="@ViewBag.Estado"></select>
+
+                    </div>
+                </div>
+                <div class="form-group">
+
+
+
+
+                    <label asp-for="description" class="col-md-2 control-label text-title"></label>
+                    <div class="col-md-3">
+                        <input asp-for="description" class="form-control" placeholder="Ingrese las descripciones encontradas" />
+                        <span asp-validation-for="description" class="text-danger"></span>
+                    </div>
+                    <label asp-for="guide" class="col-md-2 control-label text-title"></label>
+                    <div class="col-md-3">
+                        <input asp-for="guide" class="form-control" placeholder="Ingrese la guida del camión" />
+                        <span asp-validation-for="guide" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="form-group">
+
+
+
+
+                    <label asp-for="maker" class="col-md-2 control-label text-title"></label>
+                    <div class="col-md-3">
+                        <input asp-for="maker" class="form-control" placeholder="Ingrese Fabricante" />
+                        <span asp-validation-for="maker" class="text-danger"></span>
+                    </div>
+
+                    <label class="col-md-2 control-label text-title">Local</label>
+                    <input asp-for="Idbranch" id="txtBranch" class="hidden" />
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <label type="text" id="lblNameBranch" class="form-control input-sm">@Model.BranchName</label>
+                            <span class="input-group-btn">
+                                <div onclick="ShowModal();" class="btn btn-info form-control input-sm">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <hr />
+            <div style="margin-top: 7px;"></div>
+            <div class="mardisStyle">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center">
+                        <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar</button>
+                        <button type="button" class="btn btn-default btn-sm" id="btnCancelar" onclick="window.history.back();">Salir</button>
+                    </div>
+                </div>
+            </div>
+                @Html.Partial("../task/SearchBranchesPartial")
+
+        </form>
+    
+</div>
+
+    @section scripts{
+        <script src="~/js/Helpers/TaskHelper.js"></script>
+        <script>
+            $("#txtStartDate").datepicker();
+
+            var page = "Profile";
+            var countServices = 0;
+            LoadCountries();
+
+            function ShowModal() {
+                $('#divEscogerLocal').modal();
+            }
+        </script>
+    }

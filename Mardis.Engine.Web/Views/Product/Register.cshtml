@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Menu"] = "Productos";
+    ViewData["Title"] = "Gestión de Productos";
+    ViewData["Description"] = "Agregar/Editar Productos";
+    Layout = "_Layout";
+
+    var IdRegister = (string)ViewData[CProduct.IdRegister];
+}
+
+@section buttons{}
+@section filters{}
+
+<div id="divRegisterProduct">
+    <div class="row">
+        <div class="col-sm-2">
+            <label class="control-label">CATEGORÍA</label>
+        </div>
+        <div class="col-sm-4">
+            <select id="ddlStatusTask" class="form-control input-sm"
+                    data-bind="value:RegisterProduct.IdProductCategory,
+                    options: ProductCategories, optionsText: 'Name' , optionsValue: 'Id' ,
+                    optionsCaption: ' --Seleccione--'"></select>
+        </div>
+    </div>
+    <div style="margin-top: 7px;"></div>
+    <div class="row">
+        <div class="col-sm-2">
+            <label class="control-label">NOMBRE</label>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" id="txtName" data-bind="value:RegisterProduct.Name" class="form-control input-sm" placeholder="Nombre">
+        </div>
+    </div>
+    <hr style="border-color: #CCCCCC; margin-top: 0;" />
+
+    <div class="row">
+        <div class="col-sm-12" style="text-align: center">
+            <button class="btn btn-primary" id="btnGuardar" onclick="SaveProduct()">Guardar</button>
+            <button class="btn btn-default btn-sm" id="btnCancelar" onclick="Exit();">Salir</button>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/js/viewModel/CommonScript.js"></script>
+    <script src="~/js/viewModel/ProductViewModel.js"></script>
+    <script>
+        var IdProduct = '@Html.Raw(IdRegister)';
+
+        $.blockUI({ message: '' });
+
+        LoadProductById();
+        InitializeProductsObjects();
+        $.unblockUI();
+    </script>
+}

@@ -1,0 +1,132 @@
+﻿@using Mardis.Engine.Web.ViewModel.ServiceViewModels
+
+@model ServiceIndexViewModel
+
+@{
+    ViewData["Title"] = "Servicios";
+    ViewData["Description"] = "Gestión de Servicios";
+}
+
+@section buttons{
+    <div class="row">
+        <div class="col-sm-2 pull-right">
+
+        </div>
+        <div class="col-sm-2 pull-right" style="vertical-align:middle;text-align:center">
+
+        </div>
+        <div class="col-sm-2 pull-right">
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+                    <i class="clip-list-5"></i>
+                    Opciones
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="@Url.Action("Register","Service")">
+                            <i class="clip-plus-circle-2"></i> Nuevo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("XML","Service")">
+                            <i class="clip-upload-2"></i> Importar 
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+@section filters{
+
+}
+
+<style>
+    ul li ul {
+        display: none;
+    }
+</style>
+<div id="divMainServices">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="core-box">
+                <div class="heading">
+                    <i class="clip-picassa circle-icon circle-bricky"></i>
+                    <h2>Tipos de Servicios</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <p>
+                Seleccione un Tipo de Servicio, despues escoja <br />
+                su cliente y puede mirar los servicios asociados a ellos.<br />
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <ul class="dd-list">
+                @foreach (var tempTypeService in Model.TypeServicesList)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Service", new {typeService = tempTypeService.Id})" class="dd-handle bricky">@tempTypeService.Name</a>
+                    </li>
+
+                }
+            </ul>
+            <ul>
+                @foreach (var customer in Model.Customers)
+                {
+                    <li>
+                        <a href="@Url.Action("Index","Service",new {typeService=customer.IdTypeService, customer=customer.Id})">@customer.Name</a>
+                    </li>
+                }
+            </ul>
+
+        </div>
+        <div class="col-sm-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-reorder"></i> Servicios
+                    <div class="panel-tools">
+
+                        <a class="btn btn-xs btn-link" href="#">
+                            <i class="fa fa-sort-alpha-asc"></i>
+                        </a>
+                        <a class="btn btn-xs btn-link" href="#">
+                            <i class="fa fa-sort-alpha-desc"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        @foreach (var service in Model.Services)
+                        {
+                            <div class="col-md-2 col-sm-4" id="@service.Id">
+                                <div class="wrap-image">
+                                    <a class="center" href="#" title="">
+                                        <i alt="" class="@service.Icon" style="font-size: 50px;"></i>
+                                    </a>
+                                    <div class="tools tools-bottom">
+                                        <a href="@Url.Action("Register","Service",new {service=service.Id})" title="Editar Servicio">
+                                            <i class="clip-pencil-3 "></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete","Service",new {service = service.Id})" title="Eliminar Servicio">
+                                            <i class="clip-close-2"></i>
+                                        </a>
+                                    </div>
+                                    <label>@service.Name</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{}

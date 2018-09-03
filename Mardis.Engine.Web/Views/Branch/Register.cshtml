@@ -1,0 +1,606 @@
+﻿@{
+    ViewData["Title"] = "Registro de Local";
+    var IdRegister = ViewData[CBranch.IdRegister].ToString();
+}
+
+@section buttons{
+
+}
+@section filters{}
+
+<div id="divBranch">
+    <div id="divHeader">
+        <div class="row">
+            <h4>Código <small>{{branch.Code}}</small></h4>
+        </div>
+
+        <hr style="border-color: #CCCCCC; margin-top: 7px;" />
+
+        <ul class="nav nav-tabs">
+            <li role="presentation" ><a href="#DatosLocal">Datos de Local</a></li>
+            <li role="presentation" class="active"><a href="#Propietario">Propietario</a></li>
+            <li role="presentation"><a href="#Clientes">Clientes</a></li>
+        </ul>
+
+        <div class="tab-content clearfix">
+            <div class="tab-pane active" id="DatosLocal">
+
+                <div class="row">
+                    <div id="divGBranchName">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Nombre</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" v-model="branch.Name"
+                                   class="form-control input-sm"
+                                   placeholder="Nombre del Local" />
+                        </div>
+                    </div>
+
+                    <div id="divGBranchExternalCode">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Código de Cliente</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" v-model="branch.ExternalCode"
+                                   class="form-control input-sm"
+                                   placeholder="Nombre del Local" />
+                        </div>
+                    </div>
+
+                </div>
+                <div style="margin-top: 7px;"></div>
+
+                <div class="row">
+                    <div id="divGBranchLabel">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Etiqueta</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtLabel" v-model="branch.Label"
+                                   class="form-control input-sm"
+                                   placeholder="Rótulo del Local" />
+                        </div>
+                    </div>
+
+                    <div id="divGBranchStatusRegister">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Estado</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <select v-model="branch.StatusRegister" class="form-control input-sm">
+                                <option value="A">Activo</option>
+                                <option value="D">Incativo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 7px;"></div>
+
+                <div class="row">
+                    <div id="divGBranchCountry">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">País</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <select v-model="branch.IdCountry" id="selCountries" asp-items="@ViewBag.Countries" class="form-control input-sm" onchange="ChangeCountry();">
+                                <option>--Seleccionar--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="divGBranchProvince">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Provincia</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <select v-model="branch.IdProvince" id="selProvinces" class="form-control input-sm" asp-items="@ViewBag.Provinces" onchange="ChangeProvince();">
+                                <option>--Seleccionar--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div style="margin-top: 7px;"></div>
+                <div class="row">
+                    <div id="divGBranchDistrict">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Ciudad</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control input-sm" id="selDistricts" v-model="branch.IdDistrict" asp-items="@ViewBag.Districts" onchange="ChangeDistrict();">
+                                <option>--Seleccionar--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="divGBranchParish">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Parroquia</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <select v-model="branch.IdParish" id="selParishes" class="form-control input-sm" asp-items="@ViewBag.Parishes">
+                                <option>--Seleccionar--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div style="margin-top: 7px;"></div>
+                <div class="row">
+
+                    <div id="divGBranchSector">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Sector</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <select v-model="branch.IdSector" id="selSectors" class="form-control input-sm" asp-items="@ViewBag.Sectors">
+                                <option>--Seleccionar--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="divGBranchZone">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Zona</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input v-model="branch.Zone" class="form-control input-sm" type="text" placeholder="Sector" />
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 7px;"></div>
+                <div class="row">
+
+                    <div id="divGBranchNeighborhood">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Barrio</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input v-model="branch.Neighborhood" class="form-control input-sm" type="text" placeholder="Barrio" />
+                        </div>
+                    </div>
+                    <div id="divGBranchLatitude">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Latitud</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input v-model="branch.Latitude" class="form-control input-sm" type="text" placeholder="Latitud" />
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 7px;"></div>
+                <div class="row">
+
+                    <div id="divGBranchLongitude">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Longitud</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input v-model="branch.Longitude" class="form-control input-sm" type="text" placeholder="Longitud" />
+                        </div>
+                    </div>
+                    <div id="divGBranchMainStreet">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Calle principal</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input v-model="branch.MainStreet" type="text" class="form-control input-sm" placeholder="Calle principal" />
+                        </div>
+                    </div>
+
+                </div>
+                <div style="margin-top: 7px;"></div>
+                <div class="row">
+                    <div id="divGBranchSecondaryStreet">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Calle secundaria</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input v-model="branch.SecundaryStreet" class="form-control input-sm" type="text" placeholder="Calle secundaria" />
+                        </div>
+                    </div>
+                    <div id="divGBranchNumber">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Número</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input v-model="branch.NumberBranch" class="form-control input-sm" type="text" placeholder="Número" />
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 7px;"></div>
+
+                <div class="row">
+
+                    <div id="divGBranchReference">
+                        <div class="col-sm-2" style="text-align: right">
+                            <label class="control-label">Referencia</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input v-model="branch.Reference" class="form-control input-sm" type="text" placeholder="Referencia" />
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 8px;"></div>
+            </div>
+
+            <div id="Propietario" class="tab-pane">
+                <div id="divGBranchOwnerInformation">
+
+                    <div class="row">
+
+                        <div id="divGBranchOwnerTypePerson">
+                            <div class="col-sm-2" style="text-align: right">
+                                <label class="control-label">Tipo de Documento</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <select v-model="branch.OwnerTypeDocument" id="selOwnerTypeDocument" class="form-control input-sm">
+                                    <option value="CI">Natural</option>
+                                    <option value="RUC">Jurídica</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="divGBranchOwnerIdentification">
+                            <div class="col-sm-2" style="text-align: right">
+                                <label class="control-label">Documento</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input v-model="branch.OwnerDocument" id="txtOwnerDocument" class="form-control input-sm" type="text" placeholder="Cédula" onblur="ChangeOwnerDocument();" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div style="margin-top: 7px;"></div>
+                    <div class="row">
+
+                        <div id="divGBranchOwnerName">
+                            <div class="col-sm-2" style="text-align: right">
+                                <label class="control-label">Nombre</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input v-model="branch.OwnerName" id="txtOwnerName" class="form-control input-sm" type="text" placeholder="Nombres" />
+                            </div>
+                        </div>
+
+                        <div id="divGBranchOwnerSurname">
+                            <div class="col-sm-2" style="text-align: right">
+                                <label class="control-label">Apellido</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input v-model="branch.OwnerSurname" id="txtOwnerSurname" class="form-control input-sm" type="text" placeholder="Apellidos" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="margin-top: 7px;"></div>
+
+                    <div class="row">
+
+                        <div id="divGBranchOwnerPhone">
+                            <div class="col-sm-2" style="text-align: right">
+                                <label class="control-label">Teléfono</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input v-model="branch.OwnerPhone" id="txtOwnerPhone" class="form-control input-sm" type="text" placeholder="Teléfono" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="divGBranchOwnerMobile">
+                                <div class="col-sm-2" style="text-align: right">
+                                    <label class="control-label">Celular</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input v-model="branch.OwnerCellPhone" id="txtOwnerCellPhone" class="form-control input-sm" type="text" placeholder="Celular" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 7px;"></div>
+
+
+
+                </div>
+
+                <div id="divGBranchAdministratotInformation">
+
+                    <div class="row">
+                        <div id="divGBranchAdministratorIsOwner">
+                            <div class="col-sm-4" style="text-align: right">
+                                <label class="control-label">¿Es administrador?</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="checkbox" v-model="branch.IsAdministratorOwner" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 7px;"></div>
+
+                    <div class="row">
+
+                        <div id="divGBtranchAdministratorName">
+                            <div class="col-sm-2" style="text-align: right">
+                                <label class="control-label">Nombre</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input v-model="branch.AdministratorName" id="txtAdministratorName" class="form-control input-sm" type="text" placeholder="Nombres" />
+                            </div>
+                        </div>
+
+                        <div id="divBranchAdministratorSurname">
+                            <div class="col-sm-2" style="text-align: right">
+                                <label class="control-label">Apellido</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input v-model="branch.AdministratorSurname" id="txtAdministratorSurname" class="form-control" type="text" placeholder="Apellidos" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="margin-top: 7px;"></div>
+
+                    <div class="row">
+                        <div id="divGBranchAdministratorIdentification">
+                            <div class="col-sm-2" style="text-align: right">
+                                <label class="control-label">Documento</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input v-model="branch.AdministratorDocument" id="txtAdministratorDocument" class="form-control" type="text" placeholder="Cédula" onblur="ChangeAdministratorDocument();" />
+                            </div>
+                        </div>
+
+                        <div id="divBranchAdministratorMobile">
+                            <div class="col-sm-2" style="text-align: right">
+                                <label class="control-label">Celular</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input v-model="branch.AdministratorCellPhone" id="txtAdministratorCellPhone" class="form-control input-sm" type="text" placeholder="Celular" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="margin-top: 7px;"></div>
+
+                    <div class="row">
+
+                        <div id="divBranchAdministratorPhone">
+                            <div class="col-sm-2" style="text-align: right">
+                                <label class="control-label">Teléfono</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input v-model="branch.AdministratorPhone" id="txtAdministratorPhone" class="form-control input-sm" type="text" placeholder="Teléfono" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 7px;"></div>
+
+                </div>
+            </div>
+
+            <div id="Clientes" class="tab-pane">
+                <div id="divBranchAccounts">
+
+                    <div style="margin-top: 14px;"></div>
+
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <strong>
+                                Clientes
+                            </strong>
+                        </div>
+                    </div>
+
+                    <hr style="border-color: #CCCCCC; margin-top: 0;" />
+
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="control-label pull-right">Tipo de Negocio</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input v-model="branch.TypeBusiness" class="form-control input-sm" />
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 7px;"></div>
+
+                    <div class="row" style="border: 2px solid #4d4d4d; border-radius: 5px;">
+
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label for="selCustomer" class="control-label">
+                                        Cliente<span class="symbol required"></span>
+                                    </label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select id="selCustomer" class="form-control input-sm" onchange="changeCustomer();"></select>
+                                </div>
+                            </div>
+                            <div style="margin-top: 7px;"></div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label for="selChannel" class="control-label">
+                                        Canal<span class="symbol required"></span>
+                                    </label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select id="selChannel" class="form-control input-sm"></select>
+                                </div>
+                            </div>
+                            <div style="margin-top: 7px;"></div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label for="selTypeBusiness" class="control-label">
+                                        Tipo de Negocio<span class="symbol required"></span>
+                                    </label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select id="selTypeBusiness" class="form-control input-sm"></select>
+                                </div>
+                            </div>
+
+                            <div class="row" style="padding-left: 50px;">
+                                <button type="submit" class="btn btn-primary btn-xs" formaction="AddAccount" onclick="AddAccount();">
+                                    Guardar
+                                </button>
+                                <button class="btn btn-link btn-xs" data-dismiss="modal">
+                                    Cerrar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <table class="table table-striped table-bordered table-hover table-full-width">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Cliente</th>
+                                        <th>Canal</th>
+                                        <th>Tipo de Negocio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(customer, i) in branch.BranchCustomers">
+                                        <td><input type="checkbox" v-model="customer.Selected"/></td>
+                                        <td>{{customer.NameCustomer}}</td>
+                                        <td>{{customer.NameChannel}}</td>
+                                        <td>{{customer.NameTypeBusiness}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <input type="submit" class="btn btn-link" value="Eliminar" formaction="DeleteAccounts" onclick="DeleteAccounts();" />
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 14px;"></div>
+
+    <div style="text-align: center">
+        <button class="btn btn-primary" id="btnGuardar" type="submit" onclick="Save();">Guardar</button>
+        <a href="#" onclick="history.back();" class="btn btn-default btn-sm" id="btnCancelar">Salir</a>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/js/viewModel/BranchHelper.js"></script>
+    <script>
+        var IdBranch = '@Html.Raw(IdRegister)';
+
+        $(document).ready(function () {
+            $(".nav-tabs a").click(function () {
+                $(this).tab('show');
+            });
+        });
+
+        LoadBranchById(IdBranch);
+
+        if (emptyGuid === IdBranch) {
+            LoadCountries();
+        }
+
+
+
+        function AddAccount() {
+            $.blockUI({ message: "" });
+
+            if (!vueVM.$data.branch.Id) {
+                bootbox.alert("Debe grabar el local para grabar cuentas");
+                return;
+            }
+
+            var channel = $("#selChannel").val();
+            var customer = $("#selCustomer").val();
+            var typeBusiness = $("#selTypeBusiness").val();
+            var channelName = $("#selChannel option:selected").text();
+            var customerName = $("#selCustomer option:selected").text();
+            var typeBusinessName = $("#selTypeBusiness option:selected").text();
+
+            $.get("/Branch/AddCustomer", function (data) {
+                data.IdCustomer = customer;
+                data.IdChannel = channel;
+                data.IdTypeBusiness = typeBusiness;
+                data.NameCustomer = customerName;
+                data.NameTypeBusiness = typeBusinessName;
+                data.NameChannel = channelName;
+                vueVM.$data.branch.BranchCustomers.push(data);
+                $.unblockUI();
+            });
+
+        }
+
+        var accounts = [];
+        function SelectAccount(element) {
+
+            var idAccount = $(element).data("idbranchcustomer");
+
+            if (!idAccount) {
+                return;
+            }
+
+            var exists = false;
+            accounts.forEach(function (item, i) {
+                if (item === idAccount) {
+                    accounts.splice(i, 1);
+                    exists = true;
+                }
+            });
+            if (!exists) {
+                accounts.push(idAccount);
+            }
+        }
+
+        function DeleteAccounts() {
+            debugger;
+            $.blockUI({ message: "" });
+
+            vueVM.$data.branch.BranchCustomers.forEach(function (customer) {
+                if (customer.Selected) {
+                    if (customer.Id) {
+                        accounts.push(customer.Id);
+                    }
+                }
+            });
+
+            var acc=JSON.stringify(accounts);
+
+            $.post("DeleteAccounts", { selectedAccounts: acc }, function (data) {
+                if (!data) {
+                    bootbox.alert("Error al eliminar las cuentas");
+                }
+                else {
+                    vueVM.$data.branch.BranchCustomers.forEach(function (customer, i) {
+                        accounts.forEach(function (cuenta) {
+                            if (customer.Id == cuenta) {
+                                vueVM.$data.branch.BranchCustomers.splice(i, 1);
+                            }
+
+                        });
+                    });
+                }
+            });
+
+            $.unblockUI();
+        }
+    </script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

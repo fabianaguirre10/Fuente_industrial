@@ -1,0 +1,23 @@
+﻿{
+  "sEmptyTable": "No tiene ningun Error en el archivo de Word Press",
+  "sInfo": "Página _PAGE_ de _PAGES_",
+  "sInfoEmpty": "No existen registros",
+  "sInfoFiltered": "Filtro",
+  "sInfoPostFix": "",
+  "sInfoThousands": ".",
+  "sLengthMenu": "Mostrar _MENU_ Registros ",
+  "sLoadingRecords": "Verificando..",
+  "sProcessing": "Verificando..",
+  "sSearch": "Buscar",
+  "sZeroRecords": "No hay entradas disponibles.",
+  "oPaginate": {
+    "sFirst": "Primero",
+    "sPrevious": "Anterior",
+    "sNext": "Siguiente",
+    "sLast": "Ultimo"
+  },
+  "oAria": {
+    "sSortAscending": ": Ordern Ascendente",
+    "sSortDescending": ":Ordern Descendente"
+  }
+}

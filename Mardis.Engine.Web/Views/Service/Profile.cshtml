@@ -1,0 +1,548 @@
+﻿@model Mardis.Engine.Web.ViewModel.ServiceViewModels.ServiceRegisterViewModel
+@{
+    ViewData["Title"] = "Gestión de Servicios";
+    ViewData["Description"] = "Agregar/Editar Servicios";
+}
+
+@section buttons{}
+@section filters{}
+
+<style>
+    .input-xs {
+        height: 22px;
+        padding: 2px 5px;
+        font-size: 12px;
+        line-height: 1.5; /* If Placeholder of the input is moved up, rem/modify this. */
+        -ms-border-radius: 3px;
+        border-radius: 3px;
+    }
+</style>
+
+
+
+<form asp-action="" asp-controller="" method="POST">
+    <div id="divRegisterService">
+
+        <input class="hidden" asp-for="CurrentSection" id="txtSection" />
+        <input class="hidden" asp-for="CurrentQuestion" id="txtQuestion" />
+        <input class="hidden" asp-for="CurrentAnswer" id="txtAnswer" />
+        <input class="hidden" asp-for="Id" id="txtId" />
+        <input class="hidden" asp-for="Code" id="txtCode" />
+        <input class="hidden" asp-for="StatusRegister" id="txtStatusRegister" />
+
+        <div id="divServiceHeader">
+            <div class="row">
+                <div class="col-sm-4">
+                    <strong>
+                        Información General del Servicio
+                    </strong>
+                </div>
+                <div class="col-sm-2">
+                    <label class="control-label">
+                        Fecha de Creación
+                    </label>
+                </div>
+                <div class="col-sm-2">
+                    <p>@Model.DateCreation</p>
+                </div>
+                <div class="col-sm-2">
+                    <label class="control-label">
+                        Código
+                    </label>
+                </div>
+                <div class="col-sm-2">
+                    <label>@Model.Code</label>
+                </div>
+            </div>
+            <hr style="border-color: #ff0000; margin-top: 0;" />
+
+            <div class="row">
+
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="Name"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" asp-for="Name" id="txtNameService" class="form-control input-xs"
+                           placeholder="Ingrese el nombre del Servicio" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="IdTypeService"></label>
+                </div>
+                <div class="col-sm-4">
+                    <select id="selTypeService" asp-for="IdTypeService" class="form-control input-xs" asp-items="@ViewBag.Types">
+                        <option value="">......</option>
+                    </select>
+                    <span asp-validation-for="IdTypeService" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="IdCustomer"></label>
+                </div>
+                <div class="col-sm-4">
+                    <select id="selCustomer" class="form-control input-xs" asp-for="IdCustomer" asp-items="@ViewBag.Customers">
+                        <option value="">......</option>
+                    </select>
+                    <span asp-validation-for="IdCustomer" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="IdChannel"></label>
+                </div>
+                <div class="col-sm-4">
+                    <select id="selChannel" class="form-control input-xs" asp-for="IdChannel" asp-items="@ViewBag.Channels">
+                        <option value="">......</option>
+                    </select>
+                    <span asp-validation-for="IdChannel" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="Template"></label>
+                </div>
+                <div class="col-sm-4">
+                    <select id="selTemplate" class="form-control input-xs" asp-for="Template">
+                        <option value="">......</option>
+                        <option value="Standar">Normal</option>
+                        <option value="Matrix">Matriz</option>
+                    </select>
+                    <span asp-validation-for="Template" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="Icon"></label>
+                </div>
+                <div class="col-sm-4">
+                    <select class="selectpicker" asp-for="Icon">
+                        <option value="">......</option>
+                        <option value="glyphicon glyphicon-check" data-content="<i class='glyphicon glyphicon-check'> Check</i>">Check</option>
+                        <option value="glyphicon glyphicon-king" data-content="<i class='glyphicon glyphicon-king'> King</i>">King</option>
+                    </select>
+                    <span asp-validation-for="Icon" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="IconColor"></label>
+                </div>
+                <div class="col-sm-4">
+                    <select class="selectpicker" asp-for="IconColor">
+                        <option value="">......</option>
+                        <option value="bg-red" data-content="<span class='label label-danger'>Red</span>">Red</option>
+                        <option value="bg-yellow" data-content="<span class='label label-warning'>Yellow</span>">Yellow</option>
+                        <option value="bg-blue" data-content="<span class='label label-primary'>Blue</span>">Blue</option>
+                        <option value="bg-light-blue" data-content="<span class='label label-info'>Light-Blue</span>">Light-Blue</option>
+                        <option value="bg-green" data-content="<span class='label label-success'>Green</span>">Green</option>
+                    </select>
+                    <span asp-validation-for="IconColor" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #4d4d4d">
+                <i class="fa fa-newspaper-o" style="color: white;"></i><a href="#"></a>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <input class="form-control input-xs text-uppercase" asp-for="PollTitle" id="pollTitle" type="text">
+                        <span asp-validation-for="PollTitle" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+            </div>
+            <div class="panel-body" id="divPollTitle" style="background-color: #cccccc">
+                <div class="row" style="background-color: #CCCCCC;">
+                    <div class="col-sm-8">
+                        <button type="submit" class="btn btn-link" formaction="AddSection">Agregar Sección <i class="fa fa-plus"></i></button>
+                    </div>
+                    <div class="col-sm-4">
+
+                    </div>
+                </div>
+                @for (var i = 0; i < Model.ServiceDetailList.Count; i++)
+                {
+                    <div style="margin-top: 7px;"></div>
+                    <input class="hidden" asp-for="@Model.ServiceDetailList[i].Id" />
+                    <input class="hidden" asp-for="@Model.ServiceDetailList[i].IdService" />
+                    <input class="hidden" asp-for="@Model.ServiceDetailList[i].Order" />
+                    <input class="hidden" asp-for="@Model.ServiceDetailList[i].IdSection" />
+                    <div id="@("pnl_" + Model.ServiceDetailList[i].Id)" class="panel panel-default" style="padding-left: 5px; padding-right: 5px;">
+                        <div class="panel-heading">
+                            <div>
+                                <div class="col-sm-1">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="@("#body_" + Model.ServiceDetailList[i].Id)">
+                                        <i class="fa fa-list-alt"></i>
+                                    </a>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control input-xs text-uppercase" id="@("inti_" + Model.ServiceDetailList[i].Id)" type="text" asp-for="@(Model.ServiceDetailList[i].SectionTitle)" placeholder="Ingrese la Sección">
+                                    <span asp-validation-for="@Model.ServiceDetailList[i].SectionTitle" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    ¿Sección Dinámica?
+                                    <input maxlength="2" size="2" type="checkbox" asp-for="@(Model.ServiceDetailList[i].IsDynamic)" />
+                                    <span asp-validation-for="@Model.ServiceDetailList[i].IsDynamic" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    ¿Posee Foto?
+                                    <input maxlength="2" size="2" type="checkbox" asp-for="@(Model.ServiceDetailList[i].HasPhoto)" />
+                                    <span asp-validation-for="@Model.ServiceDetailList[i].HasPhoto" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="panel-tools">
+                                @*<button class="btn btn-default btn-xs" title="Duplicar Sección" type="submit" formaction="DuplicateSection" onclick="InsertSection('@Model.ServiceDetailList[i].Id');">
+                                        <i class="glyphicon glyphicon-duplicate"></i>
+                                    </button>*@
+                                <button class="btn btn-default btn-xs" type="submit" formaction="AddSectionBefore" onclick="InsertSection('@Model.ServiceDetailList[i].Id');">
+                                    <i class="fa fa-level-up"></i>
+                                </button>
+                                <button class="btn btn-default btn-xs" type="submit" formaction="AddSectionAfter" onclick="InsertSection('@Model.ServiceDetailList[i].Id');">
+                                    <i class="fa fa-level-down"></i>
+                                </button>
+                                <button class="btn btn-default btn-xs" title="Borrar Sección" type="submit" formaction="DeleteSection" onclick="InsertSection('@Model.ServiceDetailList[i].Id');">
+                                    <i class="clip-close-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="panel-body" style="padding-top: 2px; padding-left: 5px; padding-bottom: 2px; padding-right: 5px;">
+                            <div id="body_@(Model.ServiceDetailList[i].Id)" class="panel-collapse collapse in">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <button type="submit" class="btn btn-link btn-sm" formaction="AddQuestion" onclick="InsertSection('@(Model.ServiceDetailList[i].Id)')">
+                                            Agregar Pregunta <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+
+                                    @if (Model.Template == CService.MatrixTemplate)
+                                    {
+                                        <div class="col-sm-4">
+                                            <button type="submit" class="btn btn-link btn-sm" formaction="AddSubSection" onclick="InsertSection('@(Model.ServiceDetailList[i].Id)')">
+                                                Agregar Sección <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    }
+
+                                </div>
+                                <div style="margin-top: 7px;"></div>
+                                @for (var j = 0; j < Model.ServiceDetailList[i].Questions.Count; j++)
+                                {
+                                    <input class="hidden" asp-for="@Model.ServiceDetailList[i].Questions[j].Id" />
+                                    <input class="hidden" asp-for="@Model.ServiceDetailList[i].Questions[j].IdServiceDetail" />
+                                    <input class="hidden" asp-for="@Model.ServiceDetailList[i].Questions[j].Order" />
+
+                                    <div id="plq_@(Model.ServiceDetailList[i].Questions[j].Id)" class="panel panel-info">
+                                        <div class="panel-heading">
+                                            <div class="col-sm-2">
+                                                <b>Pregunta</b>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input type="text" id="txtQuestion_@Model.ServiceDetailList[i].Questions[j].Id" class="form-control input-xs text-uppercase" asp-for="@Model.ServiceDetailList[i].Questions[j].Title" placeholder="Ingrese la Pregunta" />
+                                                <span asp-validation-for="@Model.ServiceDetailList[i].Questions[j].Title" class="text-danger"></span>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                ¿Posee Foto?
+                                                <input maxlength="2" size="2" type="checkbox" asp-for="@(Model.ServiceDetailList[i].Questions[j].HasPhoto)" />
+                                                <span asp-validation-for="@Model.ServiceDetailList[i].Questions[j].HasPhoto" class="text-danger"></span>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                Respuesta Obligatoria
+                                                <input maxlength="2" size="2" type="checkbox" asp-for="@(Model.ServiceDetailList[i].Questions[j].AnswerRequired)" />
+                                                <span asp-validation-for="@Model.ServiceDetailList[i].Questions[j].AnswerRequired" class="text-danger"></span>
+                                            </div>
+
+                                            <div class="col-sm-2 pull-right" style="text-align: right">
+                                                <button class="btn btn-default btn-xs" title="Insertar Preguntas Antes" type="submit" formaction="AddQuestionBefore" onclick="InsertSection('@(Model.ServiceDetailList[i].Id)');InsertQuestion('@(Model.ServiceDetailList[i].Questions[j].Id)');">
+                                                    <i class="fa fa-level-up"></i>
+                                                </button>
+                                                <button class="btn btn-default btn-xs" title="Insertar Preguntas Después" type="submit" formaction="AddQuestionAfter" onclick="InsertSection('@(Model.ServiceDetailList[i].Id)');InsertQuestion('@(Model.ServiceDetailList[i].Questions[j].Id)');">
+                                                    <i class="fa fa-level-down"></i>
+                                                </button>
+                                                <button class="btn btn-default btn-xs" title="Borrar Pregunta" type="submit" formaction="DeleteQuestion" onclick="InsertSection('@(Model.ServiceDetailList[i].Id)');InsertQuestion('@(Model.ServiceDetailList[i].Questions[j].Id)');">
+                                                    <i class="clip-close-2"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    Tipo de Encuesta
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <select id="selTypePoll_@(Model.ServiceDetailList[i].Questions[j].Id)" asp-items="@ViewBag.TypePollList"
+                                                            asp-for="@Model.ServiceDetailList[i].Questions[j].IdTypePoll" class="form-control input-xs">
+                                                        <option>---Seleccionar Tipo de Servicio---</option>
+                                                    </select>
+                                                    <span asp-validation-for="@Model.ServiceDetailList[i].Questions[j].IdTypePoll" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+                                            <div style="margin-top: 4px;"></div>
+
+                                            <div class="row">
+                                                <div class="col-sm-9">
+                                                    <b>Opciones de Respuetas: </b>
+                                                    <button class="btn btn-default btn-xs" title="Nueva Respuesta" type="submit" formaction="AddAnswer" onclick="InsertSection('@(Model.ServiceDetailList[i].Id)');InsertQuestion('@(Model.ServiceDetailList[i].Questions[j].Id)');">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div id="pnas_@Model.ServiceDetailList[i].Questions[j].Id">
+                                                @for (var k = 0; k < Model.ServiceDetailList[i].Questions[j].QuestionDetails.Count; k++)
+                                                {
+                                                    <input class="hidden" asp-for="@Model.ServiceDetailList[i].Questions[j].QuestionDetails[k].Id" />
+                                                    <input class="hidden" asp-for="@Model.ServiceDetailList[i].Questions[j].QuestionDetails[k].IdQuestion" />
+                                                    <input class="hidden" asp-for="@Model.ServiceDetailList[i].Questions[j].QuestionDetails[k].StatusRegister" />
+                                                    <input class="hidden" asp-for="@Model.ServiceDetailList[i].Questions[j].QuestionDetails[k].Order" />
+                                                    <div class="row" id="pnasr_@Model.ServiceDetailList[i].Questions[j].QuestionDetails[k].Id">
+                                                        <div class="col-sm-2"></div>
+                                                        <div class="col-sm-2">
+                                                            <input type="text" class="form-control input-xs text-uppercase" asp-for="@Model.ServiceDetailList[i].Questions[j].QuestionDetails[k].Answer"
+                                                                   id="txtAnswer_@Model.ServiceDetailList[i].Questions[j].QuestionDetails[k].Id" placeholder="Ingrese la Respuesta">
+                                                            <span asp-validation-for="@Model.ServiceDetailList[i].Questions[j].QuestionDetails[k].Answer" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="col-sm-1" style="text-align: left">
+                                                            <button class="btn btn-default btn-xs" title="Nueva Respuesta" type="submit" formaction="AddAnswerAfter" onclick="InsertSection('@(Model.ServiceDetailList[i].Id)');InsertQuestion('@(Model.ServiceDetailList[i].Questions[j].Id)');InsertAnswer('@Model.ServiceDetailList[i].Questions[j].QuestionDetails[k].Id');">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                            <button class="btn btn-default btn-xs" title="Borrar Respuesta" type="submit" formaction="DeleteAnswer" onclick="InsertSection('@(Model.ServiceDetailList[i].Id)');InsertQuestion('@(Model.ServiceDetailList[i].Questions[j].Id)');InsertAnswer('@Model.ServiceDetailList[i].Questions[j].QuestionDetails[k].Id');">
+                                                                <i class="clip-close-2"></i>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="col-sm-3 pull-right">
+                                                            <b>Pregunta Enlazada: </b>
+                                                            <select asp-for="@Model.ServiceDetailList[i].Questions[j].QuestionDetails[k].IdQuestionLink">
+                                                                <option value="00000000-0000-0000-0000-000000000000">---Seleccionar---</option>
+                                                                @for (int m = 0; m < ViewBag.Questions.Count; m++)
+                                                                {
+                                                                    <option value="@ViewBag.Questions[m].Value">@ViewBag.Questions[m].Text</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                    <div style="margin-top: 5px;"></div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (Model.Template == CService.MatrixTemplate && Model.ServiceDetailList.Any(s => s.Sections != null) && Model.ServiceDetailList[i].Sections != null)
+                                {
+                                    for (int j = 0; j < Model.ServiceDetailList[i].Sections.Count; j++)
+                                    {
+                                        <div style="margin-top: 7px;"></div>
+                                        <input class="hidden" asp-for="@Model.ServiceDetailList[i].Sections[j].Id" />
+                                        <input class="hidden" asp-for="@Model.ServiceDetailList[i].Sections[j].IdService" />
+                                        <input class="hidden" asp-for="@Model.ServiceDetailList[i].Sections[j].Order" />
+                                        <input class="hidden" asp-for="@Model.ServiceDetailList[i].Sections[j].IdSection" />
+
+                                        <div id="@("pnl_" + Model.ServiceDetailList[i].Sections[j].Id)" class="panel panel-default" style="padding-left: 5px; padding-right: 5px;">
+                                            <div class="panel-heading">
+                                                <div>
+                                                    <div class="col-sm-1">
+                                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="@("#body_" + Model.ServiceDetailList[i].Id)">
+                                                            <i class="fa fa-list-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <input class="form-control input-xs text-uppercase" id="@("inti_" + Model.ServiceDetailList[i].Sections[j].Id)" type="text" asp-for="@(Model.ServiceDetailList[i].Sections[j].SectionTitle)" placeholder="Ingrese la Sección">
+                                                        <span asp-validation-for="@Model.ServiceDetailList[i].Sections[j].SectionTitle" class="text-danger"></span>
+                                                    </div>
+
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control input-xs" type="text" title="Ingresar cuando se desee agrupar las secciones" asp-for="@(Model.ServiceDetailList[i].Sections[j].GroupName)" placeholder="Grupo">
+                                                    </div>
+
+                                                    <div class="col-sm-3">
+                                                        ¿Sección Dinámica?
+                                                        <input maxlength="2" size="2" type="checkbox" asp-for="@(Model.ServiceDetailList[i].IsDynamic)" />
+                                                        <span asp-validation-for="@Model.ServiceDetailList[i].Sections[j].IsDynamic" class="text-danger"></span>
+                                                    </div>
+
+                                                    <div class="col-sm-3">
+                                                        ¿Posee Foto?
+                                                        <input maxlength="2" size="2" type="checkbox" asp-for="@(Model.ServiceDetailList[i].HasPhoto)" />
+                                                        <span asp-validation-for="@Model.ServiceDetailList[i].Sections[j].HasPhoto" class="text-danger"></span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="panel-tools">
+                                                    <button class="btn btn-default btn-xs" title="Duplicar Sección" type="submit" formaction="DuplicateSection" onclick="InsertSection('@Model.ServiceDetailList[i].Sections[j].Id');">
+                                                        <i class="glyphicon glyphicon-duplicate"></i>
+                                                    </button>
+                                                    <button class="btn btn-default btn-xs" type="submit" formaction="AddSectionBefore" onclick="InsertSection('@Model.ServiceDetailList[i].Sections[j].Id');">
+                                                        <i class="fa fa-level-up"></i>
+                                                    </button>
+                                                    <button class="btn btn-default btn-xs" type="submit" formaction="AddSectionAfter" onclick="InsertSection('@Model.ServiceDetailList[i].Sections[j].Id');">
+                                                        <i class="fa fa-level-down"></i>
+                                                    </button>
+                                                    <button class="btn btn-default btn-xs" title="Borrar Sección" type="submit" formaction="DeleteSection" onclick="InsertSection('@Model.ServiceDetailList[i].Sections[j].Id');">
+                                                        <i class="clip-close-2"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div id="body_@(Model.ServiceDetailList[i].Sections[j].Id)" class="panel-collapse collapse in">
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <button type="submit" class="btn btn-link btn-sm" formaction="AddQuestion" onclick="InsertSection('@(Model.ServiceDetailList[i].Sections[j].Id)')">
+                                                                Agregar Pregunta <i class="fa fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div style="margin-top: 7px;"></div>
+
+                                                    @for (int k = 0; k < Model.ServiceDetailList[i].Sections[j].Questions.Count; k++)
+                                                    {
+                                                        <input class="hidden" asp-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].Id" />
+                                                        <input class="hidden" asp-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].IdServiceDetail" />
+                                                        <input class="hidden" asp-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].Order" />
+
+                                                        <div id="plq_@(Model.ServiceDetailList[i].Sections[j].Questions[k].Id)" class="panel panel-info">
+                                                            <div class="panel-heading">
+                                                                <div class="col-sm-2">
+                                                                    <b>Pregunta</b>
+                                                                </div>
+                                                                <div class="col-sm-2">
+                                                                    <input type="text" id="txtQuestion_@Model.ServiceDetailList[i].Sections[j].Questions[k].Id" class="form-control input-xs text-uppercase" asp-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].Title" placeholder="Ingrese la Pregunta" />
+                                                                    <span asp-validation-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].Title" class="text-danger"></span>
+                                                                </div>
+
+                                                                <div class="col-sm-3">
+                                                                    ¿Posee Foto?
+                                                                    <input maxlength="2" size="2" type="checkbox" asp-for="@(Model.ServiceDetailList[i].Sections[j].Questions[k].HasPhoto)" />
+                                                                    <span asp-validation-for="@Model.ServiceDetailList[i].Questions[j].HasPhoto" class="text-danger"></span>
+                                                                </div>
+
+                                                                <div class="col-sm-3">
+                                                                    Respuesta Obligatoria
+                                                                    <input maxlength="2" size="2" type="checkbox" asp-for="@(Model.ServiceDetailList[i].Sections[j].Questions[k].AnswerRequired)" />
+                                                                    <span asp-validation-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].AnswerRequired" class="text-danger"></span>
+                                                                </div>
+
+                                                                <div class="col-sm-2 pull-right" style="text-align: right">
+                                                                    <button class="btn btn-default btn-xs" title="Nueva Respuesta" type="submit" formaction="AddSubAnswer" onclick="InsertSection('@(Model.ServiceDetailList[i].Sections[j].Id)');InsertQuestion('@(Model.ServiceDetailList[i].Sections[j].Questions[k].Id)');">
+                                                                        <i class="fa fa-plus"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-default btn-xs" title="Insertar Preguntas Antes" type="submit" formaction="AddQuestionBefore" onclick="InsertSection('@(Model.ServiceDetailList[i].Sections[j].Id)');InsertQuestion('@(Model.ServiceDetailList[i].Sections[j].Questions[k].Id)');">
+                                                                        <i class="fa fa-level-up"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-default btn-xs" title="Insertar Preguntas Después" type="submit" formaction="AddQuestionAfter" onclick="InsertSection('@(Model.ServiceDetailList[i].Sections[j].Id)');InsertQuestion('@(Model.ServiceDetailList[i].Sections[j].Questions[k].Id)');">
+                                                                        <i class="fa fa-level-down"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-default btn-xs" title="Borrar Pregunta" type="submit" formaction="DeleteQuestion" onclick="InsertSection('@(Model.ServiceDetailList[i].Sections[j].Id)');InsertQuestion('@(Model.ServiceDetailList[i].Sections[j].Questions[k].Id)');">
+                                                                        <i class="clip-close-2"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="panel-body">
+                                                                <div class="row">
+                                                                    <div class="col-sm-2">
+                                                                        Tipo de Encuesta
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <select id="selTypePoll_@(Model.ServiceDetailList[i].Sections[j].Questions[k].Id)" asp-items="@ViewBag.TypePollList"
+                                                                                asp-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].IdTypePoll" class="form-control input-sm">
+                                                                            <option>---Seleccionar Tipo de Servicio---</option>
+                                                                        </select>
+                                                                        <span asp-validation-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].IdTypePoll" class="text-danger"></span>
+                                                                    </div>
+                                                                    <div class="col-sm-2"></div>
+                                                                    <div class="col-sm-2"></div>
+                                                                </div>
+                                                                <div style="margin-top: 7px;"></div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <b>Opciones de Respuetas:</b>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div id="pnas_@Model.ServiceDetailList[i].Sections[j].Questions[k].Id">
+                                                                    @for (var l = 0; l < Model.ServiceDetailList[i].Sections[j].Questions[k].QuestionDetails.Count; l++)
+                                                                    {
+                                                                        <input class="hidden" asp-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].QuestionDetails[l].Id" />
+                                                                        <input class="hidden" asp-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].QuestionDetails[l].IdQuestion" />
+                                                                        <input class="hidden" asp-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].QuestionDetails[l].IdQuestionLink" />
+                                                                        <input class="hidden" asp-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].QuestionDetails[l].StatusRegister" />
+                                                                        <input class="hidden" asp-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].QuestionDetails[l].Order" />
+                                                                        <div class="row" id="pnasr_@Model.ServiceDetailList[i].Sections[j].Questions[k].QuestionDetails[l].Id">
+                                                                            <div class="col-sm-2"></div>
+                                                                            <div class="col-sm-2">
+                                                                                <input type="text" class="form-control input-sm text-uppercase" asp-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].QuestionDetails[l].Answer"
+                                                                                       id="txtAnswer_@Model.ServiceDetailList[i].Sections[j].Questions[k].QuestionDetails[l].Id" placeholder="Ingrese la Respuesta">
+                                                                                <span asp-validation-for="@Model.ServiceDetailList[i].Sections[j].Questions[k].QuestionDetails[l].Answer" class="text-danger"></span>
+                                                                            </div>
+                                                                            <div class="col-sm-1" style="text-align: left">
+                                                                                <button class="btn btn-default btn-xs" title="Nueva Respuesta" type="submit" formaction="AddAnswerAfter" onclick="InsertSection('@(Model.ServiceDetailList[i].Sections[j].Id)');InsertQuestion('@(Model.ServiceDetailList[i].Sections[j].Questions[k].Id)');InsertAnswer('@Model.ServiceDetailList[i].Sections[j].Questions[k].QuestionDetails[l].Id');">
+                                                                                    <i class="fa fa-plus"></i>
+                                                                                </button>
+                                                                                <button class="btn btn-default btn-xs" title="Borrar Respuesta" type="submit" formaction="DeleteAnswer" onclick="InsertSection('@(Model.ServiceDetailList[i].Sections[j].Id)');InsertQuestion('@(Model.ServiceDetailList[i].Sections[j].Questions[k].Id)');InsertAnswer('@Model.ServiceDetailList[i].Sections[j].Questions[k].QuestionDetails[l].Id');">
+                                                                                    <i class="clip-close-2"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div style="margin-top: 5px;"></div>
+                                                                    }
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12" style="text-align: center">
+                <button class="btn btn-primary" id="btnGuardar" type="submit" formaction="Save">Guardar</button>
+                <a class="btn btn-default btn-sm" id="btnCancelar" href="@Url.Action("Index", "Service")">Salir</a>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+@section scripts{
+    <script src="~/js/Helpers/ServiceHelper.js"></script>
+    <script>
+        location.href = '#pnl_' + '@Model.CurrentSection';
+
+        $('.selectpicker').selectpicker({
+            //style: 'btn-info',
+            //size: 4
+        });
+
+        location.href = '#' + '@Model.CurrentSection';
+
+    </script>
+}

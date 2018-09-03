@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewData["Menu"] = "Administración";
+    ViewData["Title"] = "Rutas";
+    ViewData["Description"] = "Activación de Rutas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section buttons{}
+
+@section filters{}
+<section class="content">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box box-solidbox box-solid">
+                <div id="DatosTabla" class="col-xs-10 col-md-10 col-lg-6 " style="overflow: auto; width: 100%; left: 20%;">
+                    <table id="table-mardis" class="table table-striped table-hover mailbox-messages">
+                        <thead>
+                            <tr>
+
+                                <th>Ruta</th>
+                                <th>Activo</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-offset-1">
+            <div class="box box-primary">
+                <div class="box-body no-padding">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+   @{ Html.RenderPartial("_encuestador");}
+    @section Scripts {
+
+
+
+        <script src="~/js/viewModel/EncuestadorView.js"></script>
+        <script type="text/javascript">
+        @*var table=  $('#datosCoord').dataTable({
+        "language": {
+        "url": "@Url.Content("~/js/latin.json")"
+            },
+            "pageLength": 25,
+            "scrollX": true
+             });
+        </script>*@
+        var table
+        generarTabla();
+
+
+        function generarTabla() {
+
+            table = $('#table-mardis').dataTable({
+                "language": {
+                    "url": "@Url.Content("~/js/latin.json")"
+                 },
+                 "pageLength": 10,
+                "ajax": {
+                    "url": '/Campaign/ActiveRoute',
+                    "type": "GET",
+                    "data": function (d) {
+                        return $.extend({}, d, {
+                            "Id": 0
+                        });
+                    },
+                    "dataSrc": function (json) {
+                             jQuery.each(json, function (index, value) {
+                                 //now you can access properties using dot notation
+
+
+
+                                 if (json[index].status) { json[index].status = "<input type='checkbox'   class='custom-control-input' id=" + json[index].route + " checked onclick='onToggle(this)'>"; }
+                                 else { json[index].status = "<input type='checkbox' class='editor-active' id=" + json[index].route + " onclick='onToggle("+json[index].route+")' >" }
+
+                                 json[index].linkbranch = "<a href='#responsive'" + " '   onclick='ModalPerfil(this);' id=" + json[index].route + ">Encuestadores </a>";
+
+
+                        });
+                        return json;
+                    }
+                },
+                "columns": [
+                    { "data": "route" },
+                    { "data": "status" },
+                    { "data": "linkbranch" }
+                ],
+
+
+
+            }
+                );
+        }
+
+
+        //Enable check and uncheck all functionality
+
+        function onToggle(route) {
+
+            $.blockUI({ message: "Actualizado Estado..." });
+            $.ajax({
+                url: '/Campaign/ChangeStatus',
+                type: "POST",
+                content: "application/json; charset=utf-8",
+                data: {
+                    id: route.id
+
+                },
+                success: function (data) {
+                    if (data == "1") {
+
+                        bootbox.alert("La ruta " + route.id+" fue desactivada")
+
+                    }
+                    $.unblockUI();
+                },
+
+                error: function () {
+
+                    $.unblockUI();
+                }
+                //,
+                //async: true, // La petición es síncrona
+            });
+        }
+        function ModalPerfil(route) {
+
+            LoadEquipment(route.id)
+            //$("#idaccount").empty();
+            //$.ajax({
+            //    url: 'Account/Admin',
+            //    type: "POST",
+            //    content: "application/json; charset=utf-8",
+            //    data: {
+            //        id: 1
+            //    },
+            //    success: function (data) {
+            //        $.each(data, function (index, value) {
+            //            $("#idaccount").append("<option value=" + value.idaccount + ">" + value.account + "</option>");
+            //        });
+            //        $('#responsive').modal('show');
+            //        GetProfile($("#idaccount").val().toString(), id);
+            //    },
+
+            //    error: function () {
+            //        $("#idaccount").append("<option value=" + 0 + ">No existe Opciones</option>");
+            //    },
+
+
+            //});
+
+        }
+
+        </script>
+
+
+    }

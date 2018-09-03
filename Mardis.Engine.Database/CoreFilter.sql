@@ -1,0 +1,5 @@
+﻿CREATE TABLE [MardisCommon].[CoreFilter]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [Name] VARCHAR(50) NULL
+)

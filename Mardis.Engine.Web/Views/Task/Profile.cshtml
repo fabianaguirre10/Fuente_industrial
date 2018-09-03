@@ -1,0 +1,422 @@
+﻿@{
+    var IdRegister = (string)ViewData[CTask.IdRegister];
+}
+
+@section buttons{}
+@section filters{}
+
+<link href="~/css/mardis-images.css" rel="stylesheet" />
+<link href="~/css/tools/input/css/set2.css" rel="stylesheet" />
+<style>
+    .inputeditable {
+    }
+
+    .input-xs {
+        height: 22px;
+        padding: 2px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        -ms-border-radius: 0;
+        border-radius: 0;
+        width: 100%;
+    }
+
+    .inputmardis {
+        height: 22px;
+        padding: 2px 5px;
+        font-size: 10px;
+        line-height: 1.5;
+        -ms-border-radius: 5px;
+        border-radius: 5px;
+        width: 100%;
+        background-color: #cccccc;
+        text-align: center;
+        margin: 0;
+        /*font-weight: bold;*/
+        display: block;
+    }
+
+    .casounasem {
+        padding-right: 0px;
+        width: 3.43333%;
+        float: left;
+        text-align: center;
+    }
+
+    .col-sm-18 {
+        padding-right: 0px;
+        width: 4.9%;
+        float: left;
+        text-align: center;
+    }
+
+    * {
+        padding: 0;
+    }
+
+    .input-subline {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #000000;
+    }
+
+    #divImages .panel-body {
+        height: auto !important;
+        overflow-y: hidden !important;
+    }
+</style>
+
+<div id="divPoll">
+    <div id="divHeaderPoll">
+        <div class="row">
+            <div class="col-sm-3">
+                <strong>Campaña 123: </strong> {{poll.CampaignName}}
+            </div>
+            <div class="col-sm-3">
+                <strong>Cliente: </strong> {{poll.CustomerName}}
+            </div>
+            <div class="col-sm-3">
+                <strong>Mercaderista: </strong> {{poll.MerchantName + ' ' + poll.MerchantSurname}}
+            </div>
+            <div class="col-sm-3">
+                <strong>Fecha: </strong> {{moment(poll.DateCreation).format('L')}}
+            </div>
+        </div>
+
+        <div style="margin-top: 7px;"></div>
+        <hr style="border-color: #CCCCCC; margin-top: 7px;" />
+
+        <div class="row">
+            <div class="col-sm-1 pull-left" style="text-align: center;">
+                <img src="~/images/ISOTIPO_ENGINE.png" class="img-circle" alt="BranchImage" style="width: 50px;" />
+            </div>
+
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h3 style="margin-top: 0;">
+                            {{poll.BranchExternalCode + ' - ' + poll.BranchName}}
+                        </h3>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="col-sm-4">
+                            ESTADO:
+                        </div>
+                        <div class="col-sm-8">
+                            <select id="selStatusTask" v-model="poll.IdStatusTask" class="form-control input-sm"
+                                    asp-items="ViewBag.StatusList"></select>
+
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="col-sm-4">
+                            RUTA:
+                        </div>
+                        <div class="col-sm-8">
+                            <h4>{{poll.Route}}</h4>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+
+
+                        <a href="#" class="btn btn-danger" id="btnImprimir" onclick="UploadFilesNew();">
+                            <i class="fa fa-print"></i> Imprimir
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="wizard" class="swMain">
+            <ul style="margin-bottom: 0;">
+                <li>
+                    <a href="#">
+                        <div class="stepNumber"
+                             v-bind:style="{'background-color':poll.StatusTaskName==='Pendiente'?'#C40000':''}">
+                        </div>
+                        <span class="stepDesc">
+                            Pendiente
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="stepNumber"
+                             v-bind:style="{'background-color':poll.StatusTaskName==='Iniciado'?'#E26B00':''}">
+                        </div>
+                        <span class="stepDesc">
+                            Iniciado
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="stepNumber"
+                             v-bind:style="{'background-color':poll.StatusTaskName==='Implementado'?'#2C9B36':''}">
+                        </div>
+                        <span class="stepDesc">
+                            Implementado
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="stepNumber"
+                             v-bind:style="{'background-color':poll.StatusTaskName==='No Implementado'?'#1091BF':''}">
+                        </div>
+                        <span class="stepDesc">
+                            No Implementado
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="text-align: center;">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#pnlBranchDat">DATOS DEL LOCAL</a>
+                    </h4>
+                </div>
+                <div id="pnlBranchDat" class="panel-collapse collapse">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Nombre de Local: </strong> {{poll.BranchName}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Calle Principal: </strong> {{poll.BranchMainStreet}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Rótulo: </strong> {{poll.BranchLabel}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Referencia: </strong> {{poll.BranchReference}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Provincia: </strong> {{poll.BranchProvince}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Ciudad: </strong> {{poll.BranchCity}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Parroquia: </strong> {{poll.BranchParish}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Barrio: </strong> {{poll.BranchNeighborhood}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Propietario: </strong> {{poll.BranchOwnerName}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Cédula/Ruc: </strong> {{poll.BranchOwnerDocument}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Teléfono: </strong> {{poll.BranchOwnerPhone}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Celular: </strong> {{poll.BranchOwnerMobile}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>@*Panel de Datos de local*@
+
+        <div style="margin-top: 7px;"></div>
+
+
+
+    </div>
+
+    <div id="divPollServices">
+
+        @*<div v-if="poll.ServiceCollection[0].Template=='Matrix'">
+            @Html.Partial("_Trade")
+        </div>
+        <div v-if="poll.ServiceCollection[0].Template!='Matrix'">
+            @Html.Partial("_censo")
+        </div>*@
+        @Html.Partial("_censo")
+    </div> @*Fin Sección de Encuestas*@
+</div>
+@*<div id="Container">
+        <img alt="Click to zoom" src="https://magictoolbox.sirv.com/images/magiczoomplus/jeans-1-z.jpg?scale.height=400" class="zoom" />
+    </div>*@
+</div>
+
+@section scripts{
+    <script src="~/js/dgIMG.js"></script>
+    <script src="~/js/viewModel/TaskViewModel.js"></script>
+    <script src="~/js/tools/classie.js"></script>
+    <script>
+        $.blockUI({ message: "" });
+        var IdTask = '@Html.Raw(IdRegister)';
+
+        LoadTaskById(IdTask);
+
+        $(document).ready(function () {
+            $('.inputeditable').editable({
+                success: function (response, newValue) {
+                    debugger;
+                    var elm = "#txt" + this.id;
+                    $(elm).val(newValue);
+                }
+            });
+            $("#ddlStatusTask").change(function () {
+                alert("Handler for .change() called.");
+
+            });
+            $(".target").change(function () {
+                alert("Handler for .change() called.");
+            });
+
+        });
+
+
+        $.fn.editable.defaults.mode = 'inline';
+
+        $("#divImages").sticky({ topSpacing: 50 });
+
+
+        function ChangeStatusManual() {
+            var selectedStatus = $("#ddlStatusTask>option:selected").html();
+            if ("@CTask.StatusNotImplemented" !== selectedStatus) {
+                bootbox.alert("No puede cambiar el estado de la tarea!");
+                $("#ddlStatusTask").val(modelView.Register.IdTaskNotImplemented);
+            } else {
+                $("#divChangeStatus").modal();
+            }
+        }
+
+        filters = "@ViewData["currentFilter"]";
+        function valorseleccion(codigo) {
+
+            ObtenerPregunta(codigo.value,codigo.id);
+
+
+
+
+        }
+
+        function UploadFilesNew() {
+            $.blockUI({ message: "Generando..." });
+               $.ajax({
+                   url: '/Task/UploadFile',
+                type: "POST",
+                content: "application/json; charset=utf-8",
+                data: {
+
+                     Idtask: getParameterByName('idTask')
+                },
+                success: function (data) {
+                    if (data != '' || data != null) {
+
+                        location.href = data;
+
+                    } else {
+                        bootbox.alert("Existió un problema, comuníquese con el administrador");
+
+                    }
+                    $.unblockUI();
+                },
+
+                error: function () {
+
+                    $.unblockUI();
+                }
+                ,
+                async: true, // La petición es síncrona
+            });
+        }
+        //function multiplicarInputs(text) {
+        //    var num = text.value
+        //    var div = '';
+
+
+
+        //    for (var i = 1; i < num; i++) {
+        //        var cont = i + 1;
+        //        div += "<div class='panel-heading center' >" + cont + "</div>"+ $("#panel_" + text.id).html();
+        //    }
+
+        //    $("#panelD_" + text.id).html(div);
+        //}
+        //$('.zoom').hover(function () {
+        //    $(this).addClass('transition');
+        //}, function () {
+        //    $(this).removeClass('transition');
+        //    });
+        //imageZoom("myimage", "myresult");
+        //function imageZoom(imgID, resultID) {
+        //    var img, lens, result, cx, cy;
+        //    img = document.getElementById(imgID);
+        //    result = document.getElementById(resultID);
+        //    /*create lens:*/
+        //    lens = document.createElement("DIV");
+        //    lens.setAttribute("class", "img-zoom-lens");
+        //    /*insert lens:*/
+        //    img.parentElement.insertBefore(lens, img);
+        //    /*calculate the ratio between result DIV and lens:*/
+        //    cx = result.offsetWidth / lens.offsetWidth;
+        //    cy = result.offsetHeight / lens.offsetHeight;
+        //    /*set background properties for the result DIV:*/
+        //    result.style.backgroundImage = "url('" + img.src + "')";
+        //    result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+        //    /*execute a function when someone moves the cursor over the image, or the lens:*/
+        //    lens.addEventListener("mousemove", moveLens);
+        //    img.addEventListener("mousemove", moveLens);
+        //    /*and also for touch screens:*/
+        //    lens.addEventListener("touchmove", moveLens);
+        //    img.addEventListener("touchmove", moveLens);
+        //    function moveLens(e) {
+        //        var pos, x, y;
+        //        /*prevent any other actions that may occur when moving over the image:*/
+        //        e.preventDefault();
+        //        /*get the cursor's x and y positions:*/
+        //        pos = getCursorPos(e);
+        //        /*calculate the position of the lens:*/
+        //        x = pos.x - (lens.offsetWidth / 2);
+        //        y = pos.y - (lens.offsetHeight / 2);
+        //        /*prevent the lens from being positioned outside the image:*/
+        //        if (x > img.width - lens.offsetWidth) { x = img.width - lens.offsetWidth; }
+        //        if (x < 0) { x = 0; }
+        //        if (y > img.height - lens.offsetHeight) { y = img.height - lens.offsetHeight; }
+        //        if (y < 0) { y = 0; }
+        //        /*set the position of the lens:*/
+        //        lens.style.left = x + "px";
+        //        lens.style.top = y + "px";
+        //        /*display what the lens "sees":*/
+        //        result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+        //    }
+        //    function getCursorPos(e) {
+        //        var a, x = 0, y = 0;
+        //        e = e || window.event;
+        //        /*get the x and y positions of the image:*/
+        //        a = img.getBoundingClientRect();
+        //        /*calculate the cursor's x and y coordinates, relative to the image:*/
+        //        x = e.pageX - a.left;
+        //        y = e.pageY - a.top;
+        //        /*consider any page scrolling:*/
+        //        x = x - window.pageXOffset;
+        //        y = y - window.pageYOffset;
+        //        return { x: x, y: y };
+        //    }
+        //}
+    </script>
+}

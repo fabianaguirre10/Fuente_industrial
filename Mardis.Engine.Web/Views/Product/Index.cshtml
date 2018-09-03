@@ -1,0 +1,102 @@
+﻿@using Mardis.Engine.DataAccess.MardisCore
+@{
+    ViewData["Menu"] = "Productos";
+    ViewData["Title"] = "Productos";
+    ViewData["Description"] = "Gestión de Productos";
+    Layout = "_Layout";
+
+    var IdFilterExecution = (FilterExecution)ViewData[CFilter.IdFilterExecution];
+}
+
+@section buttons{
+    <div class="row">
+        <div class="col-sm-2 pull-right">
+
+        </div>
+        <div class="col-sm-2 pull-right" style="vertical-align:middle;text-align:center">
+            <button href="#" class="btn btn-primary dropdown-toggle sb-toggle-right" onclick="javascript:void(0)">
+                <i class="fa fa-filter"></i> Filtros
+            </button>
+        </div>
+        <div class="col-sm-2 pull-right">
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+                    <i class="clip-list-5"></i>
+                    Opciones
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="#" onclick="NewProductClickEvent();">
+                            <i class="clip-plus-circle-2"></i> Nuevo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="DeleteProduct();">
+                            <i class="clip-minus-circle-2"></i> Borrar
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+@section filters{
+    <p id="pnlToolbar">
+        @Html.Partial("ShowFilterPartial", IdFilterExecution)
+    </p>
+}
+
+<link rel="stylesheet" href="~/lib/Slidebars/dist/slidebars.css">
+<link rel="stylesheet" href="~/css/theme/StyleFilter.css">
+
+
+<div id="divMainProduct">
+    @Html.Partial("FilterPartial", IdFilterExecution.Id.ToString())
+    <div class="table-responsive">
+        <table class="table table-striped" id="tbResults">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Código</th>
+                <th>Categoría</th>
+                <th>SKU</th>
+            </tr>
+            </thead>
+            <tbody data-bind="foreach:Results">
+            <tr data-bind="attr:{id:Id}">
+                <td><input type="checkbox" data-bind="attr:{value:Id},checked:$parent.itemDelete"/></td>
+                <td data-bind="text:Code"></td>
+                <td data-bind="text:aName"></td>
+                <td><a href="#" data-bind="text:Name,click:$parent.EditProductClick.bind($data,Id)"></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/viewModel/CommonScript.js"></script>
+    <script src="~/lib/Slidebars/dist/slidebars.js"></script>
+    <script src="~/js/viewModel/FilterViewModel.js"></script>
+    <script src="~/js/viewModel/ProductViewModel.js"></script>
+    <script>
+        var IdFilterExecution = '@Html.Raw(IdFilterExecution.IdFilterController)';
+        var IdCustomer = IdProduct_Customer;
+
+        var modelView = new MainProductViewModel();
+
+        ko.applyBindings(modelView, document.getElementById("divMainProduct"));
+
+        $.blockUI({ message: "" });
+        LoadItemsFilter(modelView, "divMainProduct", "IdCustomer", IdCustomer);
+
+        function PopulateResultsInTable(data) {
+
+            ko.mapping.fromJS(data, {}, modelView.Results);
+
+            $.unblockUI();
+        }
+    </script>
+}

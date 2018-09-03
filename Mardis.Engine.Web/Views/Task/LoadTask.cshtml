@@ -1,0 +1,116 @@
+@{
+    ViewData["Title"] = "Registro de Local";
+
+}
+
+@section buttons{
+
+}
+@section filters{}
+
+<div id="divRegisterTask">
+
+    <div class="row" style="margin-left: 5%">
+        <h1> Subir Archivo</h1>
+    </div>
+    <div class="mardisStyle">
+        <div id="divHeader">
+            <div class="tab-content clearfix" id="content-file">
+
+                <div class="Content-file col-md-4">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <p class="text-gray-ms">   @ViewBag.file </p>
+                            <input type="text" id="idPath" value="@ViewBag.path" hidden />
+                            <input type="text" id="idcampaign" value="@ViewBag.idcampingn" hidden />
+                        </div>
+                        <div class="col-md-offset-2">
+                            <div class="radio">
+                                <label style=" color: #adadad;     font-size: 15px;   font-weight: 600;"><input type="radio" name="optradio" value="2"> Cargar y Adicionar </label>
+
+                            </div>
+                        </div>
+                        <div class="col-md-offset-2">
+                            <div class="radio">
+                                <label style=" color: #adadad;     font-size: 15px;   font-weight: 600;"><input type="radio" name="optradio" value="1"> Verificar Errores </label>
+
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="border-color: #CCCCCC; margin-top: 7px; margin-right: 20px ; margin-left: 20px ;padding-top  :90px" />
+                    <div class="form-group">
+                        <div class="col-md-offset-4">
+                            <button class="btn btn-primary" id="IdProceso" onclick="LoadTaskFile()" type="submit">Procesar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="Content-load col-md-4">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-1">
+                                <p class="text-gray-ms" style="color:black !important">   Estado </p>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div id="status">
+                                    <h4 style="  display: flex; padding: 21px;"> <span class="label label-default" style="border-radius: 20px;  height: 20px !important;  display: inline-block;"> </span>Pendiente</h4>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-offset-4">
+                            <table class="tb-result">
+                                <thead>
+                                    <tr>
+                                        <th style="min-width: 200px;">Resultado</th>
+                                        <th style="min-width: 70px;">#</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbdResult">
+                                    <tr>
+                                        <th>Ninguna</th>
+                                        <th> </th>
+                                    </tr>
+
+                                </tbody>
+                                <tfoot>
+
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <hr style="border-color: transparent; margin-top: 7px; margin-right: 20px ; margin-left: 20px ;padding-top  :90px" />
+                    <div class="form-group">
+                        <div class="col-md-offset-4 ">
+                            <a href="@Url.Action("Massive", "Task", new { idCampaign = @ViewBag.idcampingn })" class="btn btn-default">Cancelar</a>
+                            @*<button class="btn btn-default" onclick="history.back();" id="btnGuardars" type="submit">Cancelar</button>*@
+                            <a href="@Url.Action("Index","Campaign")" class="btn btn-primary">Salir y Continuar</a>
+                            <a href="@Url.Action("Index", "Branch")" class="btn btn-default">Locales</a>
+                            <a href="" id="errorbtn" class="btn btn-info" hidden>Archivo Errores</a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+</div>
+
+
+@section Scripts {
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/Helpers/TaskHelper.js"></script>
+    <script>
+        $("#errorbtn").hide();
+
+    </script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -1,0 +1,61 @@
+﻿@model Mardis.Engine.Web.ViewModel.UserViewModels.UserIndexViewModel
+
+@{
+    ViewData["Title"] = "Usuarios";
+    ViewData["Description"] = "Gestión de Usuarios";
+}
+
+@section buttons{
+    <a class="btn btn-default pull-right" data-toggle="tooltip" title="Nuevo" ref="@Url.Action("Register","User")">
+        <i class="clip-plus-circle-2"></i>
+    </a>
+    <a href="#" class="btn btn-default pull-right" data-toggle="tooltip" title="Borrar" onclick="DeleteSelection();">
+        <i class="clip-minus-circle-2"></i>
+    </a>
+}
+
+@section filters{
+    @Html.Partial("_CoreFilterPartial", Model.Properties)
+}
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Tipo de Usuario</th>
+                <th>Cuenta</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td><input type="checkbox" onclick="SelectItem('@user.UserId');" /></td>
+                    <td>@user.Code</td>
+                    <td><a href="@Url.Action("Register","User",new {user=user.UserId})">@user.Name</a></td>
+                    <td>@user.Email</td>
+                    <td>@user.UserType</td>
+                    <td>@user.Account</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.Partial("_PagingPartial", Model)
+
+@section scripts{
+    <script src="~/js/Helpers/UserHelper.js"></script>
+    <script>
+        window.controllerName = "@Model.Properties.ControllerName";
+        window.actionName = "@Model.Properties.ActionName";
+
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}

@@ -1,0 +1,91 @@
+﻿@model PaginatedList
+
+<nav aria-label="Page navigation" class="center">
+
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <ul class="pagination">
+        <li class="page-item @prevDisabled">
+            <a class="page-link"
+               asp-action="@Model.Properties.ActionName"
+               asp-route-filterValues="@Html.Raw(Json.Serialize(@Model.Properties.FilterValues))"
+               asp-route-pageSize="@Model.PageSize"
+               asp-route-pageIndex="@(Model.PageIndex - 1)"
+               aria-label="Atrás">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Atrás</span>
+            </a>
+        </li>
+
+        @if (Model.TotalPages > 10)
+            {
+                var initialPage =(Model.TotalPages-Model.PageIndex>10)? 
+                    (Model.PageIndex > 10 ? 
+                        int.Parse((Model.PageIndex).ToString().Substring(0, (Model.PageIndex).ToString().Length - 1) + "1") 
+                        : 1)
+                    :1;
+                for (var i = initialPage; i < initialPage + 10; i++)
+                {
+                    var isSelected = i == Model.PageIndex ? "active" : "";
+                <li class="page-item @isSelected">
+                    <a class="page-link"
+                       asp-action="@Model.Properties.ActionName"
+                       asp-route-filterValues="@Html.Raw(Json.Serialize(@Model.Properties.FilterValues))"
+                       asp-route-pageSize="@Model.PageSize"
+                       asp-route-pageIndex="@i">@i</a>
+                </li>
+            }
+            <li class="page-item">
+                <a class="page-link"
+                   asp-action="@Model.Properties.ActionName"
+                   asp-route-filterValues="@Html.Raw(Json.Serialize(@Model.Properties.FilterValues))"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-route-pageIndex="@(initialPage + 10)">...</a>
+            </li>
+
+            for (var i = Model.TotalPages - 9; i <= Model.TotalPages; i++)
+            {
+                var isSelected = i == Model.PageIndex ? "active" : "";
+                <li class="page-item @isSelected">
+                    <a class="page-link"
+                       asp-action="@Model.Properties.ActionName"
+                       asp-route-filterValues="@Html.Raw(Json.Serialize(@Model.Properties.FilterValues))"
+                       asp-route-pageSize="@Model.PageSize"
+                       asp-route-pageIndex="@i">@i</a>
+                </li>
+            }
+        }
+        else
+        {
+            for (var curr = 1; curr <= Model.TotalPages; curr++)
+            {
+                var isSelected = curr == Model.PageIndex ? "active" : "";
+                <li class="page-item @isSelected">
+                    <a class="page-link"
+                       asp-action="@Model.Properties.ActionName"
+                       asp-route-filterValues="@Html.Raw(Json.Serialize(@Model.Properties.FilterValues))"
+                       asp-route-pageSize="@Model.PageSize"
+                       asp-route-pageIndex="@curr">@curr</a>
+                </li>
+            }
+        }
+        <li class="page-item @nextDisabled">
+            <a class="page-link"
+               asp-action="@Model.Properties.ActionName"
+               asp-route-filterValues="@Html.Raw(Json.Serialize(@Model.Properties.FilterValues))"
+               asp-route-pageSize="@Model.PageSize"
+               asp-route-pageIndex="@(Model.PageIndex + 1)"
+               aria-label="Siguiente">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Siguiente</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<div style="margin-top: 7px;"></div>
+<div class="center">
+    <label class="control-label">Página @(Model.PageIndex + " de " + Model.TotalPages)</label>
+</div>

@@ -1,0 +1,167 @@
+﻿@model CampaignListViewModel
+@{
+    ViewData["Menu"] = "Campañas";
+    ViewData["Title"] = "Campañas";
+    ViewData["Description"] = "Gestión de Campañas";
+    Layout = "_Layout";
+}
+
+@section buttons{
+    <div class="btn-group">
+        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+            <i class="clip-list-5"></i>
+            Opciones
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li>
+                <a href="@Url.Action("Register","Campaign")">
+                    <i class="clip-plus-circle-2"></i> Nuevo
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="ShowGeoposition();">
+                    <i class="clip-location"></i> Geoposición
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="DeleteCampaign();">
+                    <i class="clip-minus-circle-2"></i> Borrar
+                </a>
+            </li>
+
+            <li>
+                <a href="@Url.Action("Route","Campaign")">
+                    <i class="clip-map"></i> Administración de Rutas
+                </a>
+            </li>
+        </ul>
+    </div>
+}
+
+@section filters{
+    @Html.Partial("_CoreFilterPartial", Model.Properties)
+}
+
+
+
+<div id="divMainCampaign">
+    @foreach (var campaign in Model.CampaignList)
+    {
+        <div class="panel panel-default" id="@("row" + campaign.Id)">
+            <div class="panel-heading">
+                <div class="col-sm-4">
+                    <input type="checkbox" value="@campaign.Id" onclick="SelectItem('@campaign.Id')" />
+                    <strong>CAMPAÑA:</strong>
+                    <a href="@Url.Action("Register", "Campaign", new {idCampaign = campaign.Id})">@campaign.Name</a>
+                </div>
+                <div class="col-sm-4">
+                    <strong>INICIO:</strong>
+                    <label>@campaign.StartDate.ToString("dd/MM/yyyy")</label>
+                </div>
+                <div class="col-sm-4">
+                    <strong>FINALIZA:</strong>
+                    <label>@campaign.EndDate.ToString("dd/MM/yyyy")</label>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-4">
+                    <div>
+                        <div class="row">
+                            Cumplimiento
+                        </div>
+
+                        <div id="@campaign.Id">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="progress">
+                                        @foreach (var sectionData in campaign.sectionCampaign)
+                                        {
+                                            <div class="progress-bar   " role="progressbar" style="width: @sectionData.percent; background:@sectionData.color;">@sectionData.percent</div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div>
+                        <div class="row">
+                            @foreach (var sectionData in campaign.sectionCampaign)
+                            {
+                                <div class="col-sm-6">
+                                    <label><span style="color: @sectionData.color">&#9632;</span>@(" (" + sectionData.total + ")" + sectionData.name ) </label>
+
+                                </div>
+                            }
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div style="text-align: center">
+                        <div class="row">
+                            <a asp-action="Export" asp-route-id="@(campaign.Id)">Download</a>
+                        </div>
+                        <div class="row">
+                           
+                        </div>
+                    </div>
+                </div>
+               
+
+                <div class="col-sm-1">
+                    <div style="text-align: center">
+                        <div class="row">
+                            <h3>@(campaign.RemainingDays + " días")</h3>
+                        </div>
+                        <div class="row">
+                            TIEMPO RESTANTE
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 center">
+                    <div class="row">
+                        <a class="fa fa-pencil-square-o fa-4x" href="@Url.Action("Index", "Task", new {pidCampaign = campaign.Id, filterValues=""})"></a>
+                    </div>
+                    <div class="row">
+                        @("Administrar " + campaign.TotalTasks + " TAREAS")
+                    </div>
+                </div>
+                <div class="col-sm-1" style="text-align: center">
+                    <div class="row">
+                        <a class="fa fa-angle-double-right fa-4x" href="@Url.Action("TasksPerCampaign", "Campaign", new {idCampaign = campaign.Id})"></a>
+                    </div>
+                    <div class="row">
+                        @("Visualizar " + campaign.TotalTasks + " TAREAS")
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div id="divFooter">
+    @Html.Partial("_PagingPartial", Model)
+</div>
+
+@section scripts{
+    <script src="~/js/viewModel/TaskCommon.js"></script>
+    <script src="~/js/viewModel/FilterHelper.js"></script>
+    <script src="~/js/Helpers/CampaignHelper.js"></script>
+    <script>
+        window.controllerName = "@Model.Properties.ControllerName";
+                            window.actionName = "@Model.Properties.ActionName";
+        var filters = [];
+
+                            @foreach (var filter in Model.Properties.FilterValues)
+                            {
+            @:var point = { 'IdFilter': "@filter.IdFilter", 'NameFilter': "@filter.NameFilter", 'Criteria': "@filter.Criteria", 'Value': "@filter.Value", 'Visible':'@filter.Visible' };
+            @:filters.push(point);
+        }
+    </script>
+}

@@ -1,0 +1,6 @@
+﻿CREATE TABLE [MardisCommon].[Region]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1), 
+	[Code] VARCHAR(20) NOT NULL,
+    [Name] VARCHAR(100) NOT NULL
+)

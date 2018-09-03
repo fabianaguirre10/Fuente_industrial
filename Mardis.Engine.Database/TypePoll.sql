@@ -1,0 +1,7 @@
+﻿CREATE TABLE [MardisCore].[TypePoll]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [Name] VARCHAR(250) NOT NULL, 
+    [StatusRegister] VARCHAR(20) NOT NULL, 
+    [Code] VARCHAR(20) NOT NULL
+)

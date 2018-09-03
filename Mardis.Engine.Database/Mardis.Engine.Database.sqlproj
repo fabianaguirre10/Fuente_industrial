@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Mardis.Engine.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{f9875d1f-d4d7-437e-85b1-9bb8fb035176}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>Mardis.Engine.Database</RootNamespace>
+    <AssemblyName>Mardis.Engine.Database</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>
+    </SccProjectName>
+    <SccProvider>
+    </SccProvider>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="User.sql" />
+    <Build Include="Account.sql" />
+    <Build Include="Answer.sql" />
+    <Build Include="AnswerDetail.sql" />
+    <Build Include="AuthorizationComponent.sql" />
+    <Build Include="AuthorizationProfile.sql" />
+    <Build Include="Branch.sql" />
+    <Build Include="BranchCustomer.sql" />
+    <Build Include="BranchImages.sql" />
+    <Build Include="BulkLoad.sql" />
+    <Build Include="BulkLoadCatalog.sql" />
+    <Build Include="BulkLoadStatus.sql" />
+    <Build Include="Campaign.sql" />
+    <Build Include="CampaignServices.sql" />
+    <Build Include="Channel.sql" />
+    <Build Include="Common.sql" />
+    <Build Include="Component.sql" />
+    <Build Include="CoreFilter.sql" />
+    <Build Include="CoreFilterDetail.sql" />
+    <Build Include="Country.sql" />
+    <Build Include="Customer.sql" />
+    <Build Include="CustomerProducts.sql" />
+    <Build Include="District.sql" />
+    <Build Include="FilterController.sql" />
+    <Build Include="FilterCriteria.sql" />
+    <Build Include="FilterExecution.sql" />
+    <Build Include="FilterExecutionDetail.sql" />
+    <Build Include="FilterField.sql" />
+    <Build Include="FilterTable.sql" />
+    <Build Include="MardisCommon.sql" />
+    <Build Include="MardisCore.sql" />
+    <Build Include="MardisSecurity.sql" />
+    <Build Include="MardisUser.sql" />
+    <Build Include="Menu.sql" />
+    <Build Include="Parish.sql" />
+    <Build Include="Person.sql" />
+    <Build Include="Product.sql" />
+    <Build Include="ProductCategory.sql" />
+    <Build Include="Profile.sql" />
+    <Build Include="Province.sql" />
+    <Build Include="Question.sql" />
+    <Build Include="QuestionDetail.sql" />
+    <Build Include="Sector.sql" />
+    <Build Include="Security.sql" />
+    <Build Include="Sequence.sql" />
+    <Build Include="Service.sql" />
+    <Build Include="ServiceDetail.sql" />
+    <Build Include="ServiceDetailTask.sql" />
+    <Build Include="StatusCampaign.sql" />
+    <Build Include="StatusCustomer.sql" />
+    <Build Include="StatusTask.sql" />
+    <Build Include="Task.sql" />
+    <Build Include="TaskNoImplementedReason.sql" />
+    <Build Include="TypeBusiness.sql" />
+    <Build Include="TypeCustomer.sql" />
+    <Build Include="TypeFilter.sql" />
+    <Build Include="TypePerson.sql" />
+    <Build Include="TypePoll.sql" />
+    <Build Include="TypeService.sql" />
+    <Build Include="TypeUser.sql" />
+    <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
+    <Build Include="Region.sql" />
+    <Build Include="Management.sql" />
+    <Build Include="CodigoReservados.sql" />
+    <Build Include="Sms.sql" />
+    <Build Include="Map.sql" />
+    <Build Include="UserCanpaign.sql" />
+    <Build Include="EquipamentImages.sql" />
+    <Build Include="Equipament_time.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Script.PostDeployment.Location.sql" />
+    <None Include="Scripts\inalecsa.sql" />
+    <None Include="Scripts\cocacola.sql" />
+    <None Include="Scripts\vista coca cola.sql" />
+    <None Include="Scripts\cocacola2.sql" />
+    <None Include="Scripts\cocacola3.sql" />
+    <None Include="Scripts\cocacola4.sql" />
+    <None Include="Scripts\sp_Mistery_Shopper_Audio.sql" />
+    <None Include="Scripts\vw_Campaign_Information.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Mardis.Engine.Database.refactorlog" />
+  </ItemGroup>
+</Project>

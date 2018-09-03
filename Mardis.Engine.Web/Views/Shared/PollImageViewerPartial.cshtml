@@ -1,0 +1,102 @@
+﻿<div class="panel panel-default" id="divImages">
+    <div class="panel-heading">
+        Multimedia
+    </div>
+    <div class="panel-body" style="height: 150px; overflow-y: scroll">
+
+        <div class="row">
+
+            <div class="col-sm-2 center" v-for="(image, index) in poll.BranchImages" style="margin-bottom: 10px;">
+
+                <div v-if="image.NameFile.indexOf('vid')>=0 || image.NameFile.indexOf('.mp4')>=0 || image.NameFile.indexOf('.3gp')>=0">
+                    <video style="width: 100%; border-radius: 5px;" onclick="openModal();currentSlide(x + 1);" class="hover-shadow cursor" controls>
+                        <source v-bind:src="image.UrlImage" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+
+                <div v-if="image.NameFile.indexOf('.jpg')>=0 || image.NameFile.indexOf('.bmp')>=0 || image.NameFile.indexOf('.gif')>=0 || image.NameFile.indexOf('.png')>=0">
+                    <img v-bind:src="image.UrlImage" v-on:click="[openModal(), currentSlide(index + 1)]" style="width: 100%; border-radius: 5px;" class="hover-shadow cursor imagenClase" alt="" >
+                </div>
+
+                <div v-if="image.NameFile.indexOf('.mp3')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.amr')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.aac')>=0 || image.NameFile.indexOf('.m4a')>=0">
+                    <audio style="width: 100%; border-radius: 5px;" v-on:click="[openModal(), currentSlide(index + 1)]" class="hover-shadow cursor" controls>
+                        <source v-bind:src="image.UrlImage" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+
+                <p>{{image.NameFile}}</p>
+            </div>
+                            
+            <div id="myModal" class="modalmardis">
+                <span class="close cursor" onclick="closeModal()">&times;</span>
+                <div class="modal-content" style="background: black;"  id="modalClass">
+
+                    <div class="mySlides" v-for="(image, index) in poll.BranchImages">
+                        <div class="numbertext">{{index + ' / ' + poll.BranchImages.length}}</div>
+                                    
+                        <div v-if="image.NameFile.indexOf('vid')>=0 || image.NameFile.indexOf('.mp4')>=0 || image.NameFile.indexOf('.3gp')>=0">
+                            <video style="width: 100%; border-radius: 5px;" class="hover-shadow cursor" controls>
+                                <source v-bind:src="image.UrlImage" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                                    
+                        <div v-if="image.NameFile.indexOf('.jpg')>=0 || image.NameFile.indexOf('.bmp')>=0 || image.NameFile.indexOf('.gif')>=0 || image.NameFile.indexOf('.png')>=0">
+                            <img v-bind:src="image.UrlImage" style="width: 100%"  class="imgClass">
+                        </div>
+                                    
+                        <div v-if="image.NameFile.indexOf('.mp3')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.amr')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.aac')>=0 || image.NameFile.indexOf('.m4a')>=0">
+                            <audio controls>
+                                <source v-bind:src="image.UrlImage" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+
+                    </div>
+
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+                    <div class="downtool center" style="width: 100%; background: black">
+                        <a onclick="rotateLeft()"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                        <a onclick="initialPosition()"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                        <a onclick="rotateRight()"><i class="fa fa-repeat" aria-hidden="true"></i></a>
+                    </div>
+
+                    <div class="caption-container">
+                        <p id="caption"></p>
+                    </div>
+
+                    <div class="column" v-for="(image, index) in poll.BranchImages" style="display:none">
+                                    
+                        <div v-if="image.NameFile.indexOf('vid')>=0 || image.NameFile.indexOf('.mp4')>=0 || image.NameFile.indexOf('.3gp')>=0">
+                            <video style="width: 100%; border-radius: 5px;" v-on:click="[currentSlide(index + 1)]" class="hover-shadow cursor" controls>
+                                <source v-bind:src="image.UrlImage" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+
+                        <div v-if="image.NameFile.indexOf('.jpg')>=0 || image.NameFile.indexOf('.bmp')>=0 || image.NameFile.indexOf('.gif')>=0 || image.NameFile.indexOf('.png')>=0">
+                            <img class="demo cursor" v-on:click="[currentSlide(index + 1)]" v-bind:src="image.UrlImage" style="width: 100%">
+                        </div>
+                                    
+                        <div v-if="image.NameFile.indexOf('.mp3')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.amr')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.aac')>=0 || image.NameFile.indexOf('.m4a')>=0">
+                            <audio style="width: 100%; border-radius: 5px;" v-on:click="currentSlide(x + 1);" class="hover-shadow cursor" controls>
+                                <source v-bind:src="image.UrlImage" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>

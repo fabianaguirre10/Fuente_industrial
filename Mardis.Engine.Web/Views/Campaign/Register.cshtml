@@ -1,0 +1,238 @@
+﻿@model CampaignRegisterViewModel
+
+@{
+    ViewData["Title"] = "Gestión de Campañas";
+    ViewData["Description"] = "Agregar/Editar Campañas";
+}
+
+@section buttons{}
+@section filters{}
+
+<form asp-action="" asp-controller="" method="POST">
+    <div id="divRegisterCampaign">
+
+        <div id="headerCampaign">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="control-label">
+                        <strong>NOMBRE DE LA CAMPAÑA</strong>
+                    </label>
+                </div>
+                <div class="col-sm-4">
+                    <label class="control-label">
+                        <strong>FECHA DE CREACIÓN</strong>
+                    </label>
+                </div>
+                <div class="col-sm-4">
+                    <label class="control-label">
+                        <strong>CÓDIGO</strong>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="control-label">@Model.Name</label>
+                </div>
+                <div class="col-sm-4">
+                    <p class="display-field">@Model.CreationDate.ToString("dd/MM/yyyy")</p>
+                    <input asp-for="CreationDate" class="hidden" />
+                </div>
+                <div class="col-sm-4">
+                    <label>@Model.Code</label>
+                    <input asp-for="Code" class="hidden" />
+                </div>
+            </div>
+        </div>
+        <strong>
+            Datos de la Campaña
+        </strong>
+        <hr style="border-color: #CCCCCC; margin-top: 0;" />
+        <div class="row">
+            <div>
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="Name"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input asp-for="Name" class="form-control input-sm" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div id="divGStatusCampaign">
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="IdStatusCampaign"></label>
+                </div>
+                <div class="col-sm-4">
+                    <select id="ddlStateCampaign" asp-for="IdStatusCampaign" asp-items="ViewBag.StatusList" class="form-control input-sm">
+                        <option>--Seleccione--</option>
+                    </select>
+                    <span asp-validation-for="IdStatusCampaign" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 7px;"></div>
+
+        <div class="row">
+            <div id="divGClient">
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="IdCustomer"></label>
+                </div>
+                <div class="col-sm-4">
+                    <select id="ddlCustomer" asp-for="IdCustomer" asp-items="ViewBag.CustomerList"
+                            class="form-control input-sm">
+                        <option>--Seleccione--</option>
+                    </select>
+                    <span asp-validation-for="IdCustomer" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div id="divGChannel">
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="IdChannel"></label>
+                </div>
+                <div class="col-sm-4">
+                    <select id="ddlChannel" class="form-control input-sm" asp-for="IdChannel" asp-items="ViewBag.ChannelList">
+                        <option>--Seleccione--</option>
+                    </select>
+                    <span asp-validation-for="IdChannel" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 7px;"></div>
+        <div class="row">
+            <div id="divGStartDate">
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="StartDate"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input asp-for="StartDate" id="txtStartDate" class="form-control input-sm">
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div id="divGEndDate">
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="EndDate"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input id="txtEndDate" class="form-control input-sm" asp-for="EndDate">
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 7px;"></div>
+        <div class="row">
+            <div id="divGRangeDate">
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="RangeDate"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input id="txtRangeDate" class="form-control input-sm" asp-for="RangeDate">
+                    <span asp-validation-for="RangeDate" class="text-danger"></span>
+                </div>
+
+                <div id="divGSupervisor">
+                    <div class="col-sm-2">
+                        <label class="control-label" asp-for="IdSupervisor"></label>
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="ddlSupervisor" class="form-control input-sm" asp-for="IdSupervisor" asp-items="ViewBag.SupervisorList">
+                            <option>--Seleccione--</option>
+                        </select>
+                        <span asp-validation-for="IdSupervisor" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div style="margin-top: 7px;"></div>
+        <div class="row">
+            <div id="divGComment">
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="Comment"></label>
+                </div>
+                <div class="col-sm-10">
+                    <textarea class="form-control input-sm" id="txtComment" asp-for="Comment" placeholder="Ingrese un comentario..."></textarea>
+                    <span asp-validation-for="Comment" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 7px;"></div>
+        <div style="margin-top: 7px;"></div>
+
+        <div class="row">
+            <div class="col-sm-7">
+                <label class="control-label">
+                    <strong>Servicios</strong>
+                </label>
+            </div>
+
+            <div class="col-sm-4">
+                <select id="ddlService" class="form-control input-sm" asp-items="ViewBag.Services">
+                    <option>--Seleccione--</option>
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-link" onclick="AddService();">
+                    <span class="fa fa-plus"></span>
+                </button>
+            </div>
+        </div>
+        <div style="margin-top: 7px;"></div>
+
+        <hr style="border-color: #CCCCCC; margin-top: 0;" />
+
+        <div class="row">
+            <div class="col-sm-12">
+                <p id="lstServices">
+                    @foreach (var service in Model.ServiceList)
+                    {
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <a class="btn btn-default" href="#" id="@service.Id" onclick="DeleteService('@service.Id');">
+                                    @service.Name
+                                    <i class="clip-close-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </p>
+            </div>
+        </div>
+
+        <br />
+
+        <hr style="border-color: #CCCCCC; margin-top: 0;" />
+
+        <div class="row">
+            <div class="col-sm-12">
+                <label class="control-label">
+                    <strong>Planificación</strong>
+                </label>
+            </div>
+        </div>
+
+        <hr style="border-color: #CCCCCC; margin-top: 0;" />
+        <input asp-for="Id" class="hidden" />
+        <input asp-for="NewServices" id="txtNewService" class="hidden" />
+        <input asp-for="DeletedServices" id="txtDeletedService" class="hidden" />
+
+        <div class="row">
+            <div class="col-sm-12" style="text-align: center">
+                <button type="submit" class="btn btn-primary" formaction="Register">Guardar</button>
+                  <a href="@Url.Action("Massive", "Task", new { idCampaign = Model.Id  })" class="btn btn-info">Importar Locales</a>
+
+                <a href="@Url.Action("Index","Campaign")" class="btn btn-default btn-sm">Salir</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section scripts{
+    <script src="~/js/viewModel/CommonScript.js"></script>
+    <script src="~/js/Helpers/CampaignHelper.js"></script>
+    <script>
+
+    </script>
+}

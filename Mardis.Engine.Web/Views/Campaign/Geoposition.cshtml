@@ -1,0 +1,40 @@
+﻿@model Mardis.Engine.Web.ViewModel.CampaignViewModels.CampaignGeopositionViewModel
+
+@{
+    ViewData["Menu"] = "Geoposición";
+    ViewData["Title"] = "Geoposición";
+    ViewData["Description"] = "Geoposición";
+    Layout = "_Layout";
+}
+
+@section buttons{}
+@section filters{
+    @Html.Partial("_CoreFilterPartial", Model.Properties)
+}
+
+<div id="divGeopositionCampaign">
+    <div id="map_canvas" style="height: 750px;"></div>
+</div>
+
+@section scripts{
+    <script src="~/js/viewModel/MapHelper.js"></script>
+<script src="~/js/viewModel/FilterHelper.js"></script>
+    <script>
+        window.controllerName = "@Model.Properties.ControllerName";
+        window.actionName = "@Model.Properties.ActionName";
+        var filters = [];
+
+        var resultList = [];
+
+        @foreach (var d in Model.LocationList)
+        {
+
+            @:var point = { 'Title': "@d.Title", 'Body': "@d.Body", 'Longitude': "@d.Longitude", 'Latitude': "@d.Latitude", 'IconUrl': "@d.IconUrl", 'ImageUrl': "@d.ImageUrl", 'task': '@d.IdTask', 'NameBranch': "@d.NameBranch", 'CodeBranch': "@d.CodeBranch" };
+
+            @:resultList.push(point);
+                }
+
+
+        DrawCompleteMap(resultList);
+    </script>
+}

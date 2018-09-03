@@ -1,0 +1,132 @@
+﻿@using Mardis.Engine.DataAccess.MardisCore
+@using Mardis.Engine.Framework.Resources
+@{
+    ViewData["Menu"] = "Cargas Masivas";
+    ViewData["Title"] = "Cargas Masivas";
+    ViewData["Description"] = "Gestión de Cargas";
+    Layout = "_Layout";
+
+    var itemsBulkCatalog = (List<BulkLoadCatalog>) ViewData[CBulkLoad.Catalog];
+}
+
+@section buttons{
+    <div class="row">
+        <div class="col-sm-2 pull-right">
+
+        </div>
+        <div class="col-sm-2 pull-right">
+
+        </div>
+        <div class="col-sm-2 pull-right">
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+                    <i class="clip-list-5"></i>
+                    Opciones
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    @foreach (var itemTempCatalog in itemsBulkCatalog)
+                    {
+                        <li>
+                            <a href="#" onclick="CreateNewLoad('@itemTempCatalog.Id');">
+                                <i class="clip-stack-empty" aria-hidden="true"></i> Carga de @itemTempCatalog.Name
+                            </a>
+                        </li>
+                    }
+                   
+                    <li>
+                        <a href="#">
+                            <i class="clip-spinner-6" aria-hidden="true"></i> Refrescar
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+@section filters{
+
+}
+
+<link rel="stylesheet" href="~/lib/Slidebars/dist/slidebars.css">
+<link rel="stylesheet" href="~/css/theme/StyleFilter.css">
+
+<div id="divMainBulkLoad">
+    <div class="row" style="border-radius: 10px; border: 1px solid #000000;">
+        <div class="col-sm-2"  >
+            <br />
+            <div class="core-box">
+                <div class="heading">
+                    <i class="fa fa-info-circle circle-icon circle-bricky"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4>
+                        Antes de cargar...
+                    </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    1. Tú puedes importar la lista de locales a Engine usando un único archivo CSV.
+                </div>
+            </div>
+            <div style="margin-top: 7px;"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    2. Para que coincida con Engine, asegúrate de poseer las columnas apropiadas, recuerda incluir una fila de cabecera en el archivo CSV.
+                </div>
+            </div>
+            <div style="margin-top: 7px;"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    3. Si tú quieres asignar a una campaña durante la importación, tú puedes hacerlo incluyendo la columna "Campaña" en tu archivo CSV.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 7px;"></div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre de Archivo</th>
+                    <th>Tipo</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Adicionados</th>
+                    <th>Actualizados</th>
+                    <th>Errores</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach:Results">
+                    <tr data-bind="attr:{id:'row'+Id}">
+                        <td data-bind="text:FileName"></td>
+                        <td data-bind="text:BulkLoadCatalog.Name"></td>
+                        <td data-bind="text:CreatedDate"></td>
+                        <td data-bind="text:BulkLoadStatus.Name"></td>
+                        <td data-bind="text:TotalAdded"></td>
+                        <td data-bind="text:TotalUpdated"></td>
+                        <td data-bind="text:TotalFailed"></td>
+                    </tr>
+                </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/viewModel/CommonScript.js"></script>
+    <script src="~/lib/Slidebars/dist/slidebars.js"></script>
+    <script src="~/js/viewModel/BulkLoadViewModel.js"></script>
+    <script>
+        var modelView = new MainBulkLoadViewModel();
+        var divMain = "divMainBulkLoad";
+
+        LoadBulkLoadRegisters();
+
+    </script>
+}

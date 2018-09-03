@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Ejercicio en Canvas</title>
+<script src="canvas.js"></script>
+<script src="video.js"></script>
+<link rel="stylesheet" href="canvas.css">
+<link rel="stylesheet" href="estilo.css">
+<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+<link href="magiczoom/magiczoom.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="magiczoom/magiczoom-mardis.css" rel="stylesheet" type="text/css" media="screen"/>
+<script src="magiczoom/magiczoom.js" type="text/javascript"></script>
+<script src="magiczoom/magiczoom-mardis.js" type="text/javascript"></script>
+
+<body>
+
+<div id="app">
+  {{ message }}
+<div  v-for="todo in todos">
+   <a id="Zoom-1" class="MagicZoom" 
+            v-bind:href="todo.text"
+        >
+            <img v-bind:src="todo.text" alt=""/>
+        </a>
+		</div>
+		</div>
+</body>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    message: 'https://magictoolbox.sirv.com/images/magiczoomplus/jeans-1-z.jpg?scale.height=400',
+	 todos: [
+      { text: 'https://mardisenginefotos.blob.core.windows.net/confiteca/uuid:356e91f1-fdee-4fb7-9459-5d89b9f41b83.jpg' },
+      { text: 'https://mardisenginefotos.blob.core.windows.net/confiteca/uuid:9e5a42ec-4dd4-41dd-9738-c021f481014c.jpg' },
+      { text: 'https://magictoolbox.sirv.com/images/magiczoomplus/jeans-1-z.jpg?scale.height=400' }
+    ]
+  }
+})
+
+</script>
+</html>

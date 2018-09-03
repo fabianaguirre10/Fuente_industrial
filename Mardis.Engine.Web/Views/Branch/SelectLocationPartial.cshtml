@@ -1,0 +1,34 @@
+﻿<div id="divBranchLocalization" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg modal-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">LOCALIZACION DE LOCAL</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label for="Latitude">Latitud</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" id="Latitude" />
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="Longitude">Longitud</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" id="Longitude" />
+                    </div>
+                </div>
+
+                <div style="margin-top: 7px;"></div>
+
+                <div id="map_canvas" style="height: 550px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default btn-sm" id="btnCancelar" data-dismiss="modal" onclick="SetLocation();">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

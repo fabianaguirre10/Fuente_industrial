@@ -1,0 +1,318 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div class="col-sm-6"> @Html.Partial("../Task/_taskPhotoVue")</div>
+
+
+
+<div class="col-sm-6">
+
+    <div class="panel-group" v-for="(service, index) in poll.ServiceCollection">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="text-align: center;">
+                <div class="panel-title">
+                    <a data-toggle="collapse" v-bind:href="'#pnlService_'+service.Code"><strong>{{service.Name}}</strong></a>
+                </div>
+            </div>
+
+            <div v-bind:id="'pnlService_'+service.Code" class="panel-collapse collapse in">
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div style="margin-top: 7px;"></div>
+
+                            <div class="panel panel-warning" v-for="(section, i) in service.ServiceDetailCollection">
+                                <div class="panel-heading center" v-bind:href="'#panel_'+section.Id" data-toggle="">
+                                    {{section.SectionTitle}}
+                                    <div v-if="section.IsDynamic==true">
+                                        <button class="btn btn-default btn-xs" v-bind:data-IdSection="section.Id" v-bind:data-order="i" onclick="AddSection(false,false, this);" title="Insertar secci�n final">
+                                            <i class="fa fa-level-up"></i>
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <div v-bind:id="'panel_'+section.Id" class="panel panel-default collapse in">
+
+                                    <div class="panel-body" style="padding: 5px;">
+
+                                        <div class="row">
+                                            <div v-for="(question, j) in section.QuestionCollection">
+                                                <div class="col-sm-3" v-if="(question.CodeTypePoll=='ONE'||question.CodeTypePoll=='OPEN' ) && question.Weight=='0'">
+
+                                                    <div class="panel panel-mardis-grey" style="margin-bottom: 5px;">
+                                                        <div class="panel-heading" style="padding-bottom: 0; padding-top: 0; height: 10%; color: white;">
+                                                            {{question.Title}}
+                                                        </div>
+                                                        <div class="panel-body" style="padding-bottom: 5px; padding-top: 5px;">
+
+                                                            <input v-info-sender v-if="question.CodeTypePoll=='OPEN'" v-model="question.Answer" class="form-control inputmardis subsec" v-bind:id="question.Id" v-bind:name="question.IdAnswer" style="margin: 0 auto; float: none; background-color: #cccccc;" onchange="valorseleccion(this)" />
+
+                                                            <select v-info-sender v-if="question.CodeTypePoll=='ONE'" class="inputmardis subsec" v-model="question.IdQuestionDetail" v-bind:id="question.Id" v-bind:name="question.IdAnswer" style="margin: 0 auto; float: none;" onchange="valorseleccion(this)">
+                                                                <option v-for="answer in question.QuestionDetailCollection" v-bind:value="answer.Id">{{answer.Answer}}</option>
+                                                            </select>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4" v-if="question.CodeTypePoll=='MANY'" style="text-align:-webkit-center;">
+                                                    <div class="panel panel-mardis-grey" style="margin-bottom: 1px;">
+                                                        <div class="panel-heading" style="padding-bottom: 12px; padding-top: 0; height: 10%; color: white;">
+                                                            {{question.Title}}
+                                                        </div>
+
+                                                        <div v-for="answer in question.QuestionDetailCollection">
+                                                            <div class="form-check">
+                                                                <label for="answer.Id" class="col-sm-6 mardis-check">
+                                                                    {{ answer.Answer }}
+                                                                    <input v-for-events type="checkbox" class="inputcheck subsec" v-bind:id="answer.Id" v-bind:value="answer.IdQuestion" v-bind:name="question.IdAnswer" v-model="answer.Checked" onchange="onToggle(this)">
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            @*Seleccion multiple con preguntas*@
+                                            <div class="col-sm-8 row">
+                                                <div v-for="(questionS, jf) in section.QuestionCollection">
+                                                    <div v-if="questionS.CodeTypePoll=='MANY' && questionS.Weight!='0'">
+
+
+
+
+                                                        <div v-if="questionS.QuestionDetailCollection.length < 11">
+                                                            <div v-for="(questionM, jf) in section.QuestionCollection">
+                                                                <div v-bind:class="{
+                                                                     'col-sm-6' : questionS.Weight==2,
+                                                                     'col-sm-8' : questionS.Weight==1,
+                                                                     'col-sm-4' : questionS.Weight==3,
+                                                                     'col-sm-3' : questionS.Weight==4,
+                                                                     'col-sm-2' : questionS.Weight==6,
+                                                                     'casounasem' : questionS.Weight>
+                                                                    9}" v-if="questionM.CodeTypePoll=='ONE'||questionM.CodeTypePoll=='OPEN'"  style="word-wrap: break-word ;padding-left: 5px; font-size: 10px;padding-left: 5px; text-align: center;">
+                                                                    <div v-if="jf < questionS.Weight+1">
+                                                                        {{questionM.Title}}
+                                                                    </div>
+
+                                                                </div>
+                                                                <br>
+                                                                <div class="row">
+                                                                    <div v-for="(questionM, jf) in section.QuestionCollection">
+                                                                        <div v-bind:class="{
+                                                                             'col-sm-6' : questionS.Weight==2,
+                                                                             'col-sm-8' : questionS.Weight==1,
+                                                                             'col-sm-4' : questionS.Weight==3,
+                                                                             'col-sm-3' : questionS.Weight==4,
+                                                                             'col-sm-2' : questionS.Weight==6,
+                                                                             'casounasem' : questionS.Weight>
+                                                                            7}"  v-if="questionM.CodeTypePoll=='ONE'||questionM.CodeTypePoll=='OPEN'">
+
+                                                                            <div class="panel-heading center" style="margin-bottom: 1px;">
+
+                                                                                <div class="panel-body" style="padding-bottom: 5px; padding-top: 5px;">
+
+                                                                                    <input v-info-sender v-if="questionM.CodeTypePoll=='OPEN'" v-model="questionM.Answer" class="form-control inputmardis subsec" v-bind:id="questionM.Id" v-bind:name="questionM.IdAnswer" style="margin: 0 auto; float: none; background-color: #cccccc;" />
+
+                                                                                    <select v-info-sender v-if="questionM.CodeTypePoll=='ONE'" class="inputmardis subsec" v-model="questionM.IdQuestionDetail" v-bind:id="questionM.Id" v-bind:name="questionM.IdAnswer" style="margin: 0 auto; float: none;" onchange="valorseleccion(this)">
+                                                                                        <option v-for="answer in questionM.QuestionDetailCollection" v-bind:value="answer.Id">{{answer.Answer}}</option>
+                                                                                    </select>
+
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @*Seleccion multiple con preguntas*@
+
+                                            </div>
+                                            <div v-for="(subSection, ix) in section.Sections">
+                                                @* Cuando se tiene mas de 11 preguntas se cambia el modo de visualizaci�n *@
+                                                <div v-if="subSection.QuestionCollection.length == 11">
+                                                    <div class="panel panel-info">
+                                                        <div class="panel-heading center" v-bind:href="'#panel_'+subSection.Id" data-toggle="collapse">
+                                                            {{'['+subSection.GroupName+'] '+subSection.SectionTitle}}
+                                                        </div>
+                                                        <div v-bind:id="'panel_'+subSection.Id" class="panel panel-default collapse in">
+
+                                                            <div class="panel-body" style="padding: 5px;">
+                                                                <div v-for="question in subSection.QuestionCollection">
+                                                                    <div class="panel panel-mardis-grey " style="margin-bottom: 5px;">
+                                                                        <div class="panel-heading" style="padding-bottom: 0; padding-top: 0; height: 10%; color: white;">
+                                                                            {{question.Title}}
+                                                                        </div>
+
+                                                                        <div v-if="question.CodeTypePoll=='MANY'||question.CodeTypePoll=='OPEN'||question.CodeTypePoll=='ONE'" class="panel-body" style="padding-bottom: 5px; padding-top: 5px;">
+                                                                            <input v-info-sender v-if="question.CodeTypePoll=='OPEN'" class="form-control inputmardis subsec" style="margin: 0 auto; float: none; background-color: #cccccc;" v-model="question.Answer" v-bind:id="question.Id" v-bind:name="question.IdAnswer" />
+
+                                                                            <select v-info-sender v-if="question.CodeTypePoll=='ONE'" class="inputmardis subsec" v-model="question.IdQuestionDetail" style="margin: 5%; float: none;" v-bind:id="question.Id" v-bind:name="question.IdAnswer">
+                                                                                <option v-for="answer in question.QuestionDetailCollection" v-bind:value="answer.Id">{{answer.Answer}}</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @* Cuando se tiene menos de 11 preguntas *@
+
+                                                <div v-if="subSection.QuestionCollection.length > 0">
+
+                                                    <br />
+
+                                                    <div class="row">
+                                                        <div class="col-sm-1"></div>
+
+                                                        <div v-for="(question,i) in subSection.QuestionCollection">
+                                                            <div v-if="ix===0">
+                                                                <div v-bind:class="{
+                                                                     'col-sm-6' : subSection.QuestionCollection.length==1,
+                                                                     'col-sm-5' : subSection.QuestionCollection.length==2,
+                                                                     'col-sm-3' : subSection.QuestionCollection.length==3 || (subSection.QuestionCollection.length==4 && i < 2 ),
+                                                                             'col-sm-2' : subSection.QuestionCollection.length == 5 || (subSection.QuestionCollection.length == 4 && i > 1 ) || (subSection.QuestionCollection.length == 6 && i < 4 ) || (subSection.QuestionCollection.length == 7 && i <3 ),
+                                                                             'casounasem' : subSection.QuestionCollection.length >  7 || (subSection.QuestionCollection.length == 6 && i > 3 ) || (subSection.QuestionCollection.length == 7 && i > 2 )
+                                                                             }"
+                                                                         style="word-wrap: break-word ;padding-left: 5px; font-size: 10px;padding-left: 5px; text-align: center;">
+                                                                        {{subSection.QuestionCollection[i].Title}}
+
+
+                                                                    </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <h6 v-if="ix == 0"><strong>{{subSection.GroupName}}  </strong></h6>
+
+                                                    <div v-if="ix > 0">
+                                                        <h6 v-if="subSection.GroupName != section.Sections[ix - 1].GroupName"><strong>{{subSection.GroupName}}</strong></h6>
+                                                    </div>
+
+                                                    <div class="col-sm-1" style="font-size: 10px;">{{subSection.SectionTitle}}</div>
+
+                                                    <div v-for="(question, i) in subSection.QuestionCollection">
+
+                                                        <div v-bind:class="{
+                                                             'col-sm-6' : subSection.QuestionCollection.length==1,
+                                                             'col-sm-3' : subSection.QuestionCollection.length==2,
+                                                             'col-sm-4' : subSection.QuestionCollection.length==3 || (subSection.QuestionCollection.length==4 && i < 2 ),
+                                                            'col-sm-2' : subSection.QuestionCollection.length == 5 || (subSection.QuestionCollection.length == 4 && i > 1 ) || (subSection.QuestionCollection.length == 6 && i < 4 ) || (subSection.QuestionCollection.length == 7 && i <3 ),
+                                                            'casounasem' : subSection.QuestionCollection.length >  7 || (subSection.QuestionCollection.length == 6 && i > 3 ) || (subSection.QuestionCollection.length == 7 && i > 2 )
+                                                            }"
+                                                            style="padding-left: 5px; padding-right: 0;">
+
+                                                            <input v-info-sender  v-if="question.CodeTypePoll == 'OPEN'"  class="form-control inputmardis subsec" style="margin: 0 auto; float: none; background-color: #cccccc;" v-model="question.Answer" v-bind:id="question.Id"  v-bind:name="question.IdAnswer"/>
+
+                                                            <select v-info-sender v-if="question.CodeTypePoll == 'ONE'" class="inputmardis subsec" v-model="question.IdQuestionDetail" v-bind:id="question.Id" v-bind:name="question.IdAnswer"
+                                                            style="margin:0 auto; float: none;" onchange="valorseleccion(this)">
+                                                                <div class="panel-body" style="padding: 5px;">
+
+                                                                    <div class="panel panel-mardis-grey " style="margin-bottom: 5px;">
+
+                                                                        <option v-for="answer in question.QuestionDetailCollection" v-bind:value="answer.Id">{{answer.Answer}}</option>
+                                                                    </div>
+                                                                </div>
+                                                            </select>
+
+                                                            </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="text-align: center;">
+                                    <div class="panel-title">
+                                        <a data-toggle="collapse"><strong>Datos de Implementación</strong></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body" style="    text-align: -webkit-center;">
+                                    <div class="col-sm-6">
+                                        <div class="panel panel-info">
+                                            <div class="panel panel-mardis-grey " style="padding: 5px;">
+
+                                                <div class="panel-heading" style="padding-bottom: 0; padding-top: 0; height: 20%; color: white;">
+                                                    Estados
+                                                </div>
+
+
+                                                <select id="selStatusTask" v-model="poll.IdStatusTask" class="form-control input-sm center"
+                                                        asp-items="ViewBag.StatusList"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-sm-6" v-if="poll.IdStatusTask=='c30b7742-9775-4bc1-809b-74509d7dfe8a' || poll.IdStatusTask=='97c9ecf5-4cb3-44f0-8427-72b55a5682ae'">
+                                            <div class="panel panel-info">
+                                                <div class="panel panel-mardis-grey " style="padding: 5px;">
+
+                                                    <div class="panel-heading" style="padding-bottom: 0; padding-top: 0; height: 20%; color: white; width:94%">
+                                                        Código Gemini
+                                                    </div>
+
+                                                    <input class="form-control input-sm center" v-model="poll.CodeGemini" style="margin:none; float: none; background-color: #cccccc;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align: center; padding-top: 10px;">
+                                @*<button class="btn btn-primary" id="btnGuardar" onclick="Save();">Guardar</button>*@
+                                @*<a class="btn btn-default btn-sm" id="btnCancelar" href="@Url.Action("MyTasks", "Task")">Salir</a>*@
+
+
+                                <a href="@Url.Action("TasksPerCampaign", "Campaign")" class="btn btn-default" id="btnCancelar" style="min-width: 100px;">
+                                    <i class="clip-exit"></i> Salir
+                                </a>
+
+                                <a href="#" class="btn btn-primary" id="btnGuardar" onclick="Save();">
+                                    <i class="fa fa-save"></i> Guardar
+                                </a>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

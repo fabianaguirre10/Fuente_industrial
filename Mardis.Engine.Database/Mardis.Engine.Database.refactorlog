@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="0af81c6c-afde-4d59-a1b9-079470295c80" ChangeDateTime="08/30/2017 21:51:46">
+    <Property Name="ElementName" Value="[MardisCore].[Question].[Ely Negrett]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[Question]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="sequence" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ef461279-f71b-4d0e-95e8-8a4419a47970" ChangeDateTime="09/20/2017 13:59:25">
+    <Property Name="ElementName" Value="[dbo].[Sms].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sms]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="208bf6f6-3256-4b13-aff2-aed0b6f5c262" ChangeDateTime="10/10/2017 19:44:35">
+    <Property Name="ElementName" Value="[MardisCore].[Sms].[idCampaign]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[Sms]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="scr" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="decc4930-9091-45cc-b54c-56caefdc0624" ChangeDateTime="10/10/2017 19:44:42">
+    <Property Name="ElementName" Value="[MardisCore].[Sms].[Mensaje]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[Sms]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="status" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dca6e487-b688-4050-9e99-eaec1abbf81e" ChangeDateTime="03/06/2018 14:43:47">
+    <Property Name="ElementName" Value="[MardisCore].[Sms].[idAccount]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[Sms]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IdEquipament" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="33476a3e-83cf-4947-9203-adff231cd3ca" ChangeDateTime="03/06/2018 14:44:00">
+    <Property Name="ElementName" Value="[MardisCore].[Sms].[Mensaje]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[Sms]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NameContainer" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="444eb7c3-243e-455d-b301-157fdab06bcc" ChangeDateTime="03/06/2018 14:44:20">
+    <Property Name="ElementName" Value="[MardisCore].[Sms].[enviados]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[Sms]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NameFile" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b2c92839-41dc-4b43-83e3-1c848401cf88" ChangeDateTime="03/06/2018 14:44:25">
+    <Property Name="ElementName" Value="[MardisCore].[Sms].[fecha]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[Sms]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UrlImage" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fff6af76-f4ba-4e39-a844-4e090790d457" ChangeDateTime="03/06/2018 14:44:36">
+    <Property Name="ElementName" Value="[MardisCore].[Sms].[estado]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[Sms]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IdAccount" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="14f5cc5f-371a-4dc3-9475-83b045b83120" ChangeDateTime="03/06/2018 14:44:38">
+    <Property Name="ElementName" Value="[MardisCore].[Sms].[hora_envio]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[Sms]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ContentType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="84f4a4c4-6c07-400b-8dc9-a89604642680" ChangeDateTime="03/09/2018 20:52:24">
+    <Property Name="ElementName" Value="[MardisCore].[EquipamentImages].[id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[EquipamentImages]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f2891d44-926c-4e81-be2c-36fc945209a8" ChangeDateTime="03/09/2018 20:52:31">
+    <Property Name="ElementName" Value="[MardisCore].[EquipamentImages].[IdEquipament]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[EquipamentImages]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Idequipament" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c558c181-4511-4120-a196-169ec92b89db" ChangeDateTime="03/09/2018 20:52:40">
+    <Property Name="ElementName" Value="[MardisCore].[EquipamentImages].[NameContainer]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[EquipamentImages]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idstatus" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d946f108-13fa-45d5-850d-70be57a3fa10" ChangeDateTime="03/09/2018 20:52:53">
+    <Property Name="ElementName" Value="[MardisCore].[EquipamentImages].[NameFile]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[EquipamentImages]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="aggregateuri" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="996df265-abae-416f-a691-afd9fa18cfb4" ChangeDateTime="03/09/2018 20:53:01">
+    <Property Name="ElementName" Value="[MardisCore].[EquipamentImages].[UrlImage]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[EquipamentImages]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="type" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8129468c-51e6-4abf-b0a7-8c28e1b70fdd" ChangeDateTime="03/09/2018 20:53:28">
+    <Property Name="ElementName" Value="[MardisCore].[EquipamentImages].[ContentType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[MardisCore].[EquipamentImages]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="creationDate" />
+  </Operation>
+</Operations>

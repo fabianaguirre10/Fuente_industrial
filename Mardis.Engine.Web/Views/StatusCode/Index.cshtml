@@ -1,0 +1,78 @@
+﻿@model int
+
+@{
+
+    var statusCode = Model;
+
+    var statusmessage = "";
+
+    switch (statusCode)
+
+    {
+
+        case 400:
+
+            statusmessage = "Bad request: The request cannot be fulfilled due to bad syntax";
+
+            break;
+
+        case 403:
+
+            statusmessage = "Forbidden";
+
+            break;
+
+        case 404:
+
+            statusmessage = "No se ha encontrado la página solicitada";
+
+            break;
+
+        case 408:
+
+            statusmessage = "The server timed out waiting for the request";
+
+            break;
+
+        case 500:
+
+            statusmessage = "Internal Server Error - server was unable to finish processing the request";
+
+            break;
+
+        default:
+
+            statusmessage = "That’s odd... Something we didn't expect happened";
+
+            break;
+
+    }
+
+}
+
+@section buttons{}
+@section filters{}
+<div class="jumbotron" style="text-align: center;">
+
+    <h1>Error @Model</h1>
+
+    <h3>@statusmessage</h3>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <img src="~/images/engine.png" alt="" />
+    <br />
+    <br />
+    <br />
+    <div style="text-align:center; bottom:0;">
+        powered by
+        <a href="http://www.mardis.com">
+            <img alt="Mardis" src="~/images/svg pegado 208793x113_poster_.png" style="height:50px;">
+        </a>
+    </div>
+
+</div>
+@section scripts{}

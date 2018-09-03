@@ -1,0 +1,193 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_LayoutLogin";
+}
+
+<html class="js" style="height:100%">
+<head>
+    <link rel="shortcut icon" href="~/images/M_MARDIS.png" />
+    <!-- start: META -->
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="Responsive Admin Template build with Twitter Bootstrap and jQuery" name="description">
+    <meta content="ClipTheme" name="author">
+    <!-- end: META -->
+    <!-- start: MAIN CSS -->
+    <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700|Raleway:400,100,200,300,500,600,700,800,900/">
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/lib/bootstrap/dist/css/bootstrap.css")" />
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/lib/font-awesome/css/font-awesome.min.css")" />
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/fonts/clip-font.min.css")" />
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/lib/iCheck/skins/all.css")" />
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css")" />
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/lib/sweetalert/dist/sweetalert.css")" />
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/css/main.min.css")" />
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/css/main-responsive.min.css")" />
+    <link type="text/css" rel="stylesheet" media="print" href="@Url.Content("~/css/print.min.css")" />
+    <link type="text/css" rel="stylesheet" id="skin_color" href="@Url.Content("~/css/theme/light.min.css")" />
+    <!-- end: MAIN CSS -->
+    <!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
+    <!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
+    <link href="~/css/login.css" rel="stylesheet" />
+
+</head>
+<body class="login example1 ampliar">
+    <div style="position:absolute;width: 100%; height:100%; min-height:100%;border-top: thin solid #ff0000;" id="dvPrincipal">
+
+        <div style="width: 100%; display: table; height:100%;">
+            <div style="display: table-row">
+
+                <div style="width: 100%; display: table-cell;margin-top:0; vertical-align:top;">
+                    <table id="tabla" style="width:100%;height:100%;margin-top:0;">
+                        <tr>
+                            <td style="padding:0;">
+                                <img src="~/images/imagen-principal-ingreso.png" alt="Imagen Inicio" class="pull-left responsive" style="max-width: 100%;height:100%; width:100%;top:0px;left:0px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="ampliar" style="font-size:17px;color:#ffffff">
+                                    <table style="width:100%;height:100%;background-color:#5c5c5c;">
+                                        <tr>
+                                            <td>
+                                                <div style="margin-left:20px;width:100%;height:60px;">Conectamos soluciones a su estrategia de negocio </div>
+                                            </td>
+                                            <td>
+                                                <input type="button" id="btnContacto" class="btn btn-danger" value="Conoce Más" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+                <!-- start: Panel derecho que contiene Formulario de Inicio de Sesion -->
+                <div class="main-login col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3" id="dvLogIn">
+                    <br /><br />
+                    <div class="logo">
+
+                        <img src="~/images/engine.png" class="" />
+                        <br /><br />
+                    </div>
+
+                    <table>
+                        <tr>
+                            <td>
+                                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-login" role="form">
+                                    <fieldset>
+                                        <div class="form-group" id="divInputEmail">
+                                            <span class="input-icon">
+                                                <input asp-for="Email" class="form-control" name="Email" placeholder="Correo electrónico" />
+                                                <span asp-validation-for="Email" class="text-danger" ></span>
+                                                <i class="fa fa-envelope"></i>
+                                            </span>
+                                        </div>
+                                        <div class="form-group form-actions"  id="divInputPassword">
+                                            <span class="input-icon">
+                                                <input asp-for="Password" class="form-control password" name="Password" placeholder="Contraseña" />
+                                                <span asp-validation-for="Password" class="text-danger"></span>
+                                                <i class="fa fa-lock"></i>
+                                            </span>
+                                        </div>
+
+
+
+                                        <div class="form-group form-actions">
+
+                                            <label for="remember" class="checkbox-inline">
+                                                <input type="checkbox" class="grey remember" id="remember" name="remember">
+                                                Recordar mi contraseña
+                                            </label>
+
+                                            <div style="text-align:center">
+                                                <input type="image" src="~/images/boton_ingresar.png" 
+                                                       alt="Submit"  onclick="return OnClickLogin();"  >
+                                            </div>
+                                            <br />
+                                            <div class="form-group has-error">
+                                                @Html.ValidationSummary(true, "El Usuario o la contraseña no son correctos.", new { @class = "form-control", @id = "inputError", @placeholder = "Enter ...", @style = "color:white; background-color:#dd4b39" })
+                                            </div>
+                                            <br />
+
+                                            @Html.ActionLink("¿Olvidaste tu Usuario?", "Index", "Home")
+                                            <br />
+                                            @Html.ActionLink("¿Olvidaste tu Contraseña?", "Index", "Home")
+
+                                        </div>
+
+                                        <br />
+
+                                        ¿No dispones de una cuenta Engine?
+                                        @Html.ActionLink("Contáctanos ahora", "Index", "Home")
+
+                                    </fieldset>
+                                </form>
+                            </td>
+
+                        </tr>
+                        <tr></tr>
+                        <tr></tr>
+                    </table>
+                    <br /><br /><br />
+                    <div style="text-align:center; bottom:0px;">
+                        powered by
+                        <a href="http://www.mardis.com">
+                            <img border="0" alt="Mardis" src="~/images/svg pegado 208793x113_poster_.png" style="height:50px;">
+                        </a>
+                    </div>
+                </div>
+                <!-- end: Panel derecho que contiene Formulario de Inicio de Sesion -->
+            </div>
+        </div>
+    </div>
+
+    <!--start: angular-->
+    <!--end: angular-->
+    <script type="text/javascript" src="@Url.Content("~/lib/jquery/dist/jquery.min.js")"></script>
+    <!--<![endif]-->
+    <script type="text/javascript" src="@Url.Content("~/lib/jquery-ui/jquery-ui.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/lib/bootstrap/dist/js/bootstrap.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/lib/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/lib/jquery.blockUI/jquery.blockUI.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/lib/iCheck/icheck.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/bower_components/perfect-scrollbar/js/min/perfect-scrollbar.jquery.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/lib/jquery.cookie/jquery.cookie.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/lib/sweetalert/dist/sweetalert.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/js/min/main.min.js")"></script>
+    <!-- end: MAIN JAVASCRIPTS -->
+    <!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+    <script src="@Url.Content("~/lib/jquery-validation/dist/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/js/min/login.min.js")"></script>
+    <script src="@Url.Content("~/js/viewModel/CommonScript.js")"></script>
+    <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+            Login.init();
+        });
+
+        function OnClickLogin() {
+            var returnValue = true;
+
+            var valName = $('input[name=Email]').val();
+            var valPassword = $('input[name=Password]').val();
+
+            if (!isValidField("divInputEmail", valName)) {
+                returnValue = false;
+            }
+
+            if (!isValidField("divInputPassword", valPassword)) {
+                returnValue = false;
+            }
+
+            return returnValue;
+         }
+    </script>
+</body>
+</html>

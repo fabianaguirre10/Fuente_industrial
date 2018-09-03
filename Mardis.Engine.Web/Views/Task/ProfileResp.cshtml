@@ -1,0 +1,776 @@
+﻿@using Mardis.Engine.Web.ViewModel.TaskViewModels
+
+@model MyTaskViewModel
+
+@{
+//ViewData["Title"] = "Tareas";
+//ViewData["Description"] = "Tareas de Usuario";
+
+}
+
+@section buttons{}
+@section filters{}
+
+<link href="~/css/mardis-images.css" rel="stylesheet" />
+<style>
+    .inputeditable {
+    }
+
+    .input-xs {
+        height: 22px;
+        padding: 2px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        -ms-border-radius: 0;
+        border-radius: 0;
+        width: 100%;
+    }
+
+    .inputmardis {
+        height: 22px;
+        padding: 2px 5px;
+        font-size: 10px;
+        line-height: 1.5;
+        -ms-border-radius: 5px;
+        border-radius: 5px;
+        width: 100%;
+        background-color: #cccccc;
+        text-align: center;
+        margin: 0;
+        /*font-weight: bold;*/
+        display: block;
+    }
+
+    * {
+        padding: 0;
+    }
+</style>
+
+<form asp-action="" asp-controller="" method="POST">
+    <div id="divHiddenHeader">
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="Code" type="hidden" />
+        <input asp-for="IdCampaign" type="hidden" />
+        <input asp-for="IdAccount" type="hidden" />
+        <input asp-for="NameCampaign" type="hidden" />
+        <input asp-for="DateCreation" type="hidden" />
+        <input asp-for="StartDate" type="hidden" />
+        <input asp-for="IdBranch" type="hidden" />
+        <input asp-for="BranchName" type="hidden" />
+        <input asp-for="BranchCode" type="hidden" />
+        <input asp-for="BranchLongitude" type="hidden" />
+        <input asp-for="BranchLatitude" type="hidden" />
+        <input asp-for="IdStatusTask" type="hidden" />
+        <input asp-for="NameStatusTask" type="hidden" />
+        <input asp-for="BranchOwnerName" type="hidden" />
+        <input asp-for="BranchCity" type="hidden" />
+        <input asp-for="BranchSector" type="hidden" />
+        <input asp-for="BranchParish" type="hidden" />
+        <input asp-for="BranchNeighborhood" type="hidden" />
+        <input asp-for="BranchDirection" type="hidden" />
+        <input asp-for="BranchReference" type="hidden" />
+        <input asp-for="IdTaskNotImplementedReason" type="hidden" />
+        <input asp-for="IdTaskNotImplemented" type="hidden" />
+        <input asp-for="CommentTaskNotImplemented" type="hidden" />
+        <input asp-for="Description" type="hidden" />
+        <input asp-for="BranchTypeBusiness" type="hidden" />
+        <input asp-for="Route" type="hidden" />
+        <input asp-for="IdCustomer" type="hidden" />
+        <input asp-for="IdMerchant" type="hidden" />
+        <input asp-for="CurrentSection" type="hidden" id="txtCurrentSection" />
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-sm-1">
+                <label class="control-label">
+                    <strong>
+                        Campaña:
+                    </strong>
+                </label>
+            </div>
+            <div class="col-sm-2">
+                <label class="control-label">@Model.NameCampaign</label>
+            </div>
+
+            <div class="col-sm-1">
+                <label class="control-label">
+                    <strong>
+                        Cliente:
+                    </strong>
+                </label>
+            </div>
+            <div class="col-sm-2">
+                <label class="control-label">@Model.NameCustomer</label>
+            </div>
+
+            <div class="col-sm-1">
+                <label class="control-label">
+                    <strong>
+                        Mercaderista:
+                    </strong>
+                </label>
+            </div>
+            <div class="col-sm-2">
+                <label class="control-label">@Model.NameMerchant</label>
+            </div>
+
+            <div class="col-sm-1">
+                <label class="control-label">
+                    <strong>
+                        Fecha:
+                    </strong>
+                </label>
+            </div>
+            <div class="col-sm-2">
+                <label class="control-label">@Model.DateCreation</label>
+            </div>
+        </div>
+
+        <div style="margin-top: 7px;"></div>
+        <hr style="border-color: #CCCCCC; margin-top: 7px;" />
+
+        <div class="row">
+            <div class="col-sm-1 pull-left" style="text-align: center;">
+                <img src="~/images/ISOTIPO_ENGINE.png" class="img-circle" alt="BranchImage" style="width: 50px;" />
+            </div>
+
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 style="margin-top: 0;">
+                            <label class="control-label">@(Model.BranchCode + " - " + Model.BranchName)</label>
+                        </h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="col-sm-2">
+                            <label class="control-label">ESTADO</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <select id="ddlStatusTask" class="form-control input-sm" asp-for="IdStatusTask"
+                                    asp-items="ViewBag.StatusList" onchange="ChangeStatusManual();"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-2 pull-right">
+                <h3 style="margin-top: 0;">
+                    <label class="control-label">@Model.CodeCustomer</label>
+                </h3>
+            </div>
+        </div>
+
+        @{
+            string pending = "";
+            string implemented = "";
+            string notImplemented = "";
+            string started = "";
+
+            switch (Model.NameStatusTask)
+            {
+                case CTask.StatusImplemented:
+                    implemented = "background-color: #2C9B36;";
+                    break;
+                case CTask.StatusNotImplemented:
+                    notImplemented = "background-color: #1091BF;";
+                    break;
+                case CTask.StatusPending:
+                    pending = "background-color: #C40000";
+                    break;
+                case CTask.StatusStarted:
+                    started = "background-color: #E26B00";
+                    break;
+            }
+
+            <div id="wizard" class="swMain">
+                <ul style="margin-bottom: 0;">
+                    <li>
+                        <a href="#">
+                            <div class="stepNumber" style="@pending">
+
+                            </div>
+                            <span class="stepDesc">
+                                Pendiente
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="stepNumber" style="@started">
+
+                            </div>
+                            <span class="stepDesc">
+                                Iniciado
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="stepNumber" style="@implemented">
+
+                            </div>
+                            <span class="stepDesc">
+                                Implementado
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="stepNumber" style="@notImplemented">
+
+                            </div>
+                            <span class="stepDesc">
+                                No Implementado
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        }
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="text-align: center;">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#pnlBranchData">DATOS DEL LOCAL</a>
+                    </h4>
+                </div>
+                <div id="pnlBranchData" class="panel-collapse collapse">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <strong class="col-sm-2">Nombre de Local:</strong>
+                            <div class="col-sm-2">
+                                <a class="inputeditable" href="#" id="BranchName">@Model.BranchName</a>
+                                <input type="text" asp-for="BranchName" id="txtBranchName" class="control-label hidden" />
+                            </div>
+                            <strong class="col-sm-2">Dirección:</strong>
+                            <div class="col-sm-2">
+                                <a class="inputeditable" href="#" id="BranchDirection">@Model.BranchDirection</a>
+                                <input type="text" asp-for="BranchDirection" id="txtBranchDirection" class="control-label hidden" />
+                            </div>
+                            <strong class="col-sm-2">Rótulo:</strong>
+                            <div class="col-sm-2">
+                                <a class="inputeditable" href="#" id="BranchLabel">@Model.BranchLabel</a>
+                                <input type="text" asp-for="BranchLabel" id="txtBranchLabel" class="control-label hidden" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <strong class="col-sm-2">Referencia:</strong>
+                            <div class="col-sm-2">
+                                <a class="inputeditable" href="#" id="BranchReference">@Model.BranchReference</a>
+                                <input type="text" asp-for="BranchReference" id="txtBranchReference" class="control-label hidden" />
+                            </div>
+                            <strong class="col-sm-2">Provincia:</strong>
+                            <div class="col-sm-2">
+                                <a class="inputeditable" href="#" id="BranchProvince">@Model.BranchProvince</a>
+                                <input type="text" asp-for="BranchProvince" id="txtBranchProvince" class="control-label hidden" />
+                            </div>
+                            <strong class="col-sm-2">Ciudad:</strong>
+                            <div class="col-sm-2">
+                                <a class="inputeditable" href="#" id="BranchCity">@Model.BranchCity</a>
+                                <input type="text" asp-for="BranchCity" id="txtBranchCity" class="control-label hidden" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <strong class="col-sm-2">Parroquia:</strong>
+                            <div class="col-sm-2">
+                                <a class="inputeditable" href="#" id="BranchParish">@Model.BranchParish</a>
+                                <input type="text" asp-for="BranchParish" id="txtBranchParish" class="control-label hidden" />
+                            </div>
+                            <strong class="col-sm-2">Barrio:</strong>
+                            <div class="col-sm-2">
+                                <a class="inputeditable" href="#" id="BranchNeighborhood">@Model.BranchNeighborhood</a>
+                                <input type="text" asp-for="BranchNeighborhood" id="txtBranchNeighborhood" class="control-label hidden" />
+                            </div>
+                            <strong class="col-sm-2">Propietario:</strong>
+                            <div class="col-sm-2">
+                                <a class="inputeditable" href="#" id="BranchOwnerName">@Model.BranchOwnerName</a>
+                                <input type="text" asp-for="BranchOwnerName" id="txtBranchOwnerName" class="control-label hidden" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <strong class="col-sm-2">Cédula/Ruc:</strong>
+                            <div class="col-sm-2">
+                                <a class="inputeditable" href="#" id="BranchOwnerDocument">@Model.BranchOwnerDocument</a>
+                                <input type="text" asp-for="BranchOwnerDocument" id="txtBranchOwnerDocument" class="control-label hidden" />
+                            </div>
+                            <strong class="col-sm-2">Teléfono:</strong>
+                            <div class="col-sm-2">
+                                <a class="inputeditable" href="#" id="BranchOwnerPhone">@Model.BranchOwnerPhone</a>
+                                <input type="text" asp-for="BranchOwnerPhone" id="txtBranchOwnerPhone" class="control-label hidden" />
+                            </div>
+                            <strong class="col-sm-2">Celular:</strong>
+                            <div class="col-sm-2">
+                                <a class="inputeditable" href="#" id="BranchOwnerMobile">@Model.BranchOwnerMobile</a>
+                                <input type="text" asp-for="BranchOwnerMobile" id="txtBranchOwnerMobile" class="control-label hidden" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div style="margin-top: 7px;"></div>
+
+        @for (var i = 0; i < Model.ServiceCollection.Count; i++)
+        {
+            <div id="divHiddenService">
+                <input type="hidden" asp-for="@Model.ServiceCollection[i].Id" />
+                <input type="hidden" asp-for="@Model.ServiceCollection[i].Name" />
+                <input type="hidden" asp-for="@Model.ServiceCollection[i].Code" />
+            </div>
+
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="text-align: center;">
+                        <div class="panel-title">
+                            <a data-toggle="collapse" href="@("#pnlService" + Model.ServiceCollection[i].Code)"><strong>@Model.ServiceCollection[i].Name</strong></a>
+                        </div>
+                    </div>
+
+                    <div id="@("pnlService" + Model.ServiceCollection[i].Code)" class="panel-collapse collapse in">
+                        <div class="panel-body">
+
+                            <div class="row">
+
+                                <div class="col-sm-8">
+
+                                    <div class="panel panel-default" id="divImages">
+                                        <div class="panel-heading">
+                                            Multimedia
+                                        </div>
+                                        <div class="panel-body" style="height: 700px; overflow-y: scroll">
+
+                                            <div class="row">
+                                                @{
+                                                    for (int x = 0; x < Model.BranchImages.Count; x++)
+                                                    {
+                                                        <div class="col-sm-4 center" style="margin-bottom: 10px;">
+                                                            @if (@Model.BranchImages[x].NameFile.Contains("vid"))
+                                                            {
+                                                                <video style="width: 100%; border-radius: 5px;" onclick="openModal();currentSlide(x + 1);" class="hover-shadow cursor" controls>
+                                                                    <source src="@Model.BranchImages[x].UrlImage" type="video/mp4">
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="@Model.BranchImages[x].UrlImage" style="width: 100%; border-radius: 5px;" onclick="openModal();currentSlide(x + 1);" class="hover-shadow cursor">
+                                                            }
+                                                            <p>@Model.BranchImages[x].NameFile</p>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+
+                                            <div id="myModal" class="modalmardis">
+                                                <span class="close cursor" onclick="closeModal()">&times;</span>
+                                                <div class="modal-content">
+
+                                                    @for (int x = 0; x < Model.BranchImages.Count; x++)
+                                                    {
+                                                        var currentIndex = x + 1;
+                                                        <div class="mySlides">
+                                                            <div class="numbertext">@("" + currentIndex + " / " + Model.BranchImages.Count)</div>
+
+                                                            @if (Model.BranchImages[x].NameFile.ToLower().Contains("vid") || Model.BranchImages[x].NameFile.ToLower().Contains(".mp4") || Model.BranchImages[x].NameFile.ToLower().Contains(".3gp"))
+                                                            {
+                                                                <video style="width: 100%; border-radius: 5px;" onclick="openModal();currentSlide(x + 1);" class="hover-shadow cursor" controls>
+                                                                    <source src="@Model.BranchImages[x].UrlImage" type="video/mp4">
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="@Model.BranchImages[x].UrlImage" style="width: 100%">
+                                                            }
+                                                        </div>
+                                                    }
+
+                                                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                                                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+                                                    <div class="caption-container">
+                                                        <p id="caption"></p>
+                                                    </div>
+
+                                                    @for (int x = 0; x < Model.BranchImages.Count; x++)
+                                                    {
+                                                        <div class="column">
+                                                            @if (Model.BranchImages[x].NameFile.Contains("vid"))
+                                                            {
+                                                                <video style="width: 100%; border-radius: 5px;" onclick="openModal();currentSlide(x + 1);" class="hover-shadow cursor" controls>
+                                                                    <source src="@Model.BranchImages[x].UrlImage" type="video/mp4">
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            }
+                                                            else
+                                                            {
+                                                                <img class="demo cursor" src="@Model.BranchImages[x].UrlImage" style="width: 100%" onclick="currentSlide(@(x + 1))" alt="@(@Model.BranchImages[x].NameFile)">
+                                                            }
+
+                                                        </div>
+                                                    }
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+
+                                    @for (var j = 0; j < Model.ServiceCollection[i].ServiceDetailCollection.Count; j++)
+                                    {
+                                        <div id="divHiddenSection">
+                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Id" />
+                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Order" />
+                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Weight" />
+                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].SectionTitle" />
+                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].IsDynamic" />
+                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].HasPhoto" />
+                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].NumberOfCopies" />
+                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].CopyNumber" />
+                                        </div>
+
+                                        <div style="margin-top: 7px;"></div>
+
+                                        <div class="panel panel-warning">
+                                            <div class="panel-heading center" href="@("#panel_" + Model.ServiceCollection[i].ServiceDetailCollection[j].Id)" data-toggle="collapse">
+                                                @Model.ServiceCollection[i].ServiceDetailCollection[j].SectionTitle
+                                            </div>
+
+                                            <div id="@("panel_" + Model.ServiceCollection[i].ServiceDetailCollection[j].Id)" class="panel panel-default collapse in">
+
+                                                <div class="panel-body" style="padding: 5px;">
+
+                                                    @for (var k = 0; k < Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection.Count; k++)
+                                                    {
+                                                        <div id="divHiddenQuestion">
+                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].Id" />
+                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].Title" />
+                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].Order" />
+                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].Weight" />
+                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].IdTypePoll" />
+                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].CodeTypePoll" />
+                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].HasPhoto" />
+                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].CopyNumber" />
+                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].IdAnswer" />
+                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].AnswerRequired" />
+                                                        </div>
+
+                                                        if (Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].CodeTypePoll == CTypePoll.Many ||
+                                                            Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].CodeTypePoll == CTypePoll.Open ||
+                                                            Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].CodeTypePoll == CTypePoll.One)
+                                                        {
+                                                            <div class="panel panel-mardis-grey" style="margin-bottom: 5px;">
+                                                                <div class="panel-heading" style="padding-bottom: 0; padding-top: 0; height: 10%; color: white;">
+                                                                    <span class="badge">@(Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].Order + 1)</span>
+                                                                    @(Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].Title)
+                                                                </div>
+                                                                <div class="panel-body" style="padding-bottom: 5px; padding-top: 5px;">
+                                                                    @switch (Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].CodeTypePoll)
+                                                                    {
+                                                                        case CTypePoll.Open:
+                                                                            <input class="form-control inputmardis" style="margin: 0 auto; float: none;background-color: #cccccc;"
+                                                                                   asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].Answer" />
+                                                                            break;
+
+                                                                        case CTypePoll.One:
+                                                                            <select class="inputmardis" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].IdQuestionDetail"
+                                                                                    style="margin: 0 auto; float: none;">
+
+                                                                                <option value="00000000-0000-0000-0000-000000000000">--Seleccionar--</option>
+                                                                                @for (int l = 0; l < Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].QuestionDetailCollection.Count; l++)
+                                                                                {
+                                                                                    <option value="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].QuestionDetailCollection[l].Id">
+                                                                                        @Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].QuestionDetailCollection[l].Answer
+                                                                                    </option>
+                                                                                }
+                                                                            </select>
+                                                                            break;
+                                                                        case CTypePoll.Image:
+                                                                            <img src="@Model.ServiceCollection[i].ServiceDetailCollection[j].QuestionCollection[k].Answer" width="100%" />
+                                                                            break;
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        }
+
+
+                                                    }
+
+                                                    @if (Model.ServiceCollection[i].ServiceDetailCollection[j].Sections != null && Model.ServiceCollection[i].ServiceDetailCollection[j].Sections.Count > 0)
+                                                    {
+
+                                                        var groupName = string.Empty;
+                                                        var widthColumn = Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[0].QuestionCollection.Count >= 10 ? 1 : 10 / Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[0].QuestionCollection.Count;
+                                                        var widthLabel = 2;
+                                                        var inline = true;
+
+                                                        switch (Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[0].QuestionCollection.Count)
+                                                        {
+                                                            case 1:
+                                                                widthColumn = 6;
+                                                                widthLabel = 6;
+                                                                break;
+                                                            case 2:
+                                                                widthColumn = 4;
+                                                                widthLabel = 4;
+                                                                break;
+                                                            case 3:
+                                                                widthColumn = 3;
+                                                                widthLabel = 3;
+                                                                break;
+                                                        }
+
+                                                        if (Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[0].QuestionCollection.Count > 5)
+                                                        {
+                                                            inline = false;
+                                                        }
+
+                                                        <div style="margin-top: 7px;"></div>
+
+                                                        if (inline)
+                                                        {
+                                                            <div class="row">
+                                                                <div class="col-sm-@widthLabel"></div>
+                                                                @foreach (var col in Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[0].QuestionCollection)
+                                                                {
+                                                                    <div class="col-sm-@widthColumn center" style="padding-left: 1px; font-size: 10px">
+                                                                        @col.Title
+                                                                    </div>
+                                                                }
+                                                            </div>
+
+                                                            for (int a = 0; a < Model.ServiceCollection[i].ServiceDetailCollection[j].Sections.Count; a++)
+                                                            {
+                                                                <div id="divHiddenSection2">
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].Id" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].Order" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].Weight" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].SectionTitle" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].IsDynamic" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].HasPhoto" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].NumberOfCopies" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].CopyNumber" />
+                                                                </div>
+
+
+
+                                                                if (Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].GroupName != groupName)
+                                                                {
+                                                                    groupName = Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].GroupName;
+                                                                    <h6><strong>@groupName</strong></h6>
+                                                                }
+
+                                                                <div class="row">
+
+                                                                    <label class="col-sm-@widthLabel" style="font-size: 10px;">@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].SectionTitle</label>
+
+                                                                    @for (var k = 0; k < Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection.Count; k++)
+                                                                    {
+                                                                        <div id="divHiddenQuestion2">
+                                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Id" />
+                                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Title" />
+                                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Order" />
+                                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Weight" />
+                                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].IdTypePoll" />
+                                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].CodeTypePoll" />
+                                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].HasPhoto" />
+                                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].CopyNumber" />
+                                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].IdAnswer" />
+                                                                            <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].AnswerRequired" />
+                                                                        </div>
+
+                                                                        <div class="col-sm-@widthColumn" style="padding-left: 5px; padding-right: 0;">
+
+                                                                            @switch (Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].CodeTypePoll)
+                                                                            {
+                                                                                case CTypePoll.Open:
+                                                                                    <input class="inputmardis" style="background-color: #cccccc;"
+                                                                                           asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Answer" />
+                                                                                    break;
+
+                                                                                case CTypePoll.One:
+                                                                                    <select class="inputmardis" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].IdQuestionDetail">
+
+                                                                                        <option value="00000000-0000-0000-0000-000000000000">--Seleccionar--</option>
+                                                                                        @for (int l = 0; l < Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].QuestionDetailCollection.Count; l++)
+                                                                                        {
+                                                                                            <option value="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].QuestionDetailCollection[l].Id">
+                                                                                                @Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].QuestionDetailCollection[l].Answer
+                                                                                            </option>
+                                                                                        }
+                                                                                    </select>
+                                                                                    break;
+                                                                            }
+                                                                        </div>
+
+
+                                                                    }
+                                                                </div>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            for (int a = 0; a < Model.ServiceCollection[i].ServiceDetailCollection[j].Sections.Count; a++)
+                                                            {
+                                                                <div id="divHiddenSection2">
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].Id" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].Order" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].Weight" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].SectionTitle" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].IsDynamic" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].HasPhoto" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].NumberOfCopies" />
+                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].CopyNumber" />
+                                                                </div>
+
+                                                                <div class="panel panel-info">
+                                                                    <div class="panel-heading center" href="@("#panel_" + Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].Id)" data-toggle="collapse">
+                                                                        @Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].SectionTitle
+                                                                    </div>
+                                                                    <div id="@("panel_" + Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].Id)" class="panel panel-default collapse in">
+
+                                                                        <div class="panel-body" style="padding: 5px;">
+
+                                                                            @for (var k = 0; k < Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection.Count; k++)
+                                                                            {
+                                                                                <div id="divHiddenQuestion">
+                                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Id" />
+                                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Title" />
+                                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Order" />
+                                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Weight" />
+                                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].IdTypePoll" />
+                                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].CodeTypePoll" />
+                                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].HasPhoto" />
+                                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].CopyNumber" />
+                                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].IdAnswer" />
+                                                                                    <input type="hidden" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].AnswerRequired" />
+                                                                                </div>
+
+                                                                                if (Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].CodeTypePoll == CTypePoll.Many ||
+                                                                                    Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].CodeTypePoll == CTypePoll.Open ||
+                                                                                    Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].CodeTypePoll == CTypePoll.One)
+                                                                                {
+                                                                                    <div class="panel panel-mardis-grey" style="margin-bottom: 5px;">
+                                                                                        <div class="panel-heading" style="padding-bottom: 0; padding-top: 0; height: 10%; color: white;">
+                                                                                            <span class="badge">@(Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Order + 1)</span>
+                                                                                            @(Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Title)
+                                                                                        </div>
+                                                                                        <div class="panel-body" style="padding-bottom: 5px; padding-top: 5px;">
+                                                                                            @switch (Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].CodeTypePoll)
+                                                                                            {
+                                                                                                case CTypePoll.Open:
+                                                                                                    <input class="form-control inputmardis" style="margin: 0 auto; float: none; background-color: #cccccc;"
+                                                                                                           asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Answer" />
+                                                                                                    break;
+
+                                                                                                case CTypePoll.One:
+                                                                                                    <select class="inputmardis" asp-for="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].IdQuestionDetail"
+                                                                                                            style="margin: 0 auto; float: none;">
+
+                                                                                                        <option value="00000000-0000-0000-0000-000000000000">--Seleccionar--</option>
+                                                                                                        @for (int l = 0; l < Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].QuestionDetailCollection.Count; l++)
+                                                                                                        {
+                                                                                                            <option value="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].QuestionDetailCollection[l].Id">
+                                                                                                                @Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].QuestionDetailCollection[l].Answer
+                                                                                                            </option>
+                                                                                                        }
+                                                                                                    </select>
+                                                                                                    break;
+                                                                                                case CTypePoll.Image:
+                                                                                                    <img src="@Model.ServiceCollection[i].ServiceDetailCollection[j].Sections[a].QuestionCollection[k].Answer" width="100%" />
+                                                                                                    break;
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                }
+
+
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            }
+
+                                                        }
+
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    }
+
+                                    <div style="margin-top: 7px;"></div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12" style="text-align: center">
+                                            <button class="btn btn-primary" id="btnGuardar" type="submit" formaction="Profile">Guardar</button>
+                                            <a class="btn btn-default btn-sm" id="btnCancelar" href="@Url.Action("MyTasks", "Task")">Salir</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                                                    }
+
+        <div style="margin-top: 7px;"></div>
+        <input asp-for="IdTaskNotImplemented" class="hidden" />
+
+        @Html.Partial("StatusChangePartial")
+
+    </div>
+</form>
+
+@section scripts{
+    <script src="~/js/mardis-images.js"></script>
+    <script src="~/js/Helpers/TaskHelper.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('.inputeditable').editable({
+                success: function (response, newValue) {
+                    debugger;
+                    var elm = "#txt" + this.id;
+                    $(elm).val(newValue);
+                }
+            });
+        });
+
+        $.fn.editable.defaults.mode = 'inline';
+
+        $("#divImages").sticky({ topSpacing: 50 });
+
+        function ChangeStatusManual() {
+            var selectedStatus = $("#ddlStatusTask>option:selected").html();
+            if ("@CTask.StatusNotImplemented" !== selectedStatus) {
+                bootbox.alert("No puede cambiar el estado de la tarea!");
+                $("#ddlStatusTask").val("@Model.IdTaskNotImplemented");
+            } else {
+                $("#divChangeStatus").modal();
+            }
+        }
+
+        filters = "@ViewData["currentFilter"]";
+
+    </script>
+}

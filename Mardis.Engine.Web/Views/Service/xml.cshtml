@@ -1,0 +1,165 @@
+@{
+    ViewData["Title"] = "Registro de Local";
+
+}
+
+@section buttons{
+
+}
+@section filters{}
+
+<div id="divRegisterTask">
+    <style type="text/css">
+        #mlogging {
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.7);
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            animation: modal 2s 3s forwards;
+            visibility: hidden;
+            opacity: 1;
+        }
+
+        .contenido {
+            margin: auto;
+            width: 40%;
+            height: 80%;
+            text-align: center;
+            border-radius: 10px;
+        }
+    </style>
+    <form asp-action="Massive"  data-ajax="true" enctype="multipart/form-data" method="post" data-ajax-success="onSuccess" , id="formBacklink">
+        <div class="row" style="margin-left: 5%">
+            <h1> Carga de Formulario</h1>
+        </div>
+        <div class="mardisStyle">
+            <div id="divHeader">
+                <p class="text-gray-m">
+                    Busca un archivo para importar
+                </p>
+                <p class="text-black-m">
+                    (Para que coincida con el engine recuerde que el archivo debe poseer las columnas apropidas )
+                </p>
+                <div class="tab-content clearfix">
+
+
+                    <div class="form-group">
+                        <div class="col-sm-12  text-form">
+                            @ViewBag.error
+                        </div>
+                        <div class="col-sm-4 text-form">
+                            <input class="filestyle" type="file" name="fileBranch" id="btnFile" />
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <hr style="border-color: #CCCCCC; margin-top: 7px;" />
+            <div style="margin-top: 14px;"></div>
+
+            <div style="text-align: center">
+                <button class="btn btn-primary" id="btnGuardar" type="submit">Subir</button>
+                <button onclick="history.back();" class="btn btn-default btn-sm" id="btnCancelar">Salir</button>
+            </div>
+        </div>
+    </form>
+
+
+</div>
+
+
+@section Scripts {
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/Helpers/TaskHelper.js"></script>
+    <script>
+
+        $("#btnFile").fileinput({
+            uploadUrl: '/file-upload-batch/4',
+            maxFilePreviewSize: 10240,
+
+            maxFileCount: 1,
+            showCaption: false,
+            browseLabel: 'Importar Archivo Excel...',
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            showRemove: false,
+            showUpload: false, // <------ just set this from true to false
+            showCancel: true,
+            showUploadedThumbs: true,
+            language: 'es',
+            previewFileIconSettings: {
+                'xls': '<i class="fa fa-file-excel-o text-success"></i>',
+                'xlsx': '<i class="fa fa-file-excel-o text-success"></i>'
+
+            },
+            allowedFileExtensions: ['xlsx', 'xls'],
+        });
+        function OnSuccess(p1, p2) {
+            $.blockUI({ message: 'Cargando Formulario..' });
+            $.ajax({
+                type: "POST",
+                url: p1,
+                data: p2,
+                dataType: "json",
+                contentType: contentType,
+                processData: processData,
+                success: function (data) {
+                    $.unblockUI();
+                  
+                    $('#btnFile').val("");
+                    if (data == '0') {
+                        bootbox.alert("Existio un error en la generación del formulario. Verifique las columnas y vuelva a cargarlo")
+                        return
+                    }
+                 
+                    if (data == '1') {
+                        bootbox.alert("<p>El formulario fue cargado correctamente.</p>")
+
+                        return
+                    }
+                    if (data == '3') {
+                        bootbox.alert("<p>El arvhivo no pudo ser cargado actualice la pagina y vuelva a intentarlo.</p>")
+
+                        return
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $.unblockUI();
+                    $('#btnFile').val("");
+                    bootbox.alert("Existio un error vuelva intentar cargando archivo, vuelva a cargarlo")
+                }
+            });
+        };
+        window.addEventListener("submit", function (e) {
+            if ($('#formBacklink').valid()) {
+                var form = e.target;
+                if (form.getAttribute("enctype") === "multipart/form-data") {
+                    if (form.dataset.ajax) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+
+                        var dataString;
+                        event.preventDefault();
+                        var action = $("#formBacklink").attr("action");
+                        if ($("#formBacklink").attr("enctype") == "multipart/form-data") {
+
+                            dataString = new FormData($("#formBacklink").get(0));
+                            contentType = false;
+                            processData = false;
+
+                            OnSuccess(action, dataString)
+                        } else {
+                            alert("Ingrese el archivo  que desea validar")
+                        }
+
+                    }
+                }
+            }
+        }, true);
+
+    </script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

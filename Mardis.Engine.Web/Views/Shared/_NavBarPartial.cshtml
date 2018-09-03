@@ -1,0 +1,42 @@
+﻿@inject Mardis.Engine.Web.Services.IMenuService MenuService
+
+@foreach (var menuTemp in MenuService.GetMenuList())
+{
+    if (!string.IsNullOrEmpty(menuTemp.UrlMenu) || menuTemp.MenuChildrens.Any())
+    {
+        <li class="treeview">
+            @if (!string.IsNullOrEmpty(menuTemp.UrlMenu))
+            {
+                <a href="@Url.Action(menuTemp.UrlMenu.Split('/')[2], menuTemp.UrlMenu.Split('/')[1])">
+                    <i class="@menuTemp.Icon"></i>
+                    <span class="title"> @menuTemp.Name </span>
+                    @if (0 < menuTemp.MenuChildrens.Count)
+                    {
+                        <i class="icon-arrow"></i>
+                    }
+                </a>
+            }
+            else
+            {
+                <a href="#">
+                    <i class="@menuTemp.Icon"></i>
+                    <span class="title"> @menuTemp.Name </span>
+                </a>
+            }
+            @if (0 < menuTemp.MenuChildrens.Count)
+            {
+                <ul class="treeview-menu">
+                    @foreach (var menuChildrenTemp in menuTemp.MenuChildrens)
+                    {
+                        <li style="padding-left: 10px;">
+                            <a href="@menuChildrenTemp.UrlMenu">
+                                <i class="@menuChildrenTemp.Icon"></i>
+                                <span class="title"> @menuChildrenTemp.Name </span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+        </li>
+    }
+}

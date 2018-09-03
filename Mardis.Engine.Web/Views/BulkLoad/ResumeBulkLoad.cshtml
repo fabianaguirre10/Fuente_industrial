@@ -1,0 +1,138 @@
+﻿@using Mardis.Engine.Framework.Resources
+@{
+    ViewData["Menu"] = "Cargas Masivas";
+    ViewData["Title"] = "Cargas Masivas";
+    ViewData["Description"] = "Proceso de Archivo";
+    Layout = "_Layout";
+
+    string nameFile = (string)ViewData[CBulkLoad.CFileName];
+    string idBulkCatalog = (string)ViewData[CBulkLoad.SelectCatalog];
+}
+
+@section buttons{
+
+}
+@section filters{
+
+}
+
+<link rel="stylesheet" href="~/lib/Slidebars/dist/slidebars.css">
+<link rel="stylesheet" href="~/css/theme/StyleFilter.css">
+<link rel="stylesheet" href="~/lib/dropzone/dist/dropzone.css" />
+
+<div id="divMainResumeBulk">
+    <input type="hidden" id="idProcess" value="" />
+    <input type="hidden" id="idBulkCatalog" value="@idBulkCatalog" />
+    <input type="hidden" id="nameFile" value="@nameFile" />
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>
+                        <b>Nombre Archivo:</b>
+                        <br />
+                        @nameFile
+                    </p>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-12">
+                    <label class="radio-inline">
+                        <input type="radio" value="A" name="optionsRadios" class="grey" checked="checked">
+                        Actualizar y Adicionar
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <label class="radio-inline">
+                        <input type="radio" value="C" name="optionsRadios" class="grey">
+                        Conservar antiguos y Adicionar
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-primary" id="btnApplyProcess" onclick="InitProcess()" >Aplicar</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-4">
+                    Estado:
+                </div>
+                <div class="col-sm-8">
+                    <label id="idStatusProcess"></label>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                               <td>
+                                 Archivos Total Nuevos
+                               </td>
+                                <td>
+                                 <label id="idTotalAdd">0</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Archivos Total Actualizados
+                                </td>
+                                <td>
+                                    <label id="idTotalUpdate">0</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Archivos Total Fallados
+                                </td>
+                                <td>
+                                    <label id="idTotalDelete">0</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    Total de Registro:   <label id="idCurrentTotal"></label> / <label id="idTotalRegister" ></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <hr/>
+    <div class="row">
+        <div class="col-sm-12" style="text-align:center">
+            <button class="btn btn-primary" id="btnExitProcess" onclick="IndexBulkLoad()">Salir</button>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/dropzone/dist/dropzone.js"></script>
+    <script src="~/js/viewModel/CommonScript.js"></script>
+    <script src="~/lib/Slidebars/dist/slidebars.js"></script>
+    <script src="~/js/viewModel/BulkLoadViewModel.js"></script>
+    <script>
+        var modelView = new MainBulkLoadViewModel();
+        var divMain = "divMainResumeBulk";
+
+      
+    </script>
+}

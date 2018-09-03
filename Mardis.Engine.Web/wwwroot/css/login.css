@@ -1,0 +1,23 @@
+﻿.ampliar{
+    width:100%;
+    height:100%;
+}
+
+#tabla td {
+   padding:0; margin:0;
+}
+
+#tabla {
+   border-collapse: collapse;
+   border:none;
+}
+
+#dvLogIn{ 
+    background-color: #ffffff;
+    margin-top:0;
+    margin-left:0;
+    width:100%; 
+    padding-left:80px;
+    padding-right:80px;
+    height:100%;
+}

@@ -1,0 +1,65 @@
+﻿@model CampaignBranchesImportedViewModel
+
+@{
+    ViewData["Title"] = "Selección de Locales";
+}
+
+@section buttons{}
+@section filters{
+    @Html.Partial("_CoreFilterPartial", Model.Properties)
+}
+
+<div class="row">
+    <div class="col-sm-8">
+        <h4>@("RESULTADO LOCALES (" + Model.CountBranchesResult + ")")</h4>
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        @for (int i = 0; i < Model.Results.GetLength(1); i++)
+                        {
+                            <th>Model.Results[0,i]</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 1; i < Model.Results.GetLength(0); i++)
+                    {
+                        <tr>
+                            for (int j = 0; j < Model.Results.GetLength(1); j++)
+                            {
+                            <td>Model.Results[i,j]</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <h4>LOCALES SELECCIONADOS</h4>
+        <hr />
+        <h5>TOTAL</h5>
+        <hr />
+    </div>
+</div>
+
+<div class="center">
+    <a class="btn btn-primary" href="@Url.Action("SelectBranches","Campaign")">Aplicar Filtros</a>
+</div>
+
+@section scripts{
+    <script src="~/js/viewModel/FilterHelper.js"></script>
+    <script>
+        window.controllerName = "@Model.Properties.ControllerName";
+        window.actionName = "@Model.Properties.ActionName";
+        var filters = [];
+
+        @foreach (var filter in Model.Properties.FilterValues)
+        {
+            @:var point = { 'IdFilter': "@filter.IdFilter", 'NameFilter': "@filter.NameFilter", 'Criteria': "@filter.Criteria", 'Value': "@filter.Value", 'Visible': '@filter.Visible' };
+                    @:filters.push(point);
+                }
+    </script>
+}

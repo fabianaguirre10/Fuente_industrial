@@ -1,0 +1,144 @@
+﻿@model Mardis.Engine.Web.ViewModel.EquipmentViewModels.EquipmentListViewModel
+
+@{ ViewData["Menu"] = "Equipos";
+    ViewData["Title"] = "Equipos";
+    ViewData["Description"] = "Gestión de Equipos";
+    Layout = "_Layout";
+}
+
+@section buttons{
+    <div class="row">
+        <div class="col-sm-2 pull-right">
+        </div>
+
+        <div class="col-sm-2 pull-right">
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+                    <i class="clip-list-5"></i>
+                    Opciones
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="@Url.Action("Register","Equipment")">
+                            <i class="clip-plus-circle-2"></i> Nuevo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btnDelete" onclick="DeleteSelection();">
+                            <i class="glyphicon glyphicon-qrcode"></i> QR
+                        </a>
+                    </li>
+                    @*<li>
+                            <a href="#" id="btnLocalization">
+                                <i class="clip-location"></i> Vista Georeferenciada
+                            </a>
+                        </li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+@section filters{
+    @Html.Partial("_CoreFilterPartial", Model.Properties)
+}
+
+<div id="divMainBranch">
+    <div class="mardis_profile">
+        <div class="table-responsive">
+            <table id="table-mardis" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Cod. Mardis</th>
+                        <th>Estado</th>
+                        <th>Sticker</th>
+                        <th>Placa</th>
+                        <th>Serie</th>
+                        <th>Brandeo</th>
+                        <th>Modelo</th>
+                        <th>#Puertas</th>
+                        <th>Fabricante</th>
+                        <th>Guia</th>
+                        <th>Fecha</th>
+                        <th>Local</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int reg = 0;}
+                    @foreach (var item in Model.EquipmentList)
+                    {
+                        reg++;
+                    <tr>
+                        
+                        <td>@reg </td>
+
+                        @*<td>
+
+            <input id="@item.Id" onchange="SelectItem(this);" type="checkbox" value="@item.Id" />
+        </td>*@
+                        <td>@item.Id</td>
+                        <td>@item.Equipament_statuss.Description</td>
+                        <td>@item.Sticker </td>
+                        <td>@item.EQplate </td>
+                        <td>@item.Series</td>
+                        <td>@item.brand</td>
+                        <td>@item.Model</td>
+                        <td>@item.NDoor</td>
+
+                        <td>@item.maker</td>
+                        <td>@item.guide</td>
+                        <td>@item.CreationDate</td>
+                        @if (item.Branches != null)
+    {
+                    <td><a href="@Url.Action("Profile", "Branch", new {idBranch = item.Id})">@item.Branches.Name </a></td>
+}
+else
+{
+                    <td>No asignado</td>}
+
+                        @*<td>
+            <a href="@Url.Action("Delete", "Equipment", new {idEQ = item.Id})">
+                <span class="glyphicon glyphicon-trash"></span>
+            </a>
+        </td>*@
+                        <td>
+                            <a href="@Url.Action("Register", "Equipment", new {idEQ = item.Id})">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                        </td>
+
+                        <td>
+                            <a href="@Url.Action("ViewEquipment", "Equipment", new {idEQ = item.Id})">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                        </td>
+                    </tr>
+}
+                    </tbody>
+                </table>
+        </div>
+
+        @Html.Partial("_PagingPartial", Model)
+
+    </div>
+
+</div>
+@section scripts{
+    <script src="~/js/viewModel/MapHelper.js"></script>
+    <script src="~/js/viewModel/FilterHelper.js"></script>
+    <script src="~/js/viewModel/BranchHelper.js"></script>
+    <script>
+        window.controllerName = "@Model.Properties.ControllerName";
+        window.actionName = "@Model.Properties.ActionName";
+        var filters = [];
+
+        @foreach (var filter in Model.Properties.FilterValues)
+        {
+            @:var point = { 'IdFilter': "@filter.IdFilter", 'NameFilter': "@filter.NameFilter", 'Criteria': "@filter.Criteria", 'Value': "@filter.Value", 'Visible':'@filter.Visible' };
+            @:filters.push(point);
+        }
+    </script>
+}

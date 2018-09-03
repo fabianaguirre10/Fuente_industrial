@@ -1,0 +1,11 @@
+﻿CREATE TABLE [MardisCommon].[CoreFilterDetail]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [IdCoreFilter] UNIQUEIDENTIFIER NOT NULL,
+	[Name] VARCHAR(50) NOT NULL, 
+    [Table] VARCHAR(50) NULL, 
+    [Property] VARCHAR(50) NOT NULL, 
+    [Visible] BIT NOT NULL DEFAULT 0, 
+    [ManyToMany] BIT NOT NULL DEFAULT 0, 
+    CONSTRAINT FK_COREFILTER FOREIGN KEY (IdCoreFilter) REFERENCES MardisCommon.CoreFilter(Id)
+)

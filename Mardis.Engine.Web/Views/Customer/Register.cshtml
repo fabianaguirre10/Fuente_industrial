@@ -1,0 +1,269 @@
+﻿@model CustomerRegisterViewModel
+@{
+    ViewData["Menu"] = "Clientes";
+    ViewData["Title"] = "Gestión de Clientes";
+    ViewData["Description"] = "Agregar/Editar Clientes";
+    Layout = "_Layout";
+}
+
+@section buttons{
+
+}
+@section filters{}
+
+<form asp-controller="Customer" asp-action="Register" method="POST" class="form-horizontal">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Code" />
+
+    <div id="divRegisterClient">
+        <div id="divHeader">
+            <div class="row">
+                <div class="col-sm-4">
+                    <strong>
+                        Información General del Negocio
+                    </strong>
+                </div>
+                <div class="col-sm-2">
+                    <label class="control-label">
+                        Fecha de Creación
+                    </label>
+                </div>
+                <div class="col-sm-2">
+                    <p class="display-field">@Model.DateCreation</p>
+                </div>
+                <div class="col-sm-2">
+                    <label class="control-label">
+                        Código
+                    </label>
+                </div>
+                <div class="col-sm-2">
+                    <label>@Model.Code</label>
+                </div>
+            </div>
+            <hr style="border-color: #CCCCCC; margin-top: 0;" />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="errorHandler alert alert-danger no-display" id="divError">
+                        <i class="fa fa-times-sign"></i> Tiene errores, por favor reviselos
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="divGNameClient">
+                    <div class="col-sm-2">
+                        <label class="control-label" for="txtNameClient">
+                            Nombre del Cliente <span class="symbol required"></span>
+                        </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" id="txtNameClient" class="form-control input-sm"
+                               placeholder="Ingrese el nombre del Cliente" asp-for="Name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div id="divGState">
+                    <div class="col-sm-2">
+                        <label class="control-label" for="selState">
+                            Estado <span class="symbol required"></span>
+                        </label>
+                    </div>
+                    <div class="col-sm-2">
+                        <select id="selState" class="form-control input-sm" asp-for="IdStatusCustomer" asp-items="Model.StatusCustomers">
+                            <option value="">--Seleccionar--</option>
+                        </select>
+                        <span asp-validation-for="IdStatusCustomer" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 7px;"></div>
+            <div class="row">
+                <div id="divGAbbreviature">
+                    <div class="col-sm-2">
+                        <label class="control-label" for="txtAbbreviation">
+                            Abreviatura <span class="symbol required"></span>
+                        </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" id="txtAbbreviation" class="form-control input-sm"
+                               placeholder="Ingrese la Abreviatura del Cliente"
+                               asp-for="Abbreviation" />
+                        <span asp-validation-for="Abbreviation" class="text-danger"></span>
+                    </div>
+                </div>
+                <div id="divGTypeClient">
+                    <div class="col-sm-2">
+                        <label class="control-label" for="selTypeClient">
+                            Tipo de Cliente <span class="symbol required"></span>
+                        </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="selTypeClient" class="form-control input-sm"
+                                asp-for="IdTypeCustomer" asp-items="Model.Types">
+                            <option value="">--Seleccionar--</option>
+                        </select>
+                        <span asp-validation-for="IdTypeCustomer" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 7px;" />
+            <div class="row">
+                <div id="divGContact">
+                    <div class="col-sm-2">
+                        <label class="control-label" for="txtNameContact">
+                            Nombre del Contacto <span class="symbol required"></span>
+                        </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" id="txtNameContact" class="form-control input-sm"
+                               placeholder="Ingrese el nombre del Contacto" asp-for="Contact" />
+                        <span asp-validation-for="Contact" class="text-danger"></span>
+                    </div>
+                </div>
+                <div id="divGPhone">
+                    <div class="col-sm-2">
+                        <label class="control-label" for="txtNumberPhone">
+                            Telefono <span class="symbol required"></span>
+                        </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" id="txtNumberPhone" class="form-control input-sm"
+                               placeholder="Ingrese un número de teléfono" asp-for="Phone" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 7px;"></div>
+            <div class="row">
+                <div id="divGEmail">
+                    <div class="col-sm-2">
+                        <label class="control-label" for="txtEmail">
+                            Email <span class="symbol required"></span>
+                        </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" id="txtEmail" class="form-control input-sm"
+                               placeholder="Ingrese un email válido" asp-for="Email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <strong>
+                    Canales
+                </strong>
+            </div>
+        </div>
+        <hr style="border-color: #CCCCCC; margin-top: 0;" />
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label">
+                    Canales
+                </label>
+            </div>
+            <div class="col-sm-7">
+                @foreach (var channel in Model.Channels)
+                {
+                    <button type="submit" class="btn btn-bricky" formaction="DeleteChannel" onclick="DeleteChannel('@channel.Id');">@channel.Name <i class='clip-close-2'></i></button>
+                }
+            </div>
+            <div class="col-sm-2">
+                <input type="text" id="txtNewChannel" class="form-control input-sm"
+                       placeholder="Nuevo Canal" />
+            </div>
+            <div class="col-sm-1">
+                <button type="submit" formaction="AddChannel" class="btn btn-link" onclick="AddChannel()">
+                    <span class="fa fa-plus"></span>
+                </button>
+            </div>
+        </div>
+
+        <br />
+        <div class="row">
+            <div class="col-sm-12">
+                <strong>
+                    Tipo de Negocio
+                </strong>
+            </div>
+        </div>
+        <hr style="border-color: #CCCCCC; margin-top: 0;" />
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label">
+                    Tipos de Negocios
+                </label>
+            </div>
+            <div class="col-sm-7">
+                @foreach (var type in Model.TypeBusinessList)
+                {
+                    <button type="submit" class="btn btn-bricky" formaction="DeleteTypeBusiness" id="@type.Id" onclick="DeleteTypeBusiness('@type.Id');">@type.Name <i class='clip-close-2'></i></button>
+                }
+            </div>
+            <div class="col-sm-2">
+                <input type="text" id="txtNewTypeBusiness" class="form-control input-sm"
+                       placeholder="Nuevo tipo" />
+            </div>
+            <div class="col-sm-1">
+                <button type="submit" formaction="AddTypeBusiness" class="btn btn-link" onclick="AddTypeBusiness()">
+                    <span class="fa fa-plus"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <strong>
+                    Categorías de Productos
+                </strong>
+            </div>
+        </div>
+        <hr style="border-color: #CCCCCC; margin-top: 0;" />
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label">
+                    Categorías de Productos
+                </label>
+            </div>
+            <div class="col-sm-7">
+                @foreach (var category in Model.ProductCategories)
+                {
+                    <button type="submit" class="btn btn-bricky" formaction="DeleteProductCategory" id="@category.Id" onclick="DeleteProductCategory('@category.Id');">@category.Name <i class='clip-close-2'></i></button>
+                }
+            </div>
+            <div class="col-sm-2">
+                <input type="text" id="txtNewProductCategory" class="form-control input-sm"
+                       placeholder="Nuevo producto" />
+            </div>
+            <div class="col-sm-1">
+                <button type="submit" formaction="AddProductCategory" class="btn btn-link" onclick="AddProductCategory()">
+                    <span class="fa fa-plus"></span>
+                </button>
+            </div>
+        </div>
+
+        <div id="divCollections">
+            <input id="txtNChannel" asp-for="NewChannels" class="hidden" />
+            <input id="txtNType" asp-for="NewTypeBusiness" class="hidden" />
+            <input id="txtNCategory" asp-for="NewCategories" class="hidden" />
+            <input id="txtDChannel" asp-for="DeletedChannels" class="hidden" />
+            <input id="txtDType" asp-for="DeletedTypeBusiness" class="hidden" />
+            <input id="txtDCategory" asp-for="DeletedCategories" class="hidden" />
+        </div>
+
+        <br />
+        <div class="row">
+            <div class="col-sm-12" style="text-align: center">
+                <button class="btn btn-primary" id="btnGuardar" type="submit">Guardar</button>
+                <a href="@Url.Action("Index", "Customer")" class="btn btn-default btn-sm" id="btnCancelar">Salir</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+    <script src="~/js/Helpers/CustomerHelper.js"></script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

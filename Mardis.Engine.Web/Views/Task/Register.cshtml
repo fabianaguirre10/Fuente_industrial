@@ -1,0 +1,136 @@
+﻿@model Mardis.Engine.Web.ViewModel.TaskViewModels.TaskRegisterViewModel
+@{
+    ViewData["Title"] = "Gestión de Tareas";
+    ViewData["Description"] = "Agregar/Editar Tareas";
+}
+
+@section buttons{}
+@section filters{}
+
+<form asp-controller="Task" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST" class="form-horizontal">
+    <input asp-for="Id" class="hidden" />
+    <input asp-for="IdCampaign" class="hidden" />
+    <input asp-for="CampaignName" class="hidden" />
+    <input asp-for="ReturnUrl" class="hidden" />
+    <input asp-for="AggregateUri" class="hidden" />
+    <input asp-for="ExternalCode" class="hidden" />
+    <input asp-for="DateValidation" class="hidden" />
+    <input asp-for="UserValidator" class="hidden" />
+    <input asp-for="DateCreation" class="hidden" />
+    <div id="divRegisterTask">
+
+        <div class="row">
+            <div class="col-sm-2">
+                <h4>
+                    <label asp-for="CampaignName" class="control-label"></label>
+                </h4>
+            </div>
+
+      
+            <div class="col-sm-4"></div>
+
+            <div class="col-sm-2">
+                <h4>
+                    <label asp-for="Code" class="control-label"></label>
+                </h4>
+            </div>
+            <div class="col-sm-2">
+                <div type="text" asp-for="Code" class="control-label h4">@Model.Code</div>
+            </div>
+        </div>
+
+        <hr style="border-color: #CCCCCC; margin-top: 7px;" />
+
+        <div class="row">
+            <div id="divGStartDate">
+                <div class="col-sm-2">
+                    <label class="control-label" asp-for="StartDate"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input asp-for="StartDate" id="txtEndDate" class="form-control input-sm">
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 7px;"></div>
+        <div class="row">
+            <div id="divGMerchant">
+                <div class="col-sm-2">
+                    <label class="control-label" for="ddlMerchant"> Asignado a</label>
+                </div>
+                <div class="col-sm-4">
+                    <select id="ddlMerchant" asp-for="IdMerchant" asp-items="ViewBag.Merchants" class="form-control input-sm">
+                        <option>--Seleccionar--</option>
+                    </select>
+                    <span asp-validation-for="IdMerchant" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div id="divGBranch">
+                <div class="col-sm-2">
+                    <label class="control-label">Local</label>
+                    <input asp-for="IdBranch" id="txtBranch" class="hidden" />
+                    <input asp-for="IdStatusTask" class="hidden" />
+                    <input asp-for="Code" class="hidden" />
+                    <input asp-for="DateCreation" class="hidden" />
+                </div>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <label type="text" id="lblNameBranch" class="form-control input-sm">@Model.BranchName</label>
+                        <span class="input-group-btn">
+                            <div onclick="ShowModal();" class="btn btn-default form-control input-sm">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 7px;"></div>
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label" asp-for="Route"></label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" class="form-control input-sm" asp-for="Route">
+            </div>
+
+            <div class="col-sm-2">
+                <label class="control-label" asp-for="Description"></label>
+            </div>
+            <div class="col-sm-4">
+                <textarea class="form-control input-sm" rows="3" style="width: 100%;" id="txtComment" asp-for="Description"
+                          placeholder="Ingrese una descripción de la tarea..."></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div style="margin-top: 7px;"></div>
+
+        <div class="row">
+            <div class="col-sm-12" style="text-align: center">
+                <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar</button>
+                <button class="btn btn-default btn-sm" id="btnCancelar" onclick="window.history.back();">Salir</button>
+            </div>
+        </div>
+
+        @Html.Partial("SearchBranchesPartial")
+    </div>
+</form>
+
+
+
+@section scripts{
+    <script src="~/js/Helpers/TaskHelper.js"></script>
+    <script>
+        $("#txtStartDate").datepicker();
+
+        var page = "Profile";
+        var countServices = 0;
+        LoadCountries();
+
+        function ShowModal() {
+            $('#divEscogerLocal').modal();
+        }
+    </script>
+}

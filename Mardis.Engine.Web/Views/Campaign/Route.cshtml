@@ -1,0 +1,399 @@
+﻿
+@{
+    ViewData["Title"] = "Gestión de Rutas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section buttons{}
+
+@section filters{}
+<style>
+    #DatosTabla tbody {
+        font-size: 12px;
+        color: #545454;
+        font-weight: 600;
+    }
+
+    .user-footer a {
+        color: #be0811 !important;
+    }
+
+    #DatosTabla th {
+        font-size: 12px;
+        font-weight: 700;
+        color: black;
+    }
+
+    #DatosTabla a {
+        color: #20a0c6;
+        font-size: 16px;
+    }
+
+        #DatosTabla a:hover {
+            color: #20a0c6;
+            font-size: 18px;
+        }
+
+    .paginate_button {
+        font-size: 13px !important
+    }
+    .input-group .input-group__selections__comma {
+        padding-left: 0.9pc !important;
+    }
+    .input-group label {
+        left: 0.9pc !important;
+        font-weight: 700 !important;
+    }
+    .input-group .input-group--select__autocomplete {
+        padding-left: 0.9pc !important;
+        display: block;
+        width: 100%;
+        height: 38px ;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.35/css/uikit.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.19/css/dataTables.uikit.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+<link href="~/css/theme/autocomplete.css" rel="stylesheet" />
+<section class="content-header">
+    <h1>
+        Administración
+        <small>Control Rutas</small>
+    </h1>
+    @*<ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-toggle-on"></i> Home</a></li>
+        </ol>*@
+</section>
+<br />
+<section class="content">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box box-solidbox box-solid">
+                <div class="box-header with-border">
+                    <h4 class="box-title">Listado de Rutas Activas</h4>
+
+                </div>
+                <div class="box-body">
+                    <div id="DatosTabla" class="col-xs-10 col-md-10 col-lg-12 " style="overflow: auto; width: 97%; ">
+                        <table id="table-mardis-dt" class="uk-table uk-table-hover uk-table-striped">
+                            <thead>
+                                <tr>
+
+                                    <th style="text-align: center">Ruta</th>
+                                    <th style="text-align: center">Estado </th>
+                                    <th style="text-align: center">Datos de Encuestadores</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Eventos Masivos</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+                        <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+                        <ul class="fc-color-picker pull-right" id="color-chooser">
+                            <li><a class="text-red" href="javascript:void(0);" onclick="SaveAccount('T');" data-toggle="tooltip" data-placement="bottom" title="El botón desactiva todas las rutas del proyecto!"><i class="fa fa-times-circle-o"></i> </a></li>
+                            <li><a class="text-green" href="javascript:void(0);" onclick="SaveAccount('S');"  data-toggle="tooltip" data-placement="top" title="El botón activa todas las rutas del proyecto!"><i class="fa fa-check-circle-o"></i> </a></li>
+                        
+                        </ul>
+                    </div>
+                    <!-- /btn-group -->
+                    <!-- /input-group -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div id="VueEcuestador">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Encuestadores en la ruta</h3>
+                        <div class="box-tools pull-right">
+
+                            <button type="button" class="btn btn-box-tool " style="    color: #a3242c;    font-size: 13px;   font-weight: 700;" v-on:click="OpenModalEncuesta('1')">   <i class="fa fa-users" v-on:click="OpenModalEncuesta('1')"></i> Encuestadores</button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <div class="col-md-12">
+                            <div id="idtableEnc" class="table-responsive" style="display: none">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>IMEI</th>
+                                            <th>Nombres</th>
+                                            <th>Celular</th>
+                                            <th>Oficina</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody v-for="(enc, x) in poll">
+                                        <tr data-bind="attr:{id:'row'+Id}">
+                                            <td>{{x+1}}</td>
+                                            <td>{{enc.Code}} </td>
+                                            <td>{{enc.Name}}</td>
+                                            <td>{{enc.Phone}}</td>
+                                            <td>{{enc.Oficina}}</td>
+                                            <td>
+
+                                                <button type="button" class="btn btn-danger btn-sm" v-on:click="addRemove(x,enc.Code)"><i class="fa fa-trash-o" v-on:click="addRemove(x,enc.Code)"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="responsive" class="modal fade" role="dialog">
+                    <div class="modal-dialog  modal-scrollable">
+                        <div class="modal-content">
+                            @*<div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                <h4 class="modal-title">Encuestadores</h4>
+                            </div>*@
+
+                            <div class="modal-body" style="background-color:#d2d6de">
+                                <div class="row">
+                                    @*<div class="col-md-4">
+                                             START LOCK SCREEN ITEM
+
+                                            <v-select :items="encuestadores"
+                                                      :filter="customFilter"
+                                                      v-model="imei"
+                                                      item-text="name"
+                                                      label="Encuestador"
+                                                      autocomplete></v-select>
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn" v-on:click="addItem"><i class="fa fa-plus text-muted"></i></button>
+                                            </div>
+
+                                        </div>*@
+
+                                    <div class="lockscreen-wrapper" style="  margin-top: 5% !important;">
+                                        <div class="lockscreen-logo" style="margin-bottom: 45px !important;">
+                                            <a href="#"><h4><b>Selección</b> Encuestadores</h4></a>
+                                        </div>
+                                        <!-- User name -->
+                                        <!-- START LOCK SCREEN ITEM -->
+                                        <div class="lockscreen-item" style="background-color:#d2d6de;">
+                                            <!-- lockscreen image -->
+                                            <div class="lockscreen-image" style="">
+                                                <img src="~/images/default_avatar_male.jpg" alt="User Image"/>
+                                                @*<img src="~/images/avatar-1.jpg" alt="User Image" />*@
+                                            </div>
+                                            <!-- /.lockscreen-image -->
+                                            <!-- lockscreen credentials (contains the form) -->
+                                            <form class="lockscreen-credentials" style="width:300px !important">
+                                                <div class="input-group" style="top: -2.4pc;left:-0.8pc">
+
+                                                    <v-select :items="encuestadores"
+                                                              :filter="customFilter"
+                                                              v-model="imei"
+                                                              item-text="name"
+                                                              label="Encuestador"
+                                                              autocomplete></v-select>
+                                                    <div class="input-group-btn" style="top:0.1pc">
+                                                        <button type="button" class="btn btn-app" style="background-color: #d2d6de;" v-on:click="addItem"><i class="fa fa-arrow-right text-muted"></i></button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                               
+                                            <!-- /.lockscreen credentials -->
+
+                                        </div>
+                                        <!-- /.lockscreen-item -->
+                                        <div class="help-block text-center">
+                                            Ingrese el IMEI o Nombre del encuestador
+                                        </div>
+                                        <div class="text-center">
+                                            <a href="#" data-dismiss="modal">Salir</a>
+                                        </div>
+                                        @*<div class="lockscreen-footer text-center">
+                                                Copyright © 2014-2016 <b><a href="https://adminlte.io" class="text-black">Almsaeed Studio</a></b><br>
+                                                All rights reserved
+                                            </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+@*@{ Html.RenderPartial("_encuestador");}*@
+@section Scripts {
+
+
+
+    <script src="~/js/viewModel/EncuestadorView.js"></script>
+    <script type="text/javascript">
+        @*var table=  $('#datosCoord').dataTable({
+        "language": {
+        "url": "@Url.Content("~/js/latin.json")"
+            },
+            "pageLength": 25,
+            "scrollX": true
+             });
+        </script>*@
+        var table
+        generarTabla();
+
+
+        function generarTabla() {
+
+            table = $('#table-mardis-dt').dataTable({
+                "language": {
+                    "url": "@Url.Content("~/js/latin.json")"
+                 },
+                 "pageLength": 10,
+                "ajax": {
+                    "url": '/Campaign/ActiveRoute',
+                    "type": "GET",
+                    "data": function (d) {
+                        return $.extend({}, d, {
+                            "Id": 0
+                        });
+                    },
+                    "dataSrc": function (json) {
+                             jQuery.each(json, function (index, value) {
+                                 //now you can access properties using dot notation
+
+
+
+                                 if (json[index].status) { json[index].status = "<input type='checkbox'   class='custom-control-input' id=" + json[index].route + " checked onclick='onToggle(this)'>"; }
+                                 else { json[index].status = "<input type='checkbox' class='editor-active' id=" + json[index].route + " onclick='onToggle(this)' >" }
+
+                                 json[index].linkbranch = "<a href='#responsive'" + " '   onclick='ModalPerfil(this);'  "+"id=" + (json[index].route+"link" )+ "><i class='fa fa-fw fa-group'></i> </a>";
+
+
+                        });
+                        return json;
+                    }
+                },
+                "columns": [
+                    { "data": "route" },
+                    { "data": "status" },
+                    { "data": "linkbranch" }
+                ],
+
+
+
+            }
+                );
+        }
+
+
+        //Enable check and uncheck all functionality
+
+        function onToggle(route) {
+
+            $.blockUI({ message: "Actualizado Estado..." });
+            $.ajax({
+                url: '/Campaign/ChangeStatus',
+                type: "POST",
+                content: "application/json; charset=utf-8",
+                data: {
+                    id: route.id
+
+                },
+                success: function (data) {
+                    if (data == "1") {
+
+                        bootbox.alert("La ruta " + route.id+". Cambio de estado correctamente.")
+
+                    }
+                    $.unblockUI();
+                },
+
+                error: function () {
+
+                    $.unblockUI();
+                }
+                //,
+                //async: true, // La petici�n es s�ncrona
+            });
+        }
+        var idant = "00000000tttt"
+        function ModalPerfil(route) {
+            $("#idtableEnc").show();
+            console.log(document.getElementById(idant))
+            if (document.getElementById(idant) !== null)
+            {
+                document.getElementById(idant).style.color = "#20a0c6";
+            }
+
+            var ida = route.id
+
+            document.getElementById(ida).style.color = "#c3151f";
+
+            var res = ida.substr(0, (ida.length - 4));
+
+            console.log(res)
+             idant = ida;
+            LoadEquipment(res)
+            //$("#idaccount").empty();
+            //$.ajax({
+            //    url: 'Account/Admin',
+            //    type: "POST",
+            //    content: "application/json; charset=utf-8",
+            //    data: {
+            //        id: 1
+            //    },
+            //    success: function (data) {
+            //        $.each(data, function (index, value) {
+            //            $("#idaccount").append("<option value=" + value.idaccount + ">" + value.account + "</option>");
+            //        });
+            //        $('#responsive').modal('show');
+            //        GetProfile($("#idaccount").val().toString(), id);
+            //    },
+
+            //    error: function () {
+            //        $("#idaccount").append("<option value=" + 0 + ">No existe Opciones</option>");
+            //    },
+
+
+            //});
+
+            }
+            function openModal() {
+
+
+                $('#responsive').modal('show');
+        }
+
+        $('#table-mardis-dt_previous').click(function () {
+         alert(1)
+        });
+
+    </script>
+
+
+}

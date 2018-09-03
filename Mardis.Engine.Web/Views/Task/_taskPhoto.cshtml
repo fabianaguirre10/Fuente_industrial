@@ -1,0 +1,68 @@
+
+<div class="panel panel-default" id="divImages"  style=" height:750px;  overflow-y: scroll">
+    <div class="panel-heading">
+        Multimedia
+    </div>
+    <div class="panel-body" style="height:auto; overflow-y: scroll">
+        <div class="modalmardisPhot" >
+            <div class="mySlides" v-for="(image, index) in poll.BranchImages" v-if="index==0" style="display:block">
+                <div class="numbertext">{{index + ' / ' + poll.BranchImages.length}}</div>
+
+                <div v-if="image.NameFile.indexOf('vid')>=0 || image.NameFile.indexOf('.mp4')>=0 || image.NameFile.indexOf('.3gp')>=0">
+                    <video style="width: 100%; border-radius: 5px;" class="hover-shadow cursor" controls>
+                        <source v-bind:src="image.UrlImage" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <div v-if="image.NameFile.indexOf('.jpg')>=0 || image.NameFile.indexOf('.bmp')>=0 || image.NameFile.indexOf('.gif')>=0 || image.NameFile.indexOf('.png')>=0">
+                    <div class="zoom">
+                        <img v-bind:src="image.UrlImage" style="width: 100%" class="imgClass">
+                    </div>
+                </div>
+
+                <div v-if="image.NameFile.indexOf('.mp3')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.amr')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.aac')>=0 || image.NameFile.indexOf('.m4a')>=0">
+                    <audio controls>
+                        <source v-bind:src="image.UrlImage" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+            </div>
+            <div class="mySlides" v-for="(image, index) in poll.BranchImages" v-if="index>0" style="display:none">
+                <div class="numbertext">{{index + ' / ' + poll.BranchImages.length}}</div>
+
+                <div v-if="image.NameFile.indexOf('vid')>=0 || image.NameFile.indexOf('.mp4')>=0 || image.NameFile.indexOf('.3gp')>=0">
+                    <video style="width: 100%; border-radius: 5px;" class="hover-shadow cursor" controls>
+                        <source v-bind:src="image.UrlImage" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <div v-if="image.NameFile.indexOf('.jpg')>=0 || image.NameFile.indexOf('.bmp')>=0 || image.NameFile.indexOf('.gif')>=0 || image.NameFile.indexOf('.png')>=0">
+                    <div class="zoom">
+                        <img v-bind:src="image.UrlImage" style="width: 100%" class="imgClass">
+                    </div>
+                </div>
+
+                <div v-if="image.NameFile.indexOf('.mp3')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.amr')>=0 || image.NameFile.indexOf('.wav')>=0 || image.NameFile.indexOf('.aac')>=0 || image.NameFile.indexOf('.m4a')>=0">
+                    <audio controls>
+                        <source v-bind:src="image.UrlImage" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+            </div>
+            <a class="prev" onclick="plusSlides(-1)" v-if="poll.BranchImages.length>0"  style="color:#c3c3c3 !important;   left:10px;  font-size: 50px;">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)" v-if="poll.BranchImages.length>0" style="color:#c3c3c3 !important;     right: 25px;    font-size: 50px;">&#10095;</a>
+
+            @*<div class="downtool center" style="width: 100%; background: black">
+                    <a onclick="rotateLeft()"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                    <a onclick="initialPosition()"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                    <a onclick="rotateRight()"><i class="fa fa-repeat" aria-hidden="true"></i></a>
+                </div>*@
+
+            @*<pre>{{poll || json}}</pre>*@
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+﻿.labelradioengine {
+  /*width: 100px;*/
+  border-radius: 3px;
+  border: 1px solid #D1D3D4
+}
+
+/* hide input */
+input.radioengine:empty {
+	margin-left: -999px;
+}
+
+/* style label */
+.radioengine:empty ~ label {
+	position: relative;
+	float: left;
+	text-indent: 3.25em;
+	margin-top: 0.5em;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.radioengine:empty ~ label:before {
+	position: absolute;
+	display: block;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	content: '';
+	width: 2.5em;
+	background: #D1D3D4;
+	border-radius: 3px 0 0 3px;
+}
+
+/* toggle hover */
+.radioengine:hover:not(:checked) ~ label:before {
+	content:'\2714';
+	text-indent: .9em;
+	color: #C2C2C2;
+}
+
+.radioengine:hover:not(:checked) ~ label {
+	color: #888;
+}
+
+/* toggle on */
+.radioengine:checked ~ label:before {
+	content:'\2714';
+	text-indent: .9em;
+	color: #9CE2AE;
+	background-color: #3366cc;
+}
+
+.radioengine:checked ~ label {
+	color: #777;
+}
+
+/* radio focus */
+.radioengine:focus ~ label:before {
+	box-shadow: 0 0 0 3px #999;
+}
+
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(../images/loader-64x/Preloader_5.gif) center no-repeat #fff;
+}

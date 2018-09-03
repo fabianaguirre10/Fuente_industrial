@@ -1,0 +1,35 @@
+﻿<div class="modal fade" role="dialog" id="divChangeStatus" style="top: 7px;">
+    <div class="modal-dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">NO IMPEMENTADO</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="control-label">ESTADO</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <select id="ddlReasons" class="form-control input-sm" asp-items="ViewBag.ReasonsList"></select>
+                        </div>
+                    </div>
+                    <div style="margin-top: 7px;"></div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="control-label">OBSERVACIONES</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <textarea id="txtObservation" class="form-control input-sm" placeholder="Insertar observaciones..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnGuardar" data-dismiss="modal"  data-bind="attr:{'data-IdTask':Register.Id}" onclick="ChangeStatusNotImplemented(this)">Guardar</button>
+                    <button class="btn btn-default btn-sm" id="btnCancelar" data-dismiss="modal">Salir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

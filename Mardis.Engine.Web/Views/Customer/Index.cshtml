@@ -1,0 +1,80 @@
+﻿@model CustomerListViewModel
+@{
+    ViewData["Title"] = "Clientes";
+    ViewData["Description"] = "Gestión de Clientes";
+}
+
+@section buttons{
+    <div class="row">
+        <div class="col-sm-2 pull-right"></div>
+        <div class="col-sm-2 pull-right">
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+                    <i class="clip-list-5"></i>
+                    Opciones
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="@Url.Action("Register","Customer")">
+                            <i class="clip-plus-circle-2"></i> Nuevo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="CustomerProductsClickEvent();">
+                            <i class="glyphicon glyphicon-shopping-cart"></i> Productos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="DeleteCustomer();">
+                            <i class="clip-minus-circle-2"></i> Borrar
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+@section filters{
+    @Html.Partial("_CoreFilterPartial", Model.Properties)
+}
+
+<div id="divMainCustomer">
+    <div class="table-responsive">
+        <table class="table table-striped" id="tbResults">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Código</th>
+                    <th>Empresa</th>
+                    <th>Contacto</th>
+                    <th>Tipo</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ItemsList)
+                {
+                    <tr id="@item.Id">
+                        <td>
+                            <input id="@item.Id" onchange="SelectItem('@item.Id');" type="checkbox" />
+                        </td>
+                        <td>@item.Code</td>
+                        <td><a href="@Url.Action("Register", "Customer", new {idCustomer = item.Id})">@item.Name</a></td>
+                        <td>@item.Contact</td>
+                        <td>@item.Type</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/Helpers/CustomerHelper.js"></script>
+    <script></script>
+}

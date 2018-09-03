@@ -1,0 +1,45 @@
+﻿<div id="divImagesBranch" class="modal fade" role="dialog" style="top: 14px;">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+        <h4 class="modal-title">Imágenes de Local</h4>
+    </div>
+    <div class="modal-body">
+        <div enctype="multipart/form-data">
+            <hr>
+            <div class="form-group">
+                <input id="file-1" type="file" multiple class="file" data-overwrite-initial="false" data-min-file-count="1">
+            </div>
+        </div>
+
+        <div style="text-align: center">
+            <button class="btn btn-primary" id="btnGuardar" data-bind="click:UploadBranchImage.bind($data,IdBranch)">Subir</button>
+        </div>
+
+        <div style="margin-top:7px;"></div>
+
+        <div class="row" data-bind="foreach:BranchImages">
+            <div class="col-md-3 col-sm-4 gallery-img" data-bind="attr: { 'id':Id }">
+                <div class="wrap-image">
+                    <a class="group1" href="#" title="Clip-One Business Card">
+                        <img data-bind="attr:{src:UrlImage}" alt="" class="img-responsive">
+                    </a>
+                    <div class="tools tools-bottom">
+                        <a href="#" data-bind="click:$parent.DeleteImageBranchClick.bind($data,Id)" title="Eliminar Servicio">
+                            <i class="clip-close-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="SaveImages();" data-dismiss="modal">
+            Guardar
+        </button>
+        <button class="btn btn-link btn-sm" data-dismiss="modal">
+            Cerrar
+        </button>
+    </div>
+</div>

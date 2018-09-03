@@ -1,0 +1,36 @@
+
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+<link href="~/css/vuetify.css" rel="stylesheet" />
+
+<div style="max-width:900px">
+
+    <div class="col-lg-2 pull-left" style="   margin-bottom: 10px;    margin-left: -2%;">
+        <label class="btn btn-block btn-green ">
+            <i class="fa fa-photo"> </i>    <input type="file" style="display: none;" v-on:change="onFileChange($event,poll.carouselIndex)">
+
+        </label>
+     
+    </div>
+    <div class="col-lg-2 pull-left" style="   margin-bottom: 10px;    margin-left: -1%;">
+        <label class="btn btn-block btn-default ">
+            <i class="fa fa-download"> </i>    <input type="file" style="display: none;" v-on:click="loadImg(poll.carouselIndex)">
+
+        </label>
+        @*<button type="button" class="btn btn-default btn-xs pull-left" v-on:click="loadImg(poll.carouselIndex)"><i class="fa fa-download"></i></button>*@
+    </div>
+
+    <v-carousel :cycle="false" v-model="poll.carouselIndex">
+        <v-carousel-item v-for="(image, index) in poll.BranchImages" :src="image.UrlImage" :key="index"></v-carousel-item>
+    </v-carousel>
+
+</div>
+@*<button type="button" class="btn btn-danger btn-sm pull-right" v-on:click="addRemoveIndex(poll.carouselIndex)"><i class="fa fa-trash-o"></i></button>*@
+@*<div class="img-zoom-container">
+
+        <img id="myimage" src='https://vuetifyjs.com/static/doc-images/carousel/squirrel.jpg' width="300" height="200">
+        <div id="myresult" class="img-zoom-result"></div>
+    </div>*@
+
+
+
+

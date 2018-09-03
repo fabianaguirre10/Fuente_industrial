@@ -1,0 +1,88 @@
+﻿@model Mardis.Engine.Web.ViewModel.TaskViewModels.TaskListViewModel
+
+@{
+    ViewData["Title"] = "Tareas";
+    ViewData["Description"] = "Gestión de tareas";
+}
+
+@section buttons{
+    <div class="row">
+
+        <div class="col-sm-2 pull-right">
+
+        </div>
+        <div class="col-sm-2 pull-right" style="vertical-align: middle; text-align: center">
+        </div>
+        <div class="col-sm-2 pull-right">
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+                    <i class="clip-list-5"></i>
+                    Opciones
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="@Url.Action("Register", "Task", new { idCampaign = Model.IdCampaign })">
+                        <i class="clip-plus-circle-2"></i> Nuevo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="DeleteSelection();">
+                            <i class="clip-minus-circle-2"></i> Borrar
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+@section filters{
+    @Html.Partial("_CoreFilterPartial", Model.Properties)
+}
+
+<div id="divMainTask">
+    <div class="table-responsive">
+        <table class="table table-striped" id="tbResults">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Código de Local</th>
+                    <th>Campaña</th>
+                    <th>Local</th>
+                    <th>Estado</th>
+                    <th>Mercaderista</th>
+                    <th>Ruta</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in Model.TasksList)
+            {
+                    <tr id="@("row" + task.Id)">
+                        <td><input type="checkbox" id="@task.Id" onclick="SelectItem(this);" /></td>
+                        <td><a href="@Url.Action("Register", "Task", new {idTask = task.Id})">@task.BranchCode</a></td>
+                        <td>@task.CampaignName</td>
+                        <td>@task.BranchName</td>
+                        <td>@task.StatusName</td>
+                        <td>@task.MerchantName</td>
+                        <td>@task.Route</td>
+                        <td>@task.StartDate</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="divFooter">
+    @Html.Partial("_PagingPartial", Model)
+</div>
+
+@section scripts{
+    <script src="~/js/viewModel/FilterHelper.js"></script>
+    <script src="~/js/Helpers/TaskHelper.js"></script>
+    <script>
+        window.controllerName = "@Model.Properties.ControllerName";
+        window.actionName = "@Model.Properties.ActionName";
+    </script>
+}

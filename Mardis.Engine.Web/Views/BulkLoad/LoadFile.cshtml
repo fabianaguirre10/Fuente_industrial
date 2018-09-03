@@ -1,0 +1,103 @@
+﻿@using Mardis.Engine.DataAccess.MardisCore
+@using Mardis.Engine.Framework.Resources
+@{
+    ViewData["Menu"] = "Cargas Masivas";
+    ViewData["Title"] = "Cargas Masivas";
+    ViewData["Description"] = "Carga de Archivo";
+    Layout = "_Layout";
+
+    var catalogSelected = (BulkLoadCatalog) ViewData[CBulkLoad.SelectCatalog];
+}
+
+@section buttons{
+
+}
+@section filters{}
+
+<link rel="stylesheet" href="~/lib/Slidebars/dist/slidebars.css">
+<link rel="stylesheet" href="~/css/theme/StyleFilter.css">
+<link rel="stylesheet" href="~/lib/dropzone/dist/dropzone.css" />
+
+<div id="divMainLoadFile">
+    <input type="hidden" id="idBulkCatalog" value="@catalogSelected.Id" />
+    <input type="hidden" id="nameFile" value="" />
+    <div class="row">
+        <div class="col-sm-2">
+            <b>Proceso:</b>
+        </div>
+        <div class="col-sm-4">
+            @catalogSelected.Name
+        </div>
+    </div>
+    <div style="margin-top: 7px;"></div>
+    Buscar un archivo para importar:
+    <div style="margin-top: 7px;"></div>
+    <form  class="dropzone" id="dropLoadFile" method="post" enctype="multipart/form-data">
+        <div class="dz-message" data-dz-message><span><b>Arrastre su archivo o de un click en el cuadro</b></span></div>
+    </form>
+    <div style="margin-top: 7px;"></div>
+    (Solo se aceptan archivos CSV o archivos de textos en formato CSV)
+    <br/>
+    <div class="row">
+        <div class="col-sm-12" style="text-align:right">
+            <button class="btn btn-default btn-sm" id="btnCancelLoadFile" onclick="IndexBulkLoad()">Cancelar</button>
+            <button class="btn btn-primary" id="btnNextLoadFile" onclick="ProcessLoad()" disabled>Siguiente</button>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/dropzone/dist/dropzone.js"></script>
+    <script src="~/js/viewModel/CommonScript.js"></script>
+    <script src="~/lib/Slidebars/dist/slidebars.js"></script>
+    <script src="~/js/viewModel/BulkLoadViewModel.js"></script>
+    <script>
+        var modelView = new MainBulkLoadViewModel();
+        var divMain = "divMainLoadFile";
+
+        Dropzone.prototype.defaultOptions.dictRemoveFile = "Borre el Archivo";
+
+        $("#dropLoadFile").dropzone({
+            url: "/BulkLoad/DownloadFile?idBulkCatalog="+$("#idBulkCatalog").val(),
+            uploadMultiple:false,
+            maxFilesize: 1,
+            addRemoveLinks: true,
+            init: function () {
+                this.on("success", function (file, response) {
+                    
+                    if (null != response && "" != response) {
+                        bootbox.alert(response);
+                    }
+
+                    if ("success" == file.status) {
+                        $("#nameFile").val(file.name);
+                        $("#btnNextLoadFile").prop('disabled', false);
+                    } else {
+                        $("#nameFile").val("");
+                        $("#btnNextLoadFile").prop('disabled', true);
+                    }
+                });
+
+                this.on("error", function (file, response) {
+                    if (null != response && "" != response) {
+                        bootbox.alert(response);
+                    }
+                });
+
+                this.on("addedfile", function () {
+                    if (this.files[1] != null) {
+                        this.removeFile(this.files[0]);
+                    }
+                });
+
+                this.on("removedfile", function (file) {
+                    if("success"== file.status) {
+                        $("#btnNextLoadFile").prop('disabled', true);
+                    }
+                });
+
+            }
+        });
+
+    </script>
+}

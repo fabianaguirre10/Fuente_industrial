@@ -1,0 +1,7 @@
+﻿CREATE TABLE [MardisCore].[TypeFilter]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [SignFilter] VARCHAR(20) NOT NULL, 
+    [Name] VARCHAR(250) NOT NULL
+
+)

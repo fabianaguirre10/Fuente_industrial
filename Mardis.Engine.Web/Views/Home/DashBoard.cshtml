@@ -1,0 +1,154 @@
+﻿@model Mardis.Engine.Web.ViewModel.DashBoardViewModels.DashBoardViewModel
+
+@{
+    ViewData["Menu"] = "Home";
+    ViewData["Title"] = "DashBoard ";
+}
+
+@section buttons{
+}
+
+@section filters{
+    @Html.Partial("_CoreFilterPartial", Model.Properties)
+}
+
+<tsRequest>
+
+    <credentials name="dsamueza.mardis@hotmail.com" password="M@rdis123">
+
+        <site contentUrl="views" />
+
+    </credentials>
+
+</tsRequest>
+<div id="divMainDashBoard">
+    <div id="divHeader">
+        <div class="row">
+            <div class="col-lg-12 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-gray">
+                    <div class="  inner form-group" style="padding-left:4%">
+
+
+                        <label><strong>Campañas</strong></label>
+                        @if (ViewBag.user == "b72beff7-7635-4d75-86da-04b6bb58964f")
+    {
+                    <select id="selCampaigns" class="form-control input-sm" asp-for="IdCampaign" asp-items="@ViewBag.CampaignList">
+                        <option>Campaña</option>
+                    </select>
+}
+else
+{
+
+                    <select id="selCampaigns" class="form-control input-sm" asp-for="IdCampaign" asp-items="@ViewBag.CampaignList">
+                        <option>Campaña</option>
+
+                    </select>
+}
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-android-search"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+            
+                    </a>
+                </div>
+                <br>
+            </div>
+
+
+            @*<div class="col-sm-2 col-sm-offset-8">
+                @if (ViewBag.user == "b72beff7-7635-4d75-86da-04b6bb58964f")
+    {
+            <select id="selCampaigns" class="form-control input-sm" asp-for="IdCampaign" asp-items="@ViewBag.CampaignList">
+                <option>Campaña</option>
+
+                <option>Unificado</option>
+            </select>
+}
+else
+{
+
+            <select id="selCampaigns" class="form-control select2 select2-hidden-accessible" asp-for="IdCampaign" asp-items="@ViewBag.CampaignList">
+                <option>Campaña</option>
+
+            </select>
+}
+
+
+            </div>
+            <div class="col-sm-2">
+
+                @if (ViewBag.Account == Guid.Parse("22BFD943-8047-445A-BB20-533D69D52C92"))
+       {
+            <button type="submit" class="btn btn-primary" onclick=" Generar();">Generar DashBoard</button>
+}
+else
+{
+        <button type="submit" class="btn btn-primary">Generar DashBoard</button>
+
+}*@
+            </div>
+        </div>
+
+     
+
+
+  
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <i class="fa fa-bar-chart-o"></i>
+                <h1 class="box-title"><strong>Dashbord</strong></h1>
+
+                <div class="box-tools pull-right">
+
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="box-body no-padding" style="">
+                <div id="vizContainer" style="width:800px; height:400px;  padding-left: 6%;"></div>
+                <div class="clearfix"></div>
+                <div class='tableauPlaceholder' style='width: 1000px; height: 700px;'>
+                <object class='tableauViz' width='1000' height='850' style='display:none;'>
+                    <param name='host_url' value='https%3A%2F%2Fus-west-2b.online.tableau.com%2F' /> 
+                    <param name='embed_code_version' value='3' /> <param name='site_root' value='&#47;t&#47;mardis' />
+                    <param name='name' value='test21&#47;Dashboard1_1' /><param name='tabs' value='yes' />
+                    <param name='toolbar' value='yes' /><param name='showAppBanner' value='false' />
+                    <param name='filter' value='iframeSizedToWindow=true' />
+                    </object>
+                </div>
+
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+
+@section scripts{
+    <script src="~/js/viewModel/TaskCommon.js"></script>
+    <script src="~/js/viewModel/FilterHelper.js"></script>
+    <script src="~/js/viewModel/FilterHelper.js"></script>
+    <script src="~/js/viewModel/DashBoardViewModel.js"></script>
+    <script src="~/js/viewModel/tableau.js"></script>
+    <script>
+        $("#selCampaigns").change(function () {
+            Generar()
+        });
+        function Generar() {
+
+          
+   
+            var vals = $('#selCampaigns option:selected').val();
+            var as = GetDashbord(vals);
+            initViz1(as);
+
+        }
+    </script>
+}

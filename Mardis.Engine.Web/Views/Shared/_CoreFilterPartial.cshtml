@@ -1,0 +1,74 @@
+﻿@using Mardis.Engine.Web.ViewModel.Filter
+@model FilterPropertiesViewModel
+@{
+}
+
+@*<div class="row">*@
+@foreach (var tag in Model.FilterValues)
+{
+    if (tag.Visible)
+    {
+        @*<div class="col-sm-4">*@
+        <span class="label label-default">
+            <span>@(tag.NameFilter + " " + tag.Criteria + " " + tag.Value)</span>
+            <a href="#" id="@tag.IdFilter" onclick="RemoveFilter(this);"><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
+        </span>
+                @*</div>*@
+    }
+}
+@*</div>*@
+
+<div id="popover-content" class="hide" style="width: 300px;">
+    <form class="form-inline" role="form">
+        <div class="row">
+            <div class="col-sm-3">
+                <label class="control-label input-sm" for="selFilterName">Campos</label>
+            </div>
+            <div class="col-sm-9">
+                <select class="form-control input-sm" id="selFilterName">
+                    @*<option>Seleccione una opción</option>*@
+                    @foreach (var filter in Model.FilterList)
+                    {
+                        <option value="@filter.Id">@filter.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div style="margin-top: 7px;"></div>
+        <div class="row">
+            <div class="col-sm-3">
+                <label class="control-label input-sm" for="selCriteria">Criterio</label>
+            </div>
+            <div class="col-sm-9">
+                <select class="form-control input-sm" id="selCriteria">
+                    @*<option>Seleccione una opción</option>*@
+                    <option value="==">Igual</option>
+                    <option value="!=">Diferente</option>
+                    @*<option value=">">Mayor que</option>
+                        <option value="<">Menor que</option>
+                        <option value=">=">Mayor o igual que</option>
+                        <option value="<=">Menor o igual que</option>*@
+                    <option value="Contains">Contiene</option>
+                    <option value="NotContains">No Contiene</option>
+                </select>
+            </div>
+        </div>
+        <div style="margin-top: 7px;"></div>
+        <div class="row">
+            <div class="col-sm-3">
+                <label class="control-label input-sm" for="txtValueFilter">Valor</label>
+            </div>
+            <div class="col-sm-9">
+                <input type="text" name="txtValueFilter" id="txtValueFilter" class="form-control input-sm">
+            </div>
+        </div>
+
+        <div style="margin-top: 7px;"></div>
+        <div class="form-group" style="text-align: center;">
+            <button class="btn btn-primary" id="btnApplyFilter">Aplicar</button>
+            <a class="page-link hidden" id="linkFilter"
+               asp-action="@Model.ActionName">
+            </a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,336 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="Sistema de Información Engine" name="description" />
+    <meta content="Mardis, David SQ." name="author" />
+    <title>@ViewData["Title"] - Engine</title>
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700|Raleway:400,100,200,300,500,600,700,800,900/" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/fonts/clip-font.min.css" />
+        <link rel="stylesheet" href="~/lib/iCheck/skins/all.css" />
+        <link rel="stylesheet" href="~/bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css" />
+        <link rel="stylesheet" href="~/lib/sweetalert/dist/sweetalert.css" />
+        <link rel="stylesheet" href="~/css/main.css" />
+        <link rel="stylesheet" href="~/css/Mardis.css" />
+        <link rel="stylesheet" href="~/css/main-responsive.min.css" />
+        <link rel="stylesheet" media="print" href="~/css/print.min.css" />
+        <link rel="stylesheet" id="skin_color" href="~/css/theme/lightMardis.min.css" />
+        <link type="text/css" href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
+        <link href="~/css/util.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+        @*<link href="~/css/AdminLTE/AdminLTE.css" rel="stylesheet" />
+        <link href="~/css/AdminLTE/_all-skins.css" rel="stylesheet" />*@
+        <link href="~/css/AdminLTE/dashboard/dist/css/AdminLTE.css" rel="stylesheet" />
+        <link href="~/css/AdminLTE/_all-skins.css" rel="stylesheet" />
+        @*<link href="~/css/AdminLTE/dashboard/dist/css/AdminLTE.css" rel="stylesheet" />*@
+        <link href="~/bower_components/plugin/iCheck/flat/blue.css" rel="stylesheet" />
+        <link href="~/lib/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" />
+        <link href="~/bower_components/datatables.net-bs/css/dataTables.bootstrap.css" rel="stylesheet" />
+
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700|Raleway:400,100,200,300,500,600,700,800,900/" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/fonts/clip-font.min.css" />
+        <link rel="stylesheet" href="~/lib/iCheck/skins/all.css" />
+        <link rel="stylesheet" href="~/bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css" />
+        <link rel="stylesheet" href="~/lib/sweetalert/dist/sweetalert.css" />
+        <link rel="stylesheet" href="~/css/main.css" />
+        <link rel="stylesheet" href="~/css/Mardis.css" />
+        <link rel="stylesheet" href="~/css/main-responsive.min.css" />
+        <link rel="stylesheet" media="print" href="~/css/print.min.css" />
+        <link rel="stylesheet" id="skin_color" href="~/css/theme/lightMardis.min.css" />
+        <link type="text/css" href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
+        <link href="~/css/util.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+        <link href="~/css/AdminLTE/AdminLTE.css" rel="stylesheet" />
+        <link href="~/css/AdminLTE/_all-skins.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" />
+        <link href="~/lib/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+        @*<link href="~/bower_components/plugin/data-table/datatables.css" rel="stylesheet" />*@
+        <link href="~/bower_components/plugin/iCheck/flat/blue.css" rel="stylesheet" />
+        <link href="~/bower_components/datatables.net-bs/css/dataTables.bootstrap.css" rel="stylesheet" />
+
+    </environment>
+</head>
+<body class="hold-transition skin-mardis sidebar-collapse sidebar-mini">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <header class="main-header" style="top: 0;right: 0;left: 0;position: fixed;">
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini pull-left">
+                    <img src="~/images/M_MARDIS.png" style="width: 40px;" />
+                </span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">
+                    <img src="~/images/svg pegado 208793x113_poster_.png" style="height: 40px;" />
+                </span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle pull-left" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+
+                        <li class="search-box">
+                            <form class="sidebar-search">
+                                <div class="form-group">
+                                    <div class="input-sm" data-default="500" contenteditable>
+                                        @RenderSection("filters")
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="submit" id="btnFilter">
+                                            <i class="glyphicon glyphicon-filter"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </li>
+
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="~/images/avatar-1-small.jpg" class="user-image" alt="User Image">
+                                <span class="hidden-xs">@await Html.PartialAsync("_LoginPartial")</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img src="~/images/avatar-1-small.jpg" class="img-circle" alt="User Image">
+                                    <p>
+                                        @await Html.PartialAsync("_LoginPartial")
+                                        <small>Mardis - Engine</small>
+                                    </p>
+                                </li>
+
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
+                                            <button type="submit" class="btn btn-link">
+                                                <i class="glyphicon glyphicon-user"></i> &nbsp;Perfil
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="pull-right">
+                                        <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
+                                            <button type="submit" class="btn btn-link">
+                                                <i class="clip-exit"></i> &nbsp;Salir
+                                            </button>
+                                        </form>
+                                    </div>
+                                </li>   
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- =============================================== -->
+        <!-- Left side column. contains the sidebar -->
+        <aside class="main-sidebar" style="position: fixed;">
+            <section class="sidebar">
+                <ul class="sidebar-menu">
+                    @await Html.PartialAsync("_NavBarPartial")
+                </ul>
+            </section>
+        </aside>
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="padding-top: 50px; padding-left: 5px; padding-right: 5px;">
+
+
+            <section class="content-header">
+                <div class="row">
+                    <div class="col-sm-8">
+                        @if (!string.IsNullOrEmpty((string)ViewData["Title"]) && !string.IsNullOrEmpty((string)ViewData["Description"]))
+                        {
+                        <h2>
+                            @ViewData["Title"]
+                            <small>@ViewData["Description"]</small>
+                        </h2>
+                        }
+                    </div>
+                    <div class="col-sm-4">
+                        @RenderSection("buttons")
+                    </div>
+                </div>
+            </section>
+
+            <section class="content">
+                <div class="row">
+                    @RenderBody()
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.1.1
+            </div>
+            <strong>Copyright &copy; 2016-2017 <a href="http://mardis.com">Mardis</a>.</strong> All rights
+            reserved.
+        </footer>
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+
+    <environment names="Development">
+
+
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script type="text/javascript" src="~/lib/knockout/dist/knockout.js"></script>
+        <script type="text/javascript" src="~/lib/knockout/dist/knockout.debug.js"></script>
+
+        <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="~/lib/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"></script>
+        <script type="text/javascript" src="~/lib/jquery.blockUI/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="~/lib/iCheck/icheck.min.js"></script>
+        <script type="text/javascript" src="~/bower_components/perfect-scrollbar/js/min/perfect-scrollbar.jquery.min.js"></script>
+        <script type="text/javascript" src="~/lib/jquery.cookie/jquery.cookie.js"></script>
+        <script type="text/javascript" src="~/lib/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript" src="~/js/min/main.min.js"></script>
+        <script src="~/js/main.js"></script>
+        <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+        <script src="~/bower_components/Flot/jquery.flot.js"></script>
+        <script src="~/bower_components/Flot/jquery.flot.pie.js"></script>
+        <script src="~/bower_components/Flot/jquery.flot.resize.js"></script>
+        <script src="~/bower_components/plugin/jquery.sparkline.min.js"></script>
+        <script src="~/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+        <script src="~/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+        <script src="~/lib/moment/min/moment.min.js"></script>
+        <script src="~/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+        <script src="~/js/min/index.min.js"></script>
+        <script src="~/lib/bootbox.js/bootbox.js"></script>
+        <script src="~/lib/moment/moment.js"></script>
+        <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBiLXgFd1xRjjze51ZUsTsAs4m1bTg9eAI"></script>
+        <script src="~/js/Helpers/Globals.js"></script>
+        <script src="~/lib/jquery-sticky/jquery.sticky.js"></script>
+        <script src="~/lib/bootstrap-select/dist/js/bootstrap-select.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+        @*
+        <script src="~/js/AdminLTE/fastclick/fastclick.js"></script>*@
+        <script src="~/js/AdminLTE/app.js"></script>
+        <script src="~/js/AdminLTE/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="~/lib/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+        <script src="~/js/min/pages-user-profile.js"></script>
+        <script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+        <script src="~/lib/knockout.mapping-master/build/output/knockout.mapping-latest.js"></script>
+        @*<script src="~/lib/vue/dist/vue.js"></script>*@
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
+        <script src="~/lib/store2/dist/store2.js"></script>
+        <script src="~/css/AdminLTE/dashboard/bower_components/fastclick/lib/fastclick.js"></script>
+        <script src="~/css/AdminLTE/dashboard/dist/js/demo.js"></script>
+        <script src="~/bower_components/plugin/data-table/js/jquery.dataTables.min.js"></script>
+        <script src="~/bower_components/plugin/data-table/js/jquery-table.js"></script>
+        @*<script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>*@
+        <script src="~/js/vuetify.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+
+
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script type="text/javascript" src="~/lib/knockout/dist/knockout.js"></script>
+        <script type="text/javascript" src="~/lib/knockout/dist/knockout.debug.js"></script>
+        @*<script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.min.js"></script>*@
+        <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="~/lib/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"></script>
+        <script type="text/javascript" src="~/lib/jquery.blockUI/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="~/lib/iCheck/icheck.min.js"></script>
+        <script type="text/javascript" src="~/bower_components/perfect-scrollbar/js/min/perfect-scrollbar.jquery.min.js"></script>
+        <script type="text/javascript" src="~/lib/jquery.cookie/jquery.cookie.js"></script>
+        <script type="text/javascript" src="~/lib/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript" src="~/js/min/main.min.js"></script>
+        <script src="~/js/main.js"></script>
+        <script src="~/lib/bootstrap-select/dist/js/bootstrap-select.js"></script>
+
+        <script src="~/bower_components/Flot/jquery.flot.js"></script>
+        <script src="~/bower_components/Flot/jquery.flot.pie.js"></script>
+        <script src="~/bower_components/Flot/jquery.flot.resize.js"></script>
+        <script src="~/bower_components/plugin/jquery.sparkline.min.js"></script>
+        <script src="~/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+        <script src="~/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+        <script src="~/lib/moment/min/moment.min.js"></script>
+        <script src="~/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+        <script src="~/js/min/index.min.js"></script>
+        <script src="~/lib/bootbox.js/bootbox.js"></script>
+        <script src="~/lib/moment/moment.js"></script>
+        <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBiLXgFd1xRjjze51ZUsTsAs4m1bTg9eAI"></script>
+        <script src="~/js/Helpers/Globals.js"></script>
+        <script src="~/lib/jquery-sticky/jquery.sticky.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+        <script src="~/js/AdminLTE/fastclick/fastclick.js"></script>
+        <script src="~/js/AdminLTE/app.js"></script>
+        <script src="~/js/AdminLTE/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="~/lib/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+        <script src="~/js/min/pages-user-profile.js"></script>
+        <script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+        <script src="~/lib/knockout.mapping-master/build/output/knockout.mapping-latest.js"></script>
+        @*<script src="~/lib/vue/dist/vue.js"></script>*@
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
+        <script src="~/lib/store2/dist/store2.min.js"></script>
+        <script src="~/bower_components/plugin/data-table/js/jquery.dataTables.min.js"></script>
+        <script src="~/bower_components/plugin/data-table/js/jquery-table.js"></script>
+        @*<script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>*@
+        <script src="~/js/vuetify.js"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
+
+    <script>
+
+        $(window).on('load', function () { $(".se-pre-con").fadeOut("slow"); });
+
+        function ShowGadget() {
+            $('#gadget').removeClass();
+            $('#gadget').addClass("animated bounceInUp");
+        }
+
+    </script>
+
+</body>
+@*
+<div class="se-pre-con"></div>*@
+</html>

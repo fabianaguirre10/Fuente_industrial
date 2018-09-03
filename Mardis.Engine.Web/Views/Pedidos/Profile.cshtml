@@ -1,0 +1,414 @@
+﻿@{
+    var IdRegister = (string)ViewData[CTask.IdRegister];
+}
+
+@section buttons{}
+@section filters{}
+
+<link href="~/css/mardis-images.css" rel="stylesheet" />
+<link href="~/css/tools/input/css/set2.css" rel="stylesheet" />
+<style>
+     font-family: 'Bree Serif', serif;
+      }
+      span, h4, .letra {
+          font-family: "Times New Roman";
+          font-size: 10px;
+      }
+      .titulo {
+          font-family: "Arial Narrow", Arial, sans-serif;
+          font-size: 12px;
+          white-space: pre;
+      }
+      .titulopie {
+          font-family: Tahoma, Verdana, Segoe, sans-serif;
+          font-size: 12px;
+          white-space: pre;
+      }
+      .row > .sinespacio {
+          display: inline-block;
+          margin: 0;
+          float: left;
+          white-space: nowrap;
+      }
+      .row > .limpiar {
+          clear: both;
+      }
+      table {
+          border: 0px;
+          border-spacing: 0px;
+          border-collapse: collapse;
+      }
+      td, th {
+          padding: 0px;
+          border: 0px;
+          margin: 0px;
+      }
+      .izq {
+          text-align: right;
+      }
+      .borde {
+          border-style: solid;
+          border-width: 1px;
+          border-color: black;
+          padding-bottom: 3px;
+      }
+   
+    .inputeditable {
+    }
+
+    .input-xs {
+        height: 22px;
+        padding: 2px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        -ms-border-radius: 0;
+        border-radius: 0;
+        width: 100%;
+    }
+
+    .inputmardis {
+        height: 22px;
+        padding: 2px 5px;
+        font-size: 10px;
+        line-height: 1.5;
+        -ms-border-radius: 5px;
+        border-radius: 5px;
+        width: 100%;
+        background-color: #cccccc;
+        text-align: center;
+        margin: 0;
+        /*font-weight: bold;*/
+        display: block;
+    }
+
+    .casounasem {
+        padding-right: 0px;
+        width: 3.43333%;
+        float: left;
+        text-align: center;
+    }
+
+    .col-sm-18 {
+        padding-right: 0px;
+        width: 4.9%;
+        float: left;
+        text-align: center;
+    }
+
+    * {
+        padding: 0;
+    }
+
+    .input-subline {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #000000;
+    }
+
+    #divImages .panel-body {
+        height: auto !important;
+        overflow-y: hidden !important;
+    }
+</style>
+
+
+
+<div id="divPoll">
+    <div id="divHeaderPoll">
+        <div class="row">
+            <div class="col-sm-3">
+                <strong>Campaña: </strong> {{poll.tarea.CampaignName}}
+            </div>
+            <div class="col-sm-3">
+                <strong>Cliente: </strong> {{poll.tarea.CustomerName}}
+            </div>
+            <div class="col-sm-3">
+                <strong>Mercaderista: </strong> {{poll.tarea.MerchantName + ' ' + poll.tarea.MerchantSurname}}
+            </div>
+            <div class="col-sm-3">
+                <strong>Fecha: </strong> {{moment(poll.tarea.DateCreation).format('L')}}
+            </div>
+        </div>
+
+        <div style="margin-top: 7px;"></div>
+        <hr style="border-color: #CCCCCC; margin-top: 7px;" />
+
+        <div class="row">
+            <div class="col-sm-1 pull-left" style="text-align: center;">
+                <img src="~/images/ISOTIPO_ENGINE.png" class="img-circle" alt="BranchImage" style="width: 50px;" />
+            </div>
+
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h3 style="margin-top: 0;">
+                            {{poll.tarea.BranchExternalCode + ' - ' + poll.tarea.BranchName}}
+                        </h3>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="col-sm-4">
+                            ESTADO:
+                        </div>
+                        <div class="col-sm-8">
+                            <select id="selStatusTask" v-model="poll.IdStatusTask" class="form-control input-sm"
+                                    asp-items="ViewBag.StatusList"></select>
+
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="col-sm-4">
+                            RUTA:
+                        </div>
+                        <div class="col-sm-8">
+                            <h4>{{poll.tarea.Route}}</h4>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+
+
+                        <a href="#" class="btn btn-danger" id="btnImprimir" onclick="UploadFilesNew();">
+                            <i class="fa fa-print"></i> Imprimir
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="wizard" class="swMain">
+            <ul style="margin-bottom: 0;">
+                <li>
+                    <a href="#">
+                        <div class="stepNumber"
+                             v-bind:style="{'background-color':poll.tarea.StatusTaskName==='Pendiente'?'#C40000':''}">
+                        </div>
+                        <span class="stepDesc">
+                            Pendiente
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="stepNumber"
+                             v-bind:style="{'background-color':poll.tarea.StatusTaskName==='Iniciado'?'#E26B00':''}">
+                        </div>
+                        <span class="stepDesc">
+                            Iniciado
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="stepNumber"
+                             v-bind:style="{'background-color':poll.tarea.StatusTaskName==='Implementado'?'#2C9B36':''}">
+                        </div>
+                        <span class="stepDesc">
+                            Implementado
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="stepNumber"
+                             v-bind:style="{'background-color':poll.tarea.StatusTaskName==='No Implementado'?'#1091BF':''}">
+                        </div>
+                        <span class="stepDesc">
+                            No Implementado
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="text-align: center;">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#pnlBranchDat">DATOS DEL LOCAL</a>
+                    </h4>
+                </div>
+                <div id="pnlBranchDat" class="panel-collapse collapse">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Nombre de Local: </strong> {{poll.tarea.BranchName}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Calle Principal: </strong> {{poll.tarea.BranchMainStreet}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Rótulo: </strong> {{poll.tarea.BranchLabel}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Referencia: </strong> {{poll.tarea.BranchReference}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Provincia: </strong> {{poll.tarea.BranchProvince}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Ciudad: </strong> {{poll.tarea.BranchCity}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Parroquia: </strong> {{poll.tarea.BranchParish}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Barrio: </strong> {{poll.tarea.BranchNeighborhood}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Propietario: </strong> {{poll.tarea.BranchOwnerName}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Cédula/Ruc: </strong> {{poll.tarea.BranchOwnerDocument}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Teléfono: </strong> {{poll.tarea.BranchOwnerPhone}}
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>Celular: </strong> {{poll.tarea.BranchOwnerMobile}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div style="margin-top: 7px;"></div>
+
+
+
+    </div>
+
+    <div id="divPollServices">
+        <div class="col-sm-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th><h4 class="titulo">Codigo</h4></th>
+                        <th><h4 class="titulo">Descripcion</h4></th>
+                        <th><h4 class="titulo">Cant.</h4></th>
+                        <th><h4 class="titulo">P.Unit</h4></th>
+                        <th><h4 class="titulo">Pronto Pago.</h4></th>
+                        <th><h4 class="titulo">Descuento.</h4></th>
+                        <th><h4 class="titulo">Subtotal</h4></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(detalle, index) in poll.PedidosItems">
+                        <td class="codigo">  {{detalle.idArticulo}}</td>
+                        <td class="descripcion">{{detalle.articulos.descripcion}}</td>
+                        <td class="cantidad izq">{{detalle.cantidad}}</td>
+                        <td class="precio izq">{{detalle.importeUnitario}}</td>
+                        <td class="descuento izq">{{detalle.ppago}}</td>
+                        <td class="descuento izq">{{detalle.nespecial}}</td>
+                        <td class="subtotal izq">{{detalle.total}}</td>
+                    </tr>
+                </tbody>
+            </table>
+           
+
+
+        </div>
+    </div>
+
+
+
+    @section scripts{
+        <script src="~/js/dgIMG.js"></script>
+        <script src="~/js/viewModel/PedidoTask.js"></script>
+        <script src="~/js/tools/classie.js"></script>
+        <script>
+        $.blockUI({ message: "" });
+        var IdTask = '@Html.Raw(IdRegister)';
+
+        LoadTaskById(IdTask);
+
+        $(document).ready(function () {
+            $('.inputeditable').editable({
+                success: function (response, newValue) {
+                    debugger;
+                    var elm = "#txt" + this.id;
+                    $(elm).val(newValue);
+                }
+            });
+            $("#ddlStatusTask").change(function () {
+                alert("Handler for .change() called.");
+
+            });
+            $(".target").change(function () {
+                alert("Handler for .change() called.");
+            });
+
+        });
+
+
+        $.fn.editable.defaults.mode = 'inline';
+
+        $("#divImages").sticky({ topSpacing: 50 });
+
+
+        function ChangeStatusManual() {
+            var selectedStatus = $("#ddlStatusTask>option:selected").html();
+            if ("@CTask.StatusNotImplemented" !== selectedStatus) {
+                bootbox.alert("No puede cambiar el estado de la tarea!");
+                $("#ddlStatusTask").val(modelView.Register.IdTaskNotImplemented);
+            } else {
+                $("#divChangeStatus").modal();
+            }
+        }
+
+        filters = "@ViewData["currentFilter"]";
+        function valorseleccion(codigo) {
+
+            ObtenerPregunta(codigo.value,codigo.id);
+
+
+
+
+        }
+
+        function UploadFilesNew() {
+            $.blockUI({ message: "Generando..." });
+               $.ajax({
+                   url: '/Task/UploadFile',
+                type: "POST",
+                content: "application/json; charset=utf-8",
+                data: {
+
+                     Idtask: getParameterByName('idTask')
+                },
+                success: function (data) {
+                    if (data != '' || data != null) {
+
+                        location.href = data;
+
+                    } else {
+                        bootbox.alert("Existió un problema, comuníquese con el administrador");
+
+                    }
+                    $.unblockUI();
+                },
+
+                error: function () {
+
+                    $.unblockUI();
+                }
+                ,
+                async: true, // La petición es síncrona
+            });
+        }
+
+        </script>
+    }
