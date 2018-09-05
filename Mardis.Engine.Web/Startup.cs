@@ -22,6 +22,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 //using AspNet.Security.OAuth.GitHub;
 //using Microsoft.AspNetCore.Authentication.OAuth;
 using UserStore = Mardis.Engine.Web.Libraries.Security.UserStore;
@@ -51,9 +52,12 @@ namespace Mardis.Engine.Web
             var conn = Configuration.GetConnectionString("DefaultConnection");
             var userStore = new UserStore(conn);
             var roleStore = new RoleStore(conn);
-
+            var manager = new ApplicationPartManager();
+            manager.ApplicationParts.Add(new AssemblyPart(typeof(Startup).Assembly));
+            services.AddSingleton(manager);
             services.AddSingleton<IUserStore<ApplicationUser>>(userStore);
             services.AddSingleton<IRoleStore<ApplicationRole>>(roleStore);
+            M@rdis123
             services.AddMvcCore();
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
