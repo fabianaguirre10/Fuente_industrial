@@ -16,8 +16,10 @@
       }
       .titulo {
           font-family: "Arial Narrow", Arial, sans-serif;
-          font-size: 12px;
+          font-size: 14px;
           white-space: pre;
+          text-align:center;
+          font-weight:700;
       }
       .titulopie {
           font-family: Tahoma, Verdana, Segoe, sans-serif;
@@ -42,6 +44,7 @@
           padding: 0px;
           border: 0px;
           margin: 0px;
+          text-align:center;
       }
       .izq {
           text-align: right;
@@ -108,6 +111,18 @@
     #divImages .panel-body {
         height: auto !important;
         overflow-y: hidden !important;
+    }
+
+
+    element.style {
+        color: black;
+    }
+
+
+
+    .box-title {
+             color: #1c1a1a !important;
+        font-weight: 700 !important;
     }
 </style>
 
@@ -290,48 +305,21 @@
 
 
     </div>
+    <section class="content">
 
-    <div id="divPollServices">
-        <div class="col-sm-12">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-
-                        <th><h4 class="titulo">Codigo</h4></th>
-                        <th><h4 class="titulo">Descripcion</h4></th>
-                        <th><h4 class="titulo">Cant.</h4></th>
-                        <th><h4 class="titulo">P.Unit</h4></th>
-                        <th><h4 class="titulo">Pronto Pago.</h4></th>
-                        <th><h4 class="titulo">Descuento.</h4></th>
-                        <th><h4 class="titulo">Subtotal</h4></th>
-                        <th><h4 class="titulo">Num. Factura</h4></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(detalle, index) in poll.PedidosItems">
-                        <td class="codigo">  {{detalle.idArticulo}}</td>
-                        <td class="descripcion">{{detalle.articulos.descripcion}}</td>
-                        <td class="cantidad izq">{{detalle.cantidad}}</td>
-                        <td class="precio izq">{{detalle.importeUnitario}}</td>
-                        <td class="descuento izq">{{detalle.ppago}}</td>
-                        <td class="descuento izq">{{detalle.nespecial}}</td>
-                        <td class="subtotal izq">{{detalle.total}}</td>
-                        <td class=""><input v-info cclass="datosfac" v-bind:id="detalle._id" v-model="detalle.numero_factura" /> </td>
-                    </tr>
-                </tbody>
-            </table>
-
-
-
+      
+        <div v-if="poll.tarea.IdStatusTask!='d0723711-b3ab-4736-bfa9-18e0d4a9824c' ">
+            @Html.Partial("_factura")
         </div>
-        {{json||poll}}
-    </div>
+        <div v-else>
+            @Html.Partial("_pedido")  
+        </div>
 
-    </div>
+    </section>
+ 
+</div>
 <div>
-    <a href="#" class="btn btn-primary" id="btnguardar" onclick="saveinfo()">
-        <i class="fa fa-save"></i> Guardar
-    </a>
+
 </div>
 
     @section scripts{

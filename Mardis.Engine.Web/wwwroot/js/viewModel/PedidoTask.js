@@ -39,7 +39,8 @@ function ApplyBindingTaskService(data) {
         el: "#divPoll",
         data: {
             poll: data,
-            carouselIndex: -1
+            carouselIndex: -1,
+            factActi: "0"
         },
         methods: {
             keymonitor: function (event) {
@@ -76,6 +77,93 @@ function ApplyBindingTaskService(data) {
                 window.open(url, 'Download');
 
             },
+            subtotales: function (index) {
+
+                var data=0
+                for (i in this.poll.PedidosItems) {
+                    console.log(i )
+
+                    data = data + this.poll.PedidosItems[i].total;
+                }
+                return "$" + parseFloat(data).toFixed(2);
+
+            },
+            IVA: function (index) {
+
+                var data = 0
+                for (i in this.poll.PedidosItems) {
+                    console.log(i)
+
+                    data = data + this.poll.PedidosItems[i].total;
+                }
+                return "$" + parseFloat(data*0.12).toFixed(2);
+
+            },
+            total: function (index) {
+
+                var data = 0
+                for (i in this.poll.PedidosItems) {
+                    console.log(i)
+
+                    data = data + this.poll.PedidosItems[i].total;
+                }
+                return "$" + parseFloat(data*1.12).toFixed(2);
+
+            },
+            subtotalesFAC: function (index) {
+
+                var data = 0
+                for (i in this.poll.PedidosItems) {
+                    console.log(i)
+
+                    if (this.poll.PedidosItems[i].numero_factura == this.factActi) {
+                        data = data + this.poll.PedidosItems[i].total;
+                    }
+
+                }
+                return "$" + parseFloat(data).toFixed(2);
+
+            },
+            IVAFAC: function (index) {
+
+                var data = 0
+                for (i in this.poll.PedidosItems) {
+                    console.log(i)
+                    if (this.poll.PedidosItems[i].numero_factura == this.factActi) {
+                        data = data + this.poll.PedidosItems[i].total;
+                    }
+                  
+                }
+                return "$" + parseFloat(data * 0.12).toFixed(2);
+
+            },
+            totalFAC: function (index) {
+
+                var data = 0
+                for (i in this.poll.PedidosItems) {
+                    console.log(i)
+
+                    if (this.poll.PedidosItems[i].numero_factura == this.factActi) {
+                        data = data + this.poll.PedidosItems[i].total;
+                    }
+
+                }
+                return "$" + parseFloat(data * 1.12).toFixed(2);
+
+            },
+            facturaModel: function( _model) {
+                var a = ['modelIni'];
+                for (i in _model) {
+                    a.push(_model[i].numero_factura)
+                }
+                var unique = a.filter(onlyUnique); // returns ['a', 1, 2, '1']
+                return unique.splice(1, unique.length);;
+            },
+
+            OpenModel: function (_model) {
+                this.factActi = _model;
+                $('#responsive').modal('show');
+            },
             onFileChange(e, index) {
                 console.log(e.target.files)
                 var files = e.target.files || e.dataTransfer.files;
@@ -83,6 +171,7 @@ function ApplyBindingTaskService(data) {
                     return;
                 this.createImage(files[0], index);
             },
+          
             createImage(file, index) {
                 var image = new Image();
                 var reader = new FileReader();
@@ -95,6 +184,7 @@ function ApplyBindingTaskService(data) {
                 console.log(this.poll.BranchImages[index])
 
             }
+
         }
     });
 
@@ -102,7 +192,15 @@ function ApplyBindingTaskService(data) {
 
     $.unblockUI();
 }
+
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+
+// usage example:
+
 function saveinfo() {
+    $.blockUI({ message: "Generando Facturas..." });
     $.ajax({
         url: "/Pedidos/Save",
         type: "post",
@@ -116,9 +214,10 @@ function saveinfo() {
 
                 window.location.href = "/Task/MyTasks";
             }
+            $.unblockUI();
         },
         error: function (xhr, ajaxOptions, thrownError) {
-
+            $.unblockUI();
         }
     });
 }

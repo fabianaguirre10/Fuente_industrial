@@ -1,0 +1,110 @@
+
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title">Facturas</h3>
+
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Remove">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="col-lg-12">
+            <div class="col-sm-1 center" v-for="(detalle, index) in facturaModel(poll.PedidosItems)">
+                <div class="row">
+                    <a class="fa  fa-list-alt fa-5x" href="#"v-on:click=(OpenModel(detalle))></a>
+                </div>
+                <div class="row">
+                    Fac. #{{detalle}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+        Footer
+    </div>
+
+    <div class="modal fade " id="responsive">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Factura #{{factActi}}</h4>
+                </div>
+                <div class="modal-body">
+                    <fieldset>
+                       
+                        <div class="col-sm-12">
+
+                            <div class="col-xs-12 table-responsive" id="PedidoTB">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+
+                                            <th><h3 class="titulo">Codigo</h3></th>
+                                            <th><h3 class="titulo">Descripcion</h3></th>
+                                            <th><h3 class="titulo">Cant.</h3></th>
+                                            <th><h3 class="titulo">P.Unit</h3></th>
+                                            <th><h3 class="titulo">Pronto Pago.</h3></th>
+                                            <th><h3 class="titulo">Descuento.</h3></th>
+                                            <th><h3 class="titulo">Subtotal</h3></th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(detalle, index) in poll.PedidosItems" v-if="detalle.numero_factura==factActi" >
+                                            
+                                            <td class="codigo">  {{detalle.idArticulo}}</td>
+                                            <td class="descripcion">{{detalle.articulos.descripcion}}</td>
+                                            <td class="cantidad izq">{{detalle.cantidad}}</td>
+                                            <td class="precio izq">{{detalle.importeUnitario}}</td>
+                                            <td class="descuento izq">{{detalle.ppago}}</td>
+                                            <td class="descuento izq">{{detalle.nespecial}}</td>
+                                            <td class="subtotal izq">{{detalle.total}}</td>
+                                        
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                            <div class="col-lg-offset-7 col-lg-5">
+                                <p class="lead">Detalle Pedidos </p>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:50%">Subtotal:</th>
+                                            <td>{{ subtotalesFAC(poll._id) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Iva (12%)</th>
+                                            <td>{{ IVAFAC(poll._id) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total:</th>
+                                            <td>{{ totalFAC(poll._id) }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-info">Salir</button>
+                    @*<button type="button" data-dismiss="modal" class="btn btn-success">Guardar</button>*@
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.box-footer-->
+</div>

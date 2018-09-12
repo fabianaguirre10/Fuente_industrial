@@ -27,5 +27,6 @@ namespace Mardis.Engine.DataAccess.MardisPedidos
         [ForeignKey("idPedido")]
         public Pedidos Pedidos { get; set; }
 
+        public String numero_factura { get; set; }
     }
 }
