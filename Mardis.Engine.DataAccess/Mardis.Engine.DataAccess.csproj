@@ -260,6 +260,7 @@
     <Compile Include="MardisCore\TypeService.cs" />
     <Compile Include="MardisCore\UserCanpaign.cs" />
     <Compile Include="MardisPedidos\Articulos.cs" />
+    <Compile Include="MardisPedidos\Factura.cs" />
     <Compile Include="MardisPedidos\Pedidos.cs" />
     <Compile Include="MardisPedidos\PedidosItems.cs" />
     <Compile Include="MardisSecurity\AuthorizationComponent.cs" />

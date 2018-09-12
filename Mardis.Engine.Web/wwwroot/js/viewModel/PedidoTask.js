@@ -102,3 +102,24 @@ function ApplyBindingTaskService(data) {
 
     $.unblockUI();
 }
+function saveinfo() {
+    $.ajax({
+        url: "/Pedidos/Save",
+        type: "post",
+        data: {
+            poll: ko.toJSON(vueVM.$data.poll)
+        },
+        success: function (data) {
+            if (data) {
+                store.clearAll();
+                bootbox.alert("Registros Actualizados Satisfactoriamente");
+
+                window.location.href = "/Task/MyTasks";
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+
+        }
+    });
+}
+

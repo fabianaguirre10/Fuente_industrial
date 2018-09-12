@@ -296,6 +296,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+
                         <th><h4 class="titulo">Codigo</h4></th>
                         <th><h4 class="titulo">Descripcion</h4></th>
                         <th><h4 class="titulo">Cant.</h4></th>
@@ -303,6 +304,7 @@
                         <th><h4 class="titulo">Pronto Pago.</h4></th>
                         <th><h4 class="titulo">Descuento.</h4></th>
                         <th><h4 class="titulo">Subtotal</h4></th>
+                        <th><h4 class="titulo">Num. Factura</h4></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -314,16 +316,23 @@
                         <td class="descuento izq">{{detalle.ppago}}</td>
                         <td class="descuento izq">{{detalle.nespecial}}</td>
                         <td class="subtotal izq">{{detalle.total}}</td>
+                        <td class=""><input v-info cclass="datosfac" v-bind:id="detalle._id" v-model="detalle.numero_factura" /> </td>
                     </tr>
                 </tbody>
             </table>
-           
+
 
 
         </div>
+        {{json||poll}}
     </div>
 
-
+    </div>
+<div>
+    <a href="#" class="btn btn-primary" id="btnguardar" onclick="saveinfo()">
+        <i class="fa fa-save"></i> Guardar
+    </a>
+</div>
 
     @section scripts{
         <script src="~/js/dgIMG.js"></script>

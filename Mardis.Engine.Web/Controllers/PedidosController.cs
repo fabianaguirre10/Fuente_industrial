@@ -100,6 +100,7 @@ namespace Mardis.Engine.Web.Controllers
                     nuevo.ppago = ip.ppago;
                     nuevo.nespecial = ip.nespecial;
                     nuevo.articulos = _articulosBusiness.GetArticulo(nuevo.idArticulo);
+                    nuevo.numero_factura = "";
                     pedidoItemsModels.Add(nuevo);
                 }
                 pedidomodelo.PedidosItems = pedidoItemsModels;
@@ -131,7 +132,21 @@ namespace Mardis.Engine.Web.Controllers
 
         }
 
-
+        [HttpPost]
+        public JsonResult Save(string poll)
+        {
+            try
+            {
+                var model = JSonConvertUtil.Deserialize<PedidoModel>(poll);
+               
+                return Json(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(new EventId(0, "Error Index"), ex.Message);
+                return null;
+            }
+        }
 
     }
 }

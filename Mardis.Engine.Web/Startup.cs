@@ -57,7 +57,7 @@ namespace Mardis.Engine.Web
             services.AddSingleton(manager);
             services.AddSingleton<IUserStore<ApplicationUser>>(userStore);
             services.AddSingleton<IRoleStore<ApplicationRole>>(roleStore);
-            M@rdis123
+        
             services.AddMvcCore();
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>

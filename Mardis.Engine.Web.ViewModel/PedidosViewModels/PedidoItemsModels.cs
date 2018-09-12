@@ -20,5 +20,6 @@ namespace Mardis.Engine.Web.ViewModel.PedidosViewModels
         public Decimal? ppago { get; set; }
         public Decimal? nespecial { get; set; }
         public Articulos articulos { get; set; }
+        public String numero_factura { get; set; }
     }
 }
