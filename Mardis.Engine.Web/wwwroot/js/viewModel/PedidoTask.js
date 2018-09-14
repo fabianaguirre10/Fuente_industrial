@@ -90,24 +90,30 @@ function ApplyBindingTaskService(data) {
             },
             IVA: function (index) {
 
-                var data = 0
+                var data = 0;
                 for (i in this.poll.PedidosItems) {
-                    console.log(i)
-
-                    data = data + this.poll.PedidosItems[i].total;
+                  
+                    if (this.poll.PedidosItems[i].articulos.iva == 1) {
+                        data = data + this.poll.PedidosItems[i].total;
+                    }
+                   
                 }
                 return "$" + parseFloat(data*0.12).toFixed(2);
 
             },
             total: function (index) {
 
-                var data = 0
+                var data = 0;
+                var datasin = 0;
                 for (i in this.poll.PedidosItems) {
-                    console.log(i)
+                    if (this.poll.PedidosItems[i].articulos.iva == 1) {
+                        data = data + this.poll.PedidosItems[i].total * 1.12;
+                    } else { 
 
-                    data = data + this.poll.PedidosItems[i].total;
+                        datasin = datasin + this.poll.PedidosItems[i].total;
+                    }
                 }
-                return "$" + parseFloat(data*1.12).toFixed(2);
+                return "$" + parseFloat(data + datasin).toFixed(2);
 
             },
             subtotalesFAC: function (index) {
@@ -130,7 +136,9 @@ function ApplyBindingTaskService(data) {
                 for (i in this.poll.PedidosItems) {
                     console.log(i)
                     if (this.poll.PedidosItems[i].numero_factura == this.factActi) {
-                        data = data + this.poll.PedidosItems[i].total;
+                        if (this.poll.PedidosItems[i].articulos.iva == 1) {
+                            data = data + this.poll.PedidosItems[i].total;
+                        }
                     }
                   
                 }
@@ -140,15 +148,21 @@ function ApplyBindingTaskService(data) {
             totalFAC: function (index) {
 
                 var data = 0
+                var datasin = 0
                 for (i in this.poll.PedidosItems) {
                     console.log(i)
 
                     if (this.poll.PedidosItems[i].numero_factura == this.factActi) {
-                        data = data + this.poll.PedidosItems[i].total;
+                        if (this.poll.PedidosItems[i].articulos.iva == 1) {
+                            data = data + this.poll.PedidosItems[i].total * 1.12;
+                        } else {
+
+                            datasin = datasin + this.poll.PedidosItems[i].total;
+                        }
                     }
 
                 }
-                return "$" + parseFloat(data * 1.12).toFixed(2);
+                return "$" + parseFloat(data + datasin).toFixed(2);
 
             },
             facturaModel: function( _model) {
