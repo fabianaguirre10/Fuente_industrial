@@ -65,20 +65,10 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <strong><i class="fa fa-bus margin-r-5"></i> Camiones</strong>
+                        <strong><i class="fa fa-bus margin-r-5"></i> Cobros</strong>
                         <br />
                         <img alt="..." v-for="(fotos, i) in poll.EquipamentImg" v-bind:src="fotos.UrlImage" v-if="fotos.ContentType =='3'" class="margin " style="width:130px; height:100px;">
                         <hr>
-                        <strong><i class="fa fa-tasks margin-r-5"></i> Implementación</strong>
-                        <br />
-                       
-                            <img alt="..." v-for="(fotos, i) in poll.EquipamentImg" v-bind:src="fotos.UrlImage" v-if="fotos.ContentType =='1'" class="margin " style="width:130px; height:100px;">
-                        
-                        <hr>
-                        <strong><i class="fa fa-home  margin-r-5"></i> Bodegas</strong>
-                        <br />
-                        <img alt="..." v-for="(fotos, i) in poll.EquipamentImg" v-bind:src="fotos.UrlImage" v-if="fotos.ContentType =='4' || fotos.ContentType =='5'" class="margin " style="width:130px; height:100px;">
-
                     </div>
                     <!-- /.box-body -->
                 </div>

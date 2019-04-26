@@ -58,7 +58,14 @@ namespace Mardis.Engine.Web.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+
         {
+            //RegisterViewModel nuevo = new RegisterViewModel();
+          // nuevo.Email = model.Email;
+          // nuevo.Password = "Daleaga$2504";
+           //nuevo.ConfirmPassword = "Daleaga$2504";
+          //  Register(nuevo, "");
+
             ViewData["ReturnUrl"] = returnUrl;
             ViewData["SessionEstado"] = null;
             if (ModelState.IsValid)

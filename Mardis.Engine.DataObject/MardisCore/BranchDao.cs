@@ -42,6 +42,27 @@ namespace Mardis.Engine.DataObject.MardisCore
                                       tb.IdAccount == idAccount);
         }
 
+        public Branch GetOneCode(String code, Guid idAccount)
+        {
+            return Context.Branches
+                .Include(b => b.PersonAdministration)
+                .Include(b => b.PersonOwner)
+                .Include(b => b.BranchCustomers)
+                    .ThenInclude(bc => bc.Channel)
+                .Include(b => b.BranchCustomers)
+                    .ThenInclude(bc => bc.Customer)
+                .Include(b => b.BranchCustomers)
+                    .ThenInclude(bc => bc.TypeBusiness)
+                .Include(b => b.Parish)
+                .Include(b => b.Sector)
+                .Include(b => b.District)
+                .Include(b => b.BranchImages)
+                .FirstOrDefault(tb => tb.Code.Equals(code) &&
+                                      tb.StatusRegister == CStatusRegister.Active &&
+                                      tb.IdAccount == idAccount);
+        }
+
+
         public Person GetOnePerson(Guid? id)
         {
             return Context.Persons.Where(x => x.Id==id).First();

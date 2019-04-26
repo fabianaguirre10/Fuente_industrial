@@ -287,6 +287,11 @@ namespace Mardis.Engine.DataAccess
         public DbSet<Pedidos> Pedidos { get; set; }
         public DbSet<PedidosItems> PedidosItems { get; set; }
 
+        public DbSet<Pagos> Pagos { get; set; }
+        public DbSet<ChequePagos> ChequePagos { get; set; }
+        public DbSet<PagosDetalles> PagosDetalles { get; set; }
+
+
 
 
 

@@ -385,6 +385,7 @@
     <Compile Include="MardisCore\TaskNotImplementedReasonBusiness.cs" />
     <Compile Include="MardisCore\UserCanpaignBusiness.cs" />
     <Compile Include="MardisPedidos\ArticulosBusiness.cs" />
+    <Compile Include="MardisPedidos\PagosBusiness.cs" />
     <Compile Include="MardisPedidos\PedidosBusiness.cs" />
     <Compile Include="MardisSecurity\MenuBusiness.cs" />
     <Compile Include="MardisCommon\ParishBusiness.cs" />

@@ -40,7 +40,9 @@ function ApplyBindingTaskService(data) {
         data: {
             poll: data,
             carouselIndex: -1,
-            factActi: "0"
+            factActi: "0",
+            idtaskstaus: data.IdStatusTask
+
         },
         methods: {
             keymonitor: function (event) {
@@ -215,24 +217,47 @@ function onlyUnique(value, index, self) {
 
 function saveinfo() {
     $.blockUI({ message: "Generando Facturas..." });
-    $.ajax({
-        url: "/Pedidos/Save",
-        type: "post",
-        data: {
-            poll: ko.toJSON(vueVM.$data.poll)
-        },
-        success: function (data) {
-            if (data) {
-                store.clearAll();
-                bootbox.alert("Registros Actualizados Satisfactoriamente");
 
-                window.location.href = "/Task/MyTasks";
-            }
-            $.unblockUI();
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            $.unblockUI();
+    var booltak = 1;
+    var statustActual = vueVM.$data.poll.IdStatusTask;
+    if (vueVM.$data.idtaskstaus == "0ff1a786-a332-4252-aaec-8ad3f2db7bc9") {
+        for (i in vueVM.$data.poll.PedidosItems) {
+      
+            if (vueVM.$data.poll.PedidosItems[i].numero_factura == null || vueVM.$data.poll.PedidosItems[i].numero_factura=="") {
+                booltak = 0;
+            } 
+
         }
-    });
+
+        vueVM.$data.poll.IdStatusTask = "7b0d0269-1aef-4b73-9089-20e53698ff75";
+    }
+
+    if (booltak == 1) {
+        $.ajax({
+            url: "/Pedidos/Save",
+            type: "post",
+            data: {
+                poll: ko.toJSON(vueVM.$data.poll),
+                Comment: ko.toJSON(vueVM.$data.comment)
+            },
+            success: function (data) {
+                if (data) {
+                    store.clearAll();
+                    bootbox.alert("Registros Actualizados Satisfactoriamente");
+
+                    window.location.href = "/Task/MyTasks";
+                }
+                $.unblockUI();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $.unblockUI();
+            }
+        });
+    }
+    else {
+        vueVM.$data.poll.IdStatusTas = statustActual;
+        alert("Debe ingresar todos los numeros de facturas para continuar")
+        $.unblockUI();
+    }
 }
 

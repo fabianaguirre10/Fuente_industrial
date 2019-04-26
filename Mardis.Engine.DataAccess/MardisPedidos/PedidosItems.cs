@@ -23,6 +23,8 @@ namespace Mardis.Engine.DataAccess.MardisPedidos
         public int? transferido { get; set; }
         public Decimal? ppago { get; set; }
         public Decimal? nespecial { get; set; }
+        public String formapago { get; set; }
+        public String unidad { get; set; }
 
         [ForeignKey("idPedido")]
         public Pedidos Pedidos { get; set; }

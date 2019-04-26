@@ -42,8 +42,8 @@
     <Reference Include="Microsoft.AspNetCore.Antiforgery, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Antiforgery.1.1.2\lib\net451\Microsoft.AspNetCore.Antiforgery.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Authorization, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Authorization.1.1.2\lib\net451\Microsoft.AspNetCore.Authorization.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Authorization, Version=1.1.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authorization.1.1.3\lib\net451\Microsoft.AspNetCore.Authorization.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Cryptography.Internal, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Cryptography.Internal.1.1.2\lib\net451\Microsoft.AspNetCore.Cryptography.Internal.dll</HintPath>
@@ -57,11 +57,11 @@
     <Reference Include="Microsoft.AspNetCore.Diagnostics.Abstractions, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Diagnostics.Abstractions.1.1.2\lib\netstandard1.0\Microsoft.AspNetCore.Diagnostics.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Abstractions.1.1.2\lib\net451\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions, Version=1.1.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Abstractions.1.1.3\lib\net451\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Server.Abstractions.1.1.2\lib\net451\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions, Version=1.1.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Server.Abstractions.1.1.3\lib\net451\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Html.Abstractions, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Html.Abstractions.1.1.2\lib\netstandard1.0\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
@@ -81,11 +81,11 @@
     <Reference Include="Microsoft.AspNetCore.JsonPatch, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.JsonPatch.1.1.2\lib\net451\Microsoft.AspNetCore.JsonPatch.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions, Version=1.1.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Abstractions.1.1.3\lib\net451\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions, Version=1.1.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Abstractions.1.1.4\lib\net451\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Mvc.Core, Version=1.1.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Core.1.1.3\lib\net451\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Core, Version=1.1.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Core.1.1.4\lib\net451\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Mvc.DataAnnotations, Version=1.1.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Mvc.DataAnnotations.1.1.3\lib\net451\Microsoft.AspNetCore.Mvc.DataAnnotations.dll</HintPath>
@@ -253,6 +253,7 @@
     <Compile Include="BranchViewModels\BranchImagesProfileViewModel.cs" />
     <Compile Include="BranchViewModels\BranchItemViewModel.cs" />
     <Compile Include="BranchViewModels\BranchListViewModel.cs" />
+    <Compile Include="BranchViewModels\BranchListViewModelPago.cs" />
     <Compile Include="BranchViewModels\BranchLoadViewModel.cs" />
     <Compile Include="BranchViewModels\BranchMigrate.cs" />
     <Compile Include="BranchViewModels\BranchProfileViewModel.cs" />
@@ -295,6 +296,10 @@
     <Compile Include="MenuViewModel.cs" />
     <Compile Include="Paging\IPaging.cs" />
     <Compile Include="Paging\PaginatedList.cs" />
+    <Compile Include="Pagos\PagosEntidad.cs" />
+    <Compile Include="Pagos\PagosItemViewModel.cs" />
+    <Compile Include="Pagos\PagosListViewModel.cs" />
+    <Compile Include="Pagos\PagosRegisterViewModel.cs" />
     <Compile Include="PedidosViewModels\PedidoItemsModels.cs" />
     <Compile Include="PedidosViewModels\PedidoModel.cs" />
     <Compile Include="PollViewModel.cs" />

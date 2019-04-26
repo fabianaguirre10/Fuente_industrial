@@ -7232,4 +7232,10 @@
     <Reference Include="System.Web.Entity.Design" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Pagos\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

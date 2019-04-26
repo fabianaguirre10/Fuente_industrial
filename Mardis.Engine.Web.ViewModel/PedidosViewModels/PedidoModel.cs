@@ -22,6 +22,8 @@ namespace Mardis.Engine.Web.ViewModel.PedidosViewModels
         public Decimal? gpsY { get; set; }
         public Decimal? facturar { get; set; }
         public List<PedidoItemsModels> PedidosItems { get; set; }
+        public string IdStatusTask { get; set; }
+        public string comment { get; set; }
         public MyTaskViewModel tarea { get; set; }
         //public Articulos articulos { get; set; }
         public Branch branch { get; set; }

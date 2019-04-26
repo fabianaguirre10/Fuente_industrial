@@ -164,7 +164,7 @@ function ApplyBindingTaskService(data) {
         el: "#divPoll",
         data: {
             poll: data,
-            poll: data,
+      
             carouselIndex: -1
         },
         methods: {

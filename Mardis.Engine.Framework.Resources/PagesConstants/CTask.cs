@@ -16,5 +16,6 @@
         public const string StatusPending = "Pendiente";
         public const string StatusStarted = "Iniciado";
         public const string StatusImplemented = "Implementado";
+        public const string IdPago = "IdPagos";
     }
 }

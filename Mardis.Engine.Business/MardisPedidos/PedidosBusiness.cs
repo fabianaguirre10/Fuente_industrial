@@ -31,7 +31,7 @@ namespace Mardis.Engine.Business.MardisPedidos
             return _pedidosDao.GetPedido(codigo);
         }
 
-        public int SavePedido(PedidoModel _model)
+        public int SavePedido(PedidoModel _model,string comment)
         {
             //var auxModel = new PedidoModel();
             //Mapper.Initialize(cfg =>
@@ -41,7 +41,7 @@ namespace Mardis.Engine.Business.MardisPedidos
             //var itemResult = new Pedidos();
             //itemResult.PedidosItems = new HashSet<PedidosItems>();
             //itemResult = Mapper.Map<Pedidos>(_model);
-            return _pedidosDao._saveModelPedido(_model);
+            return _pedidosDao._saveModelPedido(_model, comment);
         }
     }
 }

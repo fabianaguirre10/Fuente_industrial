@@ -29,7 +29,7 @@ namespace Mardis.Engine.DataObject.MardisPedidos
         {
             return Context.Pedidos.Include(a => a.PedidosItems).Where(x=>x._id==codigo).FirstOrDefault();
         }
-        public int _saveModelPedido(PedidoModel _model)
+        public int _saveModelPedido(PedidoModel _model,string comment)
         {
 
 
@@ -43,8 +43,9 @@ namespace Mardis.Engine.DataObject.MardisPedidos
             Context.SaveChanges();
 
             var task = Context.TaskCampaigns.Where(x => x.Code == _model._id.ToString()).ToList();
-            task.First().IdStatusTask = Guid.Parse("7B0D0269-1AEF-4B73-9089-20E53698FF75");
+            task.First().IdStatusTask = Guid.Parse(_model.IdStatusTask);
             task.First().DateModification = DateTime.Now;
+            task.First().CommentTaskNoImplemented = _model.comment;
             Context.TaskCampaigns.UpdateRange(task);
             Context.SaveChanges();
             return 1;

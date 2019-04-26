@@ -29,6 +29,8 @@
                                 <th><h3 class="titulo">Pronto Pago.</h3></th>
                                 <th><h3 class="titulo">Descuento.</h3></th>
                                 <th><h3 class="titulo">Subtotal</h3></th>
+                                <th><h3 class="titulo">Forma_Pago</h3></th>
+                                <th><h3 class="titulo">Unidad</h3></th>
                                 <th><h3 class="titulo">Num. Factura</h3></th>
                             </tr>
                         </thead>
@@ -41,12 +43,20 @@
                                 <td class="descuento izq">{{detalle.ppago}}</td>
                                 <td class="descuento izq">{{detalle.nespecial}}</td>
                                 <td class="subtotal izq">{{detalle.total}}</td>
+                                <td class="subtotal izq" v-if="idtaskstaus!='d0723711-b3ab-4736-bfa9-18e0d4a9824c'">{{detalle.FormaPago}}</td>
+                                <td class="subtotal izq" v-if="idtaskstaus=='d0723711-b3ab-4736-bfa9-18e0d4a9824c'">
+                                    <select id="selStatusTask" v-model="detalle.FormaPago" class="form-control input-sm">
+                                        <option value="Contado   ">Contado</option>
+                                        <option value="Credito   ">Credito</option>
+                                    </select>
+                                </td>
+                                <td class="subtotal izq">{{detalle.unidad}}</td>
                                 <td class="">
                                     <input v-info cclass="datosfac" style="  width: 100px;
-    height: 25px;
-    margin: 0px !important;
-    text-align: center;
-    border-radius: 3px; font-weight: 700;" v-bind:id="detalle._id" v-model="detalle.numero_factura" />
+                                        height: 25px;
+                                    margin: 0px !important;
+                                    text-align: center;
+                                    border-radius: 3px; font-weight: 700;" v-bind:id="detalle._id" v-model="detalle.numero_factura" />
                                 </td>
                             </tr>
                         </tbody>
@@ -79,7 +89,16 @@
 
     </div>
     <div class="box-footer">
+        <div class="col-sm-2">
+            <select id="selStatusTask" v-model="poll.IdStatusTask" class="form-control input-sm"
+                    asp-items="ViewBag.StatusList"></select>
+        </div>
+        <div class="col-sm-8">
+            <input type="text" id="selStatusTask" v-model="poll.comment" class="form-control" />
+          </div>
         <div class="pull-right">
+
+
             <a href="@Url.Action("MyTasks", "Task")" class="btn btn-info btn-flat" id="btnCancelar" style="min-width: 100px;">
                 <i class="clip-exit"></i> Salir
             </a>
@@ -87,5 +106,7 @@
                 <i class="fa fa-save"></i> Guardar
             </a>
         </div>
+
+
     </div>
 

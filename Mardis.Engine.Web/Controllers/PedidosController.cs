@@ -44,7 +44,7 @@ namespace Mardis.Engine.Web.Controllers
         private readonly TaskCampaignBusiness _taskCampaignBusiness;
         private readonly PedidosBusiness _pedidosBusiness;
         private readonly ArticulosBusiness _articulosBusiness;
-
+        private readonly StatusTaskBusiness _statusTaskBusiness;
         public PedidosController(UserManager<ApplicationUser> userManager,
                                IHttpContextAccessor httpContextAccessor,
                                MardisContext mardisContext,
@@ -61,6 +61,7 @@ namespace Mardis.Engine.Web.Controllers
             TableName = CTask.TableName;
             _pedidosBusiness = new PedidosBusiness(mardisContext);
             _articulosBusiness = new ArticulosBusiness(mardisContext);
+            _statusTaskBusiness = new StatusTaskBusiness(mardisContext, distributedCache);
             _taskCampaignBusiness = new TaskCampaignBusiness(mardisContext, distributedCache);
         }
 
@@ -83,7 +84,8 @@ namespace Mardis.Engine.Web.Controllers
                 pedidomodelo.gpsX = model1.gpsX;
                 pedidomodelo.gpsY = model1.gpsY;
                 pedidomodelo.facturar = model1.facturar;
-
+                pedidomodelo.IdStatusTask = task.IdStatusTask.ToString();
+                pedidomodelo.comment = task.CommentTaskNotImplemented;
                 var detalleitems = _pedidosBusiness.GetPedidosItems(model1._id);
                 pedidoItemsModels = new List<PedidoItemsModels>();
                 foreach (var ip in detalleitems)
@@ -100,13 +102,15 @@ namespace Mardis.Engine.Web.Controllers
                     nuevo.ppago = ip.ppago;
                     nuevo.nespecial = ip.nespecial;
                     nuevo.articulos = _articulosBusiness.GetArticulo(nuevo.idArticulo);
-                    nuevo.numero_factura =ip.numero_factura;
+                    nuevo.numero_factura = ip.numero_factura;
+                    nuevo.FormaPago = ip.formapago;
+                    nuevo.unidad = ip.unidad;
                     pedidoItemsModels.Add(nuevo);
                 }
                 pedidomodelo.PedidosItems = pedidoItemsModels;
                 pedidomodelo.tarea = task;
                 var model = pedidomodelo;
-                return Json(model); 
+                return Json(model);
             }
 
             catch (Exception e)
@@ -122,6 +126,7 @@ namespace Mardis.Engine.Web.Controllers
             try
             {
                 ViewData[CTask.IdRegister] = idTask.ToString();
+                LoadSelectItems();
                 return View();
             }
             catch (Exception e)
@@ -131,14 +136,22 @@ namespace Mardis.Engine.Web.Controllers
             }
 
         }
+        public void LoadSelectItems()
+        {
+            ViewBag.StatusList = _statusTaskBusiness.GetAllStatusTasks(ApplicationUserCurrent.AccountId, Guid.Parse(ApplicationUserCurrent.UserId))
+                .Select(s => new SelectListItem() { Text = s.Name, Value = s.Id.ToString() })
+                    .ToList();
 
+
+        }
         [HttpPost]
-        public JsonResult Save(string poll)
+        public JsonResult Save(string poll, string comment)
         {
             try
             {
                 var model = JSonConvertUtil.Deserialize<PedidoModel>(poll);
-                _pedidosBusiness.SavePedido(model);
+                var _comment = JSonConvertUtil.Deserialize<string>(comment);
+                _pedidosBusiness.SavePedido(model, _comment);
                 return Json(model);
             }
             catch (Exception ex)
