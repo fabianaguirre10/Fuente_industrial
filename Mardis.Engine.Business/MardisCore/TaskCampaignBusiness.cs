@@ -32,13 +32,15 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using Mardis.Engine.Web.ViewModel.BranchViewModels;
 using System.Net;
 using DocumentFormat.OpenXml;
+using Mardis.Engine.Business.MardisPedidos;
+using Mardis.Engine.Web.ViewModel.PedidosViewModels;
 
 namespace Mardis.Engine.Business.MardisCore
 {
     public class TaskCampaignBusiness : ABusiness
     {
         #region VARIABLES Y CONSTRUCTORES
-        static  AzureStorageUtil azureStorageUtil;
+        static AzureStorageUtil azureStorageUtil;
         private readonly TaskCampaignDao _taskCampaignDao;
         private readonly QuestionDao _questionDao;
         private readonly QuestionDetailDao _questionDetailDao;
@@ -61,6 +63,8 @@ namespace Mardis.Engine.Business.MardisCore
         private readonly BranchMigrateDao _branchMigrateDao;
         private readonly IList<TaskMigrateResultViewModel> lstTaskResult = new List<TaskMigrateResultViewModel>();
         private readonly IList<Branch> lsBranch = new List<Branch>();
+        private readonly PedidosBusiness _pedidosBusiness;
+        private readonly ArticulosBusiness _articulosBusiness;
 
         public TaskCampaignBusiness(MardisContext mardisContext, RedisCache distributedCache)
             : base(mardisContext)
@@ -81,6 +85,8 @@ namespace Mardis.Engine.Business.MardisCore
             _profileDao = new ProfileDao(mardisContext);
             _typeUserBusiness = new TypeUserBusiness(mardisContext, distributedCache);
             _serviceDetailDao = new ServiceDetailDao(mardisContext);
+            _pedidosBusiness = new PedidosBusiness(mardisContext);
+            _articulosBusiness = new ArticulosBusiness(mardisContext);
             _questionDao = new QuestionDao(mardisContext);
             _redisCache = distributedCache;
             _serviceDetailBusiness = new ServiceDetailBusiness(mardisContext);
@@ -149,7 +155,7 @@ namespace Mardis.Engine.Business.MardisCore
         public TaskPerCampaignViewModel GetTasksPerCampaign(Guid userId, int pageIndex, int pageSize, List<FilterValue> filters, Guid idAccount)
         {
             filters = filters ?? new List<FilterValue>();
-                      var itemResult = new TaskPerCampaignViewModel("MyTasks", "Task");
+            var itemResult = new TaskPerCampaignViewModel("MyTasks", "Task");
             var user = _userDao.GetUserById(userId);
 
             if (user.Profile.TypeUser.Name == CTypePerson.PersonMerchant)
@@ -170,13 +176,13 @@ namespace Mardis.Engine.Business.MardisCore
         {
             itemResult.tasks = new List<MyStatusTaskViewModel>();
             var data = _taskCampaignDao.statusAllow(idAccount, pageIndex, pageSize);
-            int aux=0;
+            int aux = 0;
             max = 0;
             foreach (var allow in data) {
                 aux = _taskCampaignDao.GetTaskCountByCampaignAndStatus(allow.Name, filters, idAccount);
-                var taskslist= GetTaskList(pageIndex, pageSize, filters, idAccount, allow.Name);
-                max = (aux > max) ? aux: max;
-                itemResult.tasks.Add(new MyStatusTaskViewModel { TasksList = taskslist, CountTasks = aux, type = allow.Name , color =allow.color});
+                var taskslist = GetTaskList(pageIndex, pageSize, filters, idAccount, allow.Name);
+                max = (aux > max) ? aux : max;
+                itemResult.tasks.Add(new MyStatusTaskViewModel { TasksList = taskslist, CountTasks = aux, type = allow.Name, color = allow.color });
             }
 
             return itemResult;
@@ -185,7 +191,7 @@ namespace Mardis.Engine.Business.MardisCore
         private TaskPerCampaignViewModel GetTasksProperties(int pageIndex, int pageSize, List<FilterValue> filters, Guid idAccount,
               TaskPerCampaignViewModel itemResult, out int max)
         {
-        
+
             max = _taskCampaignDao.GetTaskCountByCampaignAndStatus(CTask.StatusImplemented, filters, idAccount);
 
             var countImplementedTasks = max;
@@ -214,7 +220,7 @@ namespace Mardis.Engine.Business.MardisCore
             itemResult.StartedTasksList = GetTaskList(pageIndex, pageSize, filters, idAccount,
                 CTask.StatusStarted);
 
-        
+
             itemResult.CountImplementedTasks = countImplementedTasks;
             itemResult.CountNotImplementedTasks = countNotImplementedTasks;
             itemResult.CountPendingTasks = countPendingTasks;
@@ -417,13 +423,13 @@ namespace Mardis.Engine.Business.MardisCore
             myWatch.Start();
 
 #endif
-           // taskWithPoll.ServiceCollection = GetServiceListFromCampaign(taskWithPoll.IdCampaign, idAccount, idTask);
+            // taskWithPoll.ServiceCollection = GetServiceListFromCampaign(taskWithPoll.IdCampaign, idAccount, idTask);
 
 #if DEBUG
             myWatch.Stop();
 #endif
-           // taskWithPoll = AnswerTheQuestionsFromTaskPoll(idTask, taskWithPoll);
-           // taskWithPoll.BranchImages = GetImagesTask(idAccount, taskWithPoll);
+            // taskWithPoll = AnswerTheQuestionsFromTaskPoll(idTask, taskWithPoll);
+            // taskWithPoll.BranchImages = GetImagesTask(idAccount, taskWithPoll);
             taskWithPoll.IdTaskNotImplemented = taskWithPoll.IdStatusTask;
 #if DEBUG
             myWatch.Stop();
@@ -596,7 +602,7 @@ namespace Mardis.Engine.Business.MardisCore
                     }
                 }
 
-                FinalizeTask(model, idAccount, idProfile, idUser,status);
+                FinalizeTask(model, idAccount, idProfile, idUser, status);
             }
             catch (Exception ex)
             {
@@ -616,7 +622,7 @@ namespace Mardis.Engine.Business.MardisCore
                 case CTypePerson.PersonSupervisor:
                 case CTypePerson.PersonSystem:
                     _taskCampaignDao.ImplementTask(model.IdTask, _statusTaskBusiness.GeStatusTaskByName(CTask.StatusImplemented).Id,
-                        idAccount,status);
+                        idAccount, status);
                     break;
                 case CTypePerson.PersonValidator:
                     _taskCampaignDao.ValidateTask(model.IdTask, _statusTaskBusiness.GeStatusTaskByName(CTask.StatusImplemented).Id,
@@ -625,7 +631,7 @@ namespace Mardis.Engine.Business.MardisCore
             }
         }
 
-        private void FinalizeTaskAnswerQuestion(Guid idtask, Guid idAccount, Guid idProfile, Guid idUser ,Guid status)
+        private void FinalizeTaskAnswerQuestion(Guid idtask, Guid idAccount, Guid idProfile, Guid idUser, Guid status)
         {
             var profile = _profileDao.GetById(idProfile);
 
@@ -635,7 +641,7 @@ namespace Mardis.Engine.Business.MardisCore
                 case CTypePerson.PersonSupervisor:
                 case CTypePerson.PersonSystem:
                     _taskCampaignDao.ImplementTask(idtask, _statusTaskBusiness.GeStatusTaskByName(CTask.StatusImplemented).Id,
-                        idAccount,status);
+                        idAccount, status);
                     break;
                 case CTypePerson.PersonValidator:
                     _taskCampaignDao.ValidateTask(idtask, _statusTaskBusiness.GeStatusTaskByName(CTask.StatusImplemented).Id,
@@ -644,7 +650,7 @@ namespace Mardis.Engine.Business.MardisCore
             }
         }
 
-        private void FinalizeTaskAnswerQuestionGemini(Guid idtask, Guid idAccount, Guid idProfile, Guid idUser, Guid status,string CodeGemini)
+        private void FinalizeTaskAnswerQuestionGemini(Guid idtask, Guid idAccount, Guid idProfile, Guid idUser, Guid status, string CodeGemini)
         {
             var profile = _profileDao.GetById(idProfile);
 
@@ -654,7 +660,7 @@ namespace Mardis.Engine.Business.MardisCore
                 case CTypePerson.PersonSupervisor:
                 case CTypePerson.PersonSystem:
                     _taskCampaignDao.ImplementTaskGemini(idtask, _statusTaskBusiness.GeStatusTaskByName(CTask.StatusImplemented).Id,
-                        idAccount, status,CodeGemini);
+                        idAccount, status, CodeGemini);
                     break;
                 case CTypePerson.PersonValidator:
                     _taskCampaignDao.ValidateTask(idtask, _statusTaskBusiness.GeStatusTaskByName(CTask.StatusImplemented).Id,
@@ -683,7 +689,7 @@ namespace Mardis.Engine.Business.MardisCore
 
         /*Crear Respuestas para gurdar informacion por seccion*/
         #region AnswerQuestion
-        public void CrearAnswerQuestion(List<MyTaskViewAnswer> model, Guid idAccount, Guid IdMerchant, Guid idProfile, String fintransaccion, String Idtask, Guid status,string CodigoGemini  )
+        public void CrearAnswerQuestion(List<MyTaskViewAnswer> model, Guid idAccount, Guid IdMerchant, Guid idProfile, String fintransaccion, String Idtask, Guid status, string CodigoGemini)
         {
             Guid idtask = new Guid();
             foreach (var answerquestion in model)
@@ -759,10 +765,10 @@ namespace Mardis.Engine.Business.MardisCore
                     FinalizeTaskAnswerQuestionGemini(Guid.Parse(Idtask), idAccount, idProfile, IdMerchant, status, CodigoGemini);
 
                 }
-                else { 
-                FinalizeTaskAnswerQuestion(Guid.Parse(Idtask), idAccount, idProfile, IdMerchant, status);
+                else {
+                    FinalizeTaskAnswerQuestion(Guid.Parse(Idtask), idAccount, idProfile, IdMerchant, status);
 
-            }
+                }
             }
 
         }
@@ -883,10 +889,10 @@ namespace Mardis.Engine.Business.MardisCore
             _personDao.InsertOrUpdate(person);
         }
 
-        public bool AddSection(MyTaskViewModel model, Guid idAccount, Guid idProfile, Guid idUser, Guid idseccion,Guid status)
+        public bool AddSection(MyTaskViewModel model, Guid idAccount, Guid idProfile, Guid idUser, Guid idseccion, Guid status)
         {
 
-            SaveAnsweredPoll(model, idAccount, idProfile, idUser,status);
+            SaveAnsweredPoll(model, idAccount, idProfile, idUser, status);
 
             var sections = _serviceDetailTaskBusiness.GetSections(model.IdTask, idseccion, idAccount);
 
@@ -1103,8 +1109,198 @@ namespace Mardis.Engine.Business.MardisCore
 
             return questions.OrderBy(q => q.Order).ToList();
         }
+
+
+
+        public string PrintFile(Guid idtask, string path, Guid idaccount)
+        {
+            try
+            {
+                var task = GetSectionsPollPedidos(idtask);
+                PedidoModel pedidomodelo = new PedidoModel();
+                List<PedidoItemsModels> pedidoItemsModels = new List<PedidoItemsModels>();
+                var model1 = _pedidosBusiness.GetPedido(Convert.ToInt32(task.TaskCode));
+                pedidomodelo._id = model1._id;
+                pedidomodelo.codCliente = model1.codCliente;
+                pedidomodelo.fecha = model1.fecha;
+                pedidomodelo.idVendedor = model1.idVendedor;
+                pedidomodelo.totalNeto = model1.totalNeto;
+                pedidomodelo.totalFinal = model1.totalFinal;
+                pedidomodelo.transferido = model1.transferido;
+                pedidomodelo.gpsX = model1.gpsX;
+                pedidomodelo.gpsY = model1.gpsY;
+                pedidomodelo.facturar = model1.facturar;
+                pedidomodelo.IdStatusTask = task.IdStatusTask.ToString();
+                pedidomodelo.comment = task.CommentTaskNotImplemented;
+                var detalleitems = _pedidosBusiness.GetPedidosItems(model1._id);
+                pedidoItemsModels = new List<PedidoItemsModels>();
+                foreach (var ip in detalleitems)
+                {
+                    PedidoItemsModels nuevo = new PedidoItemsModels();
+                    nuevo._id = ip._id;
+                    nuevo.idPedido = ip.idPedido;
+                    nuevo.idArticulo = ip.idArticulo;
+                    nuevo.cantidad = ip.cantidad;
+                    nuevo.importeUnitario = ip.importeUnitario;
+                    nuevo.porcDescuento = ip.porcDescuento;
+                    nuevo.total = ip.total;
+                    nuevo.transferido = ip.transferido;
+                    nuevo.ppago = ip.ppago;
+                    nuevo.nespecial = ip.nespecial;
+                    nuevo.articulos = _articulosBusiness.GetArticulo(nuevo.idArticulo);
+                    nuevo.numero_factura = ip.numero_factura;
+                    pedidoItemsModels.Add(nuevo);
+                }
+                pedidomodelo.PedidosItems = pedidoItemsModels;
+                pedidomodelo.tarea = task;
+                var model = pedidomodelo;
+
+
+
+
+
+
+                #region variable de estilo
+
+                var normalFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
+                var boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+
+                #endregion
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+                string pathFull = path + "\\form\\" + idtask.ToString() + ".pdf";
+                System.IO.FileStream fs = new FileStream(pathFull, FileMode.Create);
+                Document document = new Document(PageSize.A4, 10, 10, 10, 10);
+                PdfWriter writer = PdfWriter.GetInstance(document, fs);
+                document.AddAuthor("Mardis Research");
+                document.AddCreator("Mardis Research");
+                document.AddKeywords("Mardis");
+                document.AddSubject("Documentacion Pruebas");
+                document.AddTitle("Documentacion Pruebas");
+                document.AddHeader("Header", "Header Text");
+                document.Open();
+                #region CuerpoPDF
+
+                var logo = iTextSharp.text.Image.GetInstance((path + "\\M_MARDIS.png"));
+                logo.Alignment = 1;
+                logo.ScaleAbsoluteHeight(55);
+                logo.ScaleAbsoluteWidth(55);
+                document.Add(logo);
+                PdfPTable table = new PdfPTable(2);
+                //actual width of table in points
+                table.TotalWidth = 216f;
+                table.LockedWidth = true;
+
+                float[] widths = new float[] { 1f, 2f };
+                table.SetWidths(widths);
+                table.HorizontalAlignment = 1;
+                //leave a gap before and after the table
+                table.SpacingBefore = 20f;
+                table.SpacingAfter = 30f;
+                PdfPCell cell = new PdfPCell(new Phrase("Mardis Research", FontFactory.GetFont("Arial", 10, 1)));
+                PdfPCell cell1 = new PdfPCell(new Phrase("Documentación Engine"));
+                cell.Colspan = 2;
+                cell.Border = 0;
+                cell.HorizontalAlignment = 1;
+                cell1.Colspan = 2;
+                cell1.Border = 0;
+                cell1.HorizontalAlignment = 1;
+                table.AddCell(cell);
+                table.AddCell(cell1);
+                table.HorizontalAlignment = 1;
+                document.Add(table);
+                float[] columnWidths = { 3, 5, 3, 5, 3, 5 };
+                PdfPTable tbDatos = new PdfPTable(columnWidths);
+                tbDatos.AddCell(new PdfPCell(new Phrase("Codigo Local :", FontFactory.GetFont("Arial", 10, 1)))
+                {
+                    Border = 0,
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    PaddingBottom = 10f
+                });
+                tbDatos.AddCell(new PdfPCell(new Phrase(model.tarea.BranchExternalCode, FontFactory.GetFont("Arial", 9, 0)))
+                {
+                    Border = 0,
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    PaddingBottom = 10f
+                });
+                //   tbDatos.AddCell(new PdfPCell(new Phrase()) { Border = 0, HorizontalAlignment = Element.ALIGN_LEFT, PaddingBottom = 40f });
+                tbDatos.AddCell(new PdfPCell(new Phrase("Nombre Cliente:", FontFactory.GetFont("Arial", 10, 1)))
+                {
+                    Border = 0,
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    PaddingBottom = 10f
+                });
+                tbDatos.AddCell(new PdfPCell(new Phrase(model.tarea.BranchName, FontFactory.GetFont("Arial", 9, 0)))
+                {
+                    Border = 0,
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    PaddingBottom = 10f
+                });
+                tbDatos.AddCell(new PdfPCell(new Phrase("Dirección :", FontFactory.GetFont("Arial", 10, 1)))
+                {
+                    Border = 0,
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    PaddingBottom = 10f
+                });
+                tbDatos.AddCell(new PdfPCell(new Phrase(model.tarea.BranchMainStreet, FontFactory.GetFont("Arial", 9, 0)))
+                {
+                    Border = 0,
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    PaddingBottom = 10f
+                });
+                tbDatos.AddCell(new PdfPCell(new Phrase("", FontFactory.GetFont("Arial", 10, 0)))
+                {
+                    Border = 0,
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    PaddingBottom = 30f
+                });
+                tbDatos.AddCell(new PdfPCell(new Phrase("", FontFactory.GetFont("Arial", 10, 0)))
+                {
+                    Border = 0,
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    PaddingBottom = 30f
+                });
+                //   tbDatos.AddCell(new PdfPCell(new Phrase()) { Border = 0, HorizontalAlignment = Element.ALIGN_LEFT, PaddingBottom = 40f });
+
+                document.Add(tbDatos);
+                document.Close();
+
+
+                writer.Close();
+                fs.Close();
+                //System.IO.FileStream fs2 = fs;
+
+                //MemoryStream memStream = new MemoryStream();
+                //using (FileStream fss = File.Open(pathFull, FileMode.Open))
+                //{
+
+                //    fss.Position = 0;
+                //    fss.CopyTo(memStream);
+
+                //}
+                byte[] by2tes = System.IO.File.ReadAllBytes(pathFull);
+                File.WriteAllBytes("myfile.pdf", by2tes);
+
+                MemoryStream stream = new MemoryStream(by2tes);
+                AzureStorageUtil.UploadFromStream(stream, "Pedido", model._id + "_" + model.tarea.BranchName + ".pdf").Wait();
+                var uri = AzureStorageUtil.GetUriFromBlob("Pedido", model._id + "_" + model.tarea.BranchName + ".pdf");
+                // loading bytes from a file is very easy in C#. The built in System.IO.File.ReadAll* methods take care of making sure every byte is read properly.
+                if (File.Exists(pathFull))
+                {
+                    File.Delete(pathFull);
+                }
+                return uri;
+
+            }
+            catch (Exception ex)
+            {
+
+                return "";
+            }
+        }
+        #endregion
+
         #region Impresion
-        public string PrintFile(Guid idtask, string path, Guid idaccount) {
+        public string PrintFile1(Guid idtask, string path, Guid idaccount) {
             try
             {
                
