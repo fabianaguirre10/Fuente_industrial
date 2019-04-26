@@ -385,33 +385,29 @@
         }
 
         function UploadFilesNew() {
-            $.blockUI({ message: "Generando..." });
-               $.ajax({
-                   url: '/Task/UploadFile',
-                type: "POST",
-                content: "application/json; charset=utf-8",
-                data: {
+            $.blockUI({ message: "Generando el PDF" });
+            report()
+            }
 
-                     Idtask: getParameterByName('idTask')
+        function report() {
+            var region = document.querySelector("#capture_censo"); // whole screen
+            $.ajax({
+                url: '/Pedidos/UploadFile',
+                type: 'post',
+                data: {
+                    Idtask: getParameterByName('idTask'),
+                    task: ko.toJSON(vueVM.$data.poll)
                 },
                 success: function (data) {
                     if (data != '' || data != null) {
 
                         location.href = data;
-
+                        $.unblockUI();
                     } else {
                         bootbox.alert("Existió un problema, comuníquese con el administrador");
-
+                        $.unblockUI();
                     }
-                    $.unblockUI();
-                },
-
-                error: function () {
-
-                    $.unblockUI();
                 }
-                ,
-                async: true, // La petición es síncrona
             });
         }
 

@@ -144,6 +144,31 @@ namespace Mardis.Engine.Web.Controllers
 
 
         }
+
+        #region Impresion
+        [HttpPost]
+        public JsonResult UploadFile(String Idtask, String task)
+        {
+            try
+            {
+                var Filepath = envrnmt.WebRootPath;
+                var imgg = "";
+                var outs = "";
+                if (Idtask != null)
+                    outs = _taskCampaignBusiness.PrintFile(Guid.Parse(Idtask), Filepath, ApplicationUserCurrent.AccountId, imgg, task);
+
+
+                return Json(outs);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(new EventId(0, "Error Index"), ex.Message);
+
+                return Json("");
+            }
+        }
+        #endregion
+
         [HttpPost]
         public JsonResult Save(string poll, string comment)
         {
