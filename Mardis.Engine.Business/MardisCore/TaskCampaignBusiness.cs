@@ -1111,9 +1111,433 @@ namespace Mardis.Engine.Business.MardisCore
         }
 
 
+        public string PrintFile(Guid idtask, string path, Guid idaccount)
+        {
+            try
+            {
+                var task = GetSectionsPollPedidos(idtask);
+                PedidoModel pedidomodelo = new PedidoModel();
+                List<PedidoItemsModels> pedidoItemsModels = new List<PedidoItemsModels>();
+                var model1 = _pedidosBusiness.GetPedido(Convert.ToInt32(task.TaskCode));
+                pedidomodelo._id = model1._id;
+                pedidomodelo.codCliente = model1.codCliente;
+                pedidomodelo.fecha = model1.fecha;
+                pedidomodelo.idVendedor = model1.idVendedor;
+                pedidomodelo.totalNeto = model1.totalNeto;
+                pedidomodelo.totalFinal = model1.totalFinal;
+                pedidomodelo.transferido = model1.transferido;
+                pedidomodelo.gpsX = model1.gpsX;
+                pedidomodelo.gpsY = model1.gpsY;
+                pedidomodelo.facturar = model1.facturar;
+                pedidomodelo.IdStatusTask = task.IdStatusTask.ToString();
+                pedidomodelo.comment = task.CommentTaskNotImplemented;
+                var detalleitems = _pedidosBusiness.GetPedidosItems(model1._id);
+                pedidoItemsModels = new List<PedidoItemsModels>();
+                foreach (var ip in detalleitems)
+                {
+                    PedidoItemsModels nuevo = new PedidoItemsModels();
+                    nuevo._id = ip._id;
+                    nuevo.idPedido = ip.idPedido;
+                    nuevo.idArticulo = ip.idArticulo;
+                    nuevo.cantidad = ip.cantidad;
+                    nuevo.importeUnitario = ip.importeUnitario;
+                    nuevo.porcDescuento = ip.porcDescuento;
+                    nuevo.total = ip.total;
+                    nuevo.transferido = ip.transferido;
+                    nuevo.ppago = ip.ppago;
+                    nuevo.nespecial = ip.nespecial;
+                    nuevo.FormaPago = ip.formapago;
+                    nuevo.unidad = ip.unidad;
+                    nuevo.articulos = _articulosBusiness.GetArticulo(nuevo.idArticulo);
+                    nuevo.numero_factura = ip.numero_factura;
+                    pedidoItemsModels.Add(nuevo);
+                }
+                pedidomodelo.PedidosItems = pedidoItemsModels;
+                pedidomodelo.tarea = task;
+                var model = pedidomodelo;
 
-      
-    
+                #region variable de estilo
+                var normalFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
+                var boldFont1 = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 11);
+                var boldFont2 = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+                var boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 7);
+                #endregion
+
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+                string pathFull = path + "\\form\\" + idtask.ToString() + ".pdf";
+                System.IO.FileStream fs = new FileStream(pathFull, FileMode.Create);
+
+                Document document = new Document(PageSize.A4, 10, 10, 10, 10);
+
+                PdfWriter writer = PdfWriter.GetInstance(document, fs);
+                document.AddAuthor("Mardis Research");
+                document.AddCreator("Mardis Research");
+                document.AddKeywords("Mardis");
+                document.AddSubject("Documentacion Pruebas");
+                document.AddTitle("Documentacion Pruebas");
+                document.AddHeader("Header", "Header Text");
+
+                //#region CuerpoPDF
+                document.Open();
+
+                // Cabecera
+                var logo = iTextSharp.text.Image.GetInstance((path + "\\Dispacif.jpeg"));
+                logo.Alignment = Element.ALIGN_LEFT;
+                logo.ScaleAbsoluteHeight(50);
+                logo.ScaleAbsoluteWidth(50);
+
+                PdfPTable tblCuerpo = new PdfPTable(1);
+                PdfPCell clLogo = new PdfPCell(logo);
+                clLogo.Border = 0;
+                clLogo.HorizontalAlignment = Element.ALIGN_LEFT;
+                //PdfPCell clPieLogo = new PdfPCell(new Phrase("Mardis Research", FontFactory.GetFont("Arial", 10, 1)));
+                //clPieLogo.Border = 0;
+                //clPieLogo.HorizontalAlignment = Element.ALIGN_LEFT;
+                tblCuerpo.AddCell(clLogo);
+                //tblCuerpo.AddCell(clPieLogo);
+                PdfPCell saltoLinea = new PdfPCell(new Paragraph("\n"));
+                saltoLinea.Border = 0;
+
+                // Escribimos el encabezamiento en el documento
+                PdfPCell cltitulo = new PdfPCell(new Paragraph("Pedido", boldFont2));
+                cltitulo.Colspan = 2;
+                cltitulo.Border = 0;
+                cltitulo.PaddingTop = 10;
+                cltitulo.PaddingBottom = 10;
+                cltitulo.HorizontalAlignment = 1;
+                tblCuerpo.AddCell(saltoLinea);
+                tblCuerpo.AddCell(saltoLinea);
+                tblCuerpo.AddCell(cltitulo);
+                tblCuerpo.AddCell(saltoLinea);
+                tblCuerpo.WidthPercentage = 100;
+                iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 7, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+
+                //Datos Local
+                PdfPTable tblInformación = new PdfPTable(3);
+
+                PdfPCell clDato = null;
+                var phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Nombre del local: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.BranchName, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblInformación.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Calle Principal: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.BranchMainStreet, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblInformación.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Rotulo: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.BranchLabel, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblInformación.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Referencia: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.BranchReference, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblInformación.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Provincia: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.BranchProvince, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblInformación.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Ciudad: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.BranchCity, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblInformación.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Parroquia: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.BranchParish, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblInformación.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Barrio: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.BranchNeighborhood, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblInformación.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Propietario: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.BranchOwnerName, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblInformación.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Cedula/Ruc: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.BranchOwnerDocument, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblInformación.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Telefono: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.BranchOwnerPhone, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblInformación.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Celular: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.BranchOwnerMobile, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblInformación.AddCell(clDato);
+
+                tblCuerpo.AddCell(tblInformación);
+
+                //Numero de Orden
+                PdfPTable tblInfoOrden = new PdfPTable(2);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Orden # ", boldFont));
+                phraseDato.Add(new Chunk(model._id.ToString(), _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 5;
+                clDato.PaddingBottom = 5;
+                tblInfoOrden.AddCell(clDato);
+                clDato = null;
+                phraseDato = new Phrase();
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Vendedor: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.MerchantName + " " +model.tarea.MerchantSurname, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 5;
+                clDato.PaddingBottom = 5;
+                tblInfoOrden.AddCell(clDato);
+                clDato = null;
+                phraseDato = new Phrase();
+
+                tblCuerpo.AddCell(tblInfoOrden);
+
+                PdfPCell clTablaPedido;
+                //Datos Pedidos
+                PdfPCell clTitulotabla = new PdfPCell(new Phrase("Pedidos"));
+                clTitulotabla.HorizontalAlignment = Element.ALIGN_CENTER;
+
+                PdfPTable tblPedido = new PdfPTable(10);
+                tblPedido.WidthPercentage = 100;
+
+                PdfPCell clCodigo = new PdfPCell(new Phrase("Codigo", boldFont));
+                clCodigo.BorderWidth = 0;
+                clCodigo.BorderWidthBottom = 0.75f;
+
+                PdfPCell clDescripcion = new PdfPCell(new Phrase("Descripcion", boldFont));
+                clDescripcion.BorderWidth = 0;
+                clDescripcion.BorderWidthBottom = 0.75f;
+
+                PdfPCell clCant = new PdfPCell(new Phrase("Cant.", boldFont));
+                clCant.BorderWidth = 0;
+                clCant.BorderWidthBottom = 0.75f;
+
+                PdfPCell clPrecioUnitario = new PdfPCell(new Phrase("P.Unit", boldFont));
+                clPrecioUnitario.BorderWidth = 0;
+                clPrecioUnitario.BorderWidthBottom = 0.75f;
+
+                PdfPCell clProntopago = new PdfPCell(new Phrase("Pronto Pago", boldFont));
+                clProntopago.BorderWidth = 0;
+                clProntopago.BorderWidthBottom = 0.75f;
+
+                PdfPCell clValorDescuento = new PdfPCell(new Phrase("Desc(%)", boldFont));
+                clValorDescuento.BorderWidth = 0;
+                clValorDescuento.BorderWidthBottom = 0.75f;
+
+                PdfPCell clSubtotal = new PdfPCell(new Phrase("Subtotal", boldFont));
+                clSubtotal.BorderWidth = 0;
+                clSubtotal.BorderWidthBottom = 0.75f;
+
+                PdfPCell clFormaPago = new PdfPCell(new Phrase("Forma Pago", boldFont));
+                clFormaPago.BorderWidth = 0;
+                clFormaPago.BorderWidthBottom = 0.75f;
+
+                PdfPCell clunidad = new PdfPCell(new Phrase("Unidad", boldFont));
+                clunidad.BorderWidth = 0;
+                clunidad.BorderWidthBottom = 0.75f;
+
+                PdfPCell clNumFactura = new PdfPCell(new Phrase("Num. Fact", boldFont));
+                clNumFactura.BorderWidth = 0;
+                clNumFactura.BorderWidthBottom = 0.75f;
+
+                tblPedido.AddCell(clCodigo);
+                tblPedido.AddCell(clDescripcion);
+                tblPedido.AddCell(clCant);
+                tblPedido.AddCell(clPrecioUnitario);
+                tblPedido.AddCell(clProntopago);
+                tblPedido.AddCell(clValorDescuento);
+                tblPedido.AddCell(clSubtotal);
+                tblPedido.AddCell(clFormaPago);
+                tblPedido.AddCell(clunidad);
+                tblPedido.AddCell(clNumFactura);
+
+                var subtotalPedido = 0.00;
+                var ivatotalPedido = 0.00;
+                var totalPedido = 0.00;
+
+                foreach (var pedido in model.PedidosItems)
+                {
+                    clCodigo = new PdfPCell(new Phrase(pedido.idArticulo.ToString(), _standardFont));
+                    clCodigo.BorderWidth = 0;
+                    clDescripcion = new PdfPCell(new Phrase(pedido.articulos.descripcion, _standardFont));
+                    clDescripcion.BorderWidth = 0;
+                    clCant = new PdfPCell(new Phrase(pedido.cantidad.ToString(), _standardFont));
+                    clCant.BorderWidth = 0;
+                    clPrecioUnitario = new PdfPCell(new Phrase(pedido.importeUnitario.ToString(), _standardFont));
+                    clPrecioUnitario.BorderWidth = 0;
+                    clProntopago = new PdfPCell(new Phrase(pedido.ppago.ToString(), _standardFont));
+                    clProntopago.BorderWidth = 0;
+                    clValorDescuento = new PdfPCell(new Phrase(pedido.nespecial.ToString(), _standardFont));
+                    clValorDescuento.BorderWidth = 0;
+                    clSubtotal = new PdfPCell(new Phrase(pedido.total.ToString(), _standardFont));
+                    clSubtotal.BorderWidth = 0;
+                    clFormaPago = new PdfPCell(new Phrase(pedido.FormaPago, _standardFont));
+                    clFormaPago.BorderWidth = 0;
+                    clunidad = new PdfPCell(new Phrase(pedido.unidad, _standardFont));
+                    clunidad.BorderWidth = 0;
+                    clNumFactura = new PdfPCell(new Phrase(pedido.numero_factura == null ? "0" : pedido.numero_factura.ToString(), _standardFont));
+                    clNumFactura.BorderWidth = 0;
+
+                    tblPedido.AddCell(clCodigo);
+                    tblPedido.AddCell(clDescripcion);
+                    tblPedido.AddCell(clCant);
+                    tblPedido.AddCell(clPrecioUnitario);
+                    tblPedido.AddCell(clProntopago);
+                    tblPedido.AddCell(clValorDescuento);
+                    tblPedido.AddCell(clSubtotal);
+                    tblPedido.AddCell(clFormaPago);
+                    tblPedido.AddCell(clunidad);
+                    tblPedido.AddCell(clNumFactura);
+
+                    subtotalPedido = subtotalPedido + (Double)pedido.total;
+
+                    if (pedido.articulos.iva > 0)
+                    {
+                        ivatotalPedido = ivatotalPedido + (Double)pedido.total * 0.12;
+                    }
+                }
+                clTablaPedido = new PdfPCell(tblPedido);
+
+                //Totales Factura(Detalle Pedido)
+                ivatotalPedido = Math.Round(ivatotalPedido, 2);
+                totalPedido = ivatotalPedido + subtotalPedido;
+                PdfPTable tblDatosPedido = new PdfPTable(1);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Subtotal: ", boldFont));
+                phraseDato.Add(new Chunk(subtotalPedido.ToString(), _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblDatosPedido.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("IVA (12%): ", boldFont));
+                phraseDato.Add(new Chunk(ivatotalPedido.ToString(), _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblDatosPedido.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Total: ", boldFont));
+                phraseDato.Add(new Chunk(totalPedido.ToString(), _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblDatosPedido.AddCell(clDato);
+
+                tblCuerpo.AddCell(clTablaPedido);
+                tblCuerpo.AddCell(tblDatosPedido);
+
+                document.Add(tblCuerpo);
+
+                document.Close();
+                writer.Close();
+                fs.Close();
+
+                byte[] by2tes = System.IO.File.ReadAllBytes(pathFull);
+                File.WriteAllBytes("myfile.pdf", by2tes);
+
+                MemoryStream stream = new MemoryStream(by2tes);
+                AzureStorageUtil.UploadFromStream(stream, "evidencias", model.tarea.BranchExternalCode + "_" + model.tarea.BranchName + ".pdf").Wait();
+                var uri = AzureStorageUtil.GetUriFromBlob("evidencias", model.tarea.BranchExternalCode + "_" + model.tarea.BranchName + ".pdf");
+                // loading bytes from a file is very easy in C#. The built in System.IO.File.ReadAll* methods take care of making sure every byte is read properly.
+                if (File.Exists(pathFull))
+                {
+                    File.Delete(pathFull);
+                }
+                return uri;
+
+            }
+            catch (Exception ex)
+            {
+
+                return "";
+            }
+        }
+
+
 
         #region Impresion
         public string PrintFile1(Guid idtask, string path, Guid idaccount) {

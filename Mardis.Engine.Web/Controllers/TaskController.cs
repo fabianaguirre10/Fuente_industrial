@@ -490,17 +490,16 @@ namespace Mardis.Engine.Web.Controllers
 
         #region Impresion
         [HttpPost]
+
+
         public JsonResult UploadFile(String Idtask)
         {
             try
             {
-                var Filepath = _Env.WebRootPath ;
+                var Filepath = _Env.WebRootPath;
                 var outs = "";
-                if (Idtask !=null)
-                    outs = _taskCampaignBusiness.PrintFile( Guid.Parse (Idtask), Filepath, ApplicationUserCurrent.AccountId);
-
-
-
+                if (Idtask != null)
+                    outs = _taskCampaignBusiness.PrintFile(Guid.Parse(Idtask), Filepath, ApplicationUserCurrent.AccountId);
                 return Json(outs);
             }
             catch (Exception ex)
@@ -511,6 +510,7 @@ namespace Mardis.Engine.Web.Controllers
             }
         }
         #endregion
+    
         #region cargaMasiva
         [HttpGet]
         public IActionResult Massive(Guid idTask, Guid? idCampaign = null, string returnUrl = null)
