@@ -398,7 +398,7 @@
         function report() {
             var region = document.querySelector("#capture_censo"); // whole screen
             $.ajax({
-                url: '/Pedidos/UploadFile',
+                url: '/Task/UploadFile',
                 type: 'post',
                 data: {
                     Idtask: getParameterByName('idTask'),
