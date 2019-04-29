@@ -382,38 +382,36 @@
 
 
 
-            }
-            function getParameterByName(name) {
-                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                    results = regex.exec(location.search);
-                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-            }
+        }
 
         function UploadFilesNew() {
-            $.blockUI({ message: "Generando el PDF " });
-            report()
-            }
-
-        function report() {
-            var region = document.querySelector("#capture_censo"); // whole screen
-            $.ajax({
-                url: '/Task/UploadFile',
-                type: 'post',
+            $.blockUI({ message: "Generando..." });
+               $.ajax({
+                   url: '/Task/UploadFile',
+                type: "POST",
+                content: "application/json; charset=utf-8",
                 data: {
-                    Idtask: getParameterByName('idTask'),
-                    task: ko.toJSON(vueVM.$data.poll)
+
+                     Idtask: getParameterByName('idTask')
                 },
                 success: function (data) {
                     if (data != '' || data != null) {
 
                         location.href = data;
-                        $.unblockUI();
+
                     } else {
                         bootbox.alert("Existió un problema, comuníquese con el administrador");
-                        $.unblockUI();
+
                     }
+                    $.unblockUI();
+                },
+
+                error: function () {
+
+                    $.unblockUI();
                 }
+                ,
+                async: true, // La petición es síncrona
             });
         }
 

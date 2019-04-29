@@ -144,7 +144,6 @@ namespace Mardis.Engine.Web.Controllers
 
 
         }
-
         [HttpPost]
         public JsonResult Save(string poll, string comment)
         {
