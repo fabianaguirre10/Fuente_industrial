@@ -1460,7 +1460,7 @@ namespace Mardis.Engine.Business.MardisCore
                 }
                 clTablaPedido = new PdfPCell(tblPedido);
                 
-                //Totales Factura
+                //Totales Factura(Detalle Pedido)
                 ivatotalPedido = Math.Round(ivatotalPedido,2);
                 totalPedido = ivatotalPedido + subtotalPedido;
                 PdfPTable tblDatosPedido = new PdfPTable(1);

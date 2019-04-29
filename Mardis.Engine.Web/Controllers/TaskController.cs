@@ -498,9 +498,6 @@ namespace Mardis.Engine.Web.Controllers
                 var outs = "";
                 if (Idtask !=null)
                     outs = _taskCampaignBusiness.PrintFile( Guid.Parse (Idtask), Filepath, ApplicationUserCurrent.AccountId);
-
-
-
                 return Json(outs);
             }
             catch (Exception ex)
