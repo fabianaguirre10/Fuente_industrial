@@ -349,6 +349,7 @@
     <Compile Include="AzureStorageUtil.cs" />
     <Compile Include="CatalogBusiness.cs" />
     <Compile Include="CommonBusiness.cs" />
+    <Compile Include="Correos.cs" />
     <Compile Include="EquipamentTimeBusiness.cs" />
     <Compile Include="HomeBusiness.cs" />
     <Compile Include="MardisCommon\AccountBusiness.cs" />

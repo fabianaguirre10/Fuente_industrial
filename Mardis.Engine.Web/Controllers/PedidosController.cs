@@ -33,6 +33,10 @@ using System.Net.Http.Headers;
 using Mardis.Engine.Business.MardisCore;
 using Mardis.Engine.Business.MardisPedidos;
 using Mardis.Engine.Web.ViewModel.PedidosViewModels;
+using System.Configuration;
+using Mardis.Engine.Web.Services;
+
+
 
 namespace Mardis.Engine.Web.Controllers
 {
@@ -43,8 +47,10 @@ namespace Mardis.Engine.Web.Controllers
         private readonly IDataProtector _protector;
         private readonly TaskCampaignBusiness _taskCampaignBusiness;
         private readonly PedidosBusiness _pedidosBusiness;
-        private readonly ArticulosBusiness _articulosBusiness;
+        private readonly ArticulosBusiness _articulosBusiness;      
         private readonly StatusTaskBusiness _statusTaskBusiness;
+        //private readonly EngineDataContext _context = new EngineDataContext();
+        private Correos _correo = new Correos();
         public PedidosController(UserManager<ApplicationUser> userManager,
                                IHttpContextAccessor httpContextAccessor,
                                MardisContext mardisContext,
@@ -151,7 +157,16 @@ namespace Mardis.Engine.Web.Controllers
             {
                 var model = JSonConvertUtil.Deserialize<PedidoModel>(poll);
                 var _comment = JSonConvertUtil.Deserialize<string>(comment);
+                
+                var idStatusTaskPrevio = model.tarea.IdStatusTask.ToString();
+                
                 _pedidosBusiness.SavePedido(model, _comment);
+
+                if (idStatusTaskPrevio != model.IdStatusTask)
+                {
+                    _pedidosBusiness.EnvioCorreo(idStatusTaskPrevio.ToUpper(),model.IdStatusTask.ToUpper(),model);
+                }
+
                 return Json(model);
             }
             catch (Exception ex)
@@ -160,6 +175,5 @@ namespace Mardis.Engine.Web.Controllers
                 return null;
             }
         }
-
     }
 }
