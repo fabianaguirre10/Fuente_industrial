@@ -1456,7 +1456,7 @@ namespace Mardis.Engine.Business.MardisCore
                     clDescripcion.BorderWidthBottom = 0.75f;
                     clDescripcion.Colspan = 2;
 
-                    clCant = new PdfPCell(new Phrase(Convert.ToInt32(pedido.cantidad).ToString(), _standardFont));
+                    clCant = new PdfPCell(new Phrase(pedido.cantidad.ToString(), _standardFont));
                     clCant.BorderWidthRight = 0.75f;
                     clCant.BorderWidthBottom = 0.75f;
                     clCant.HorizontalAlignment = Element.ALIGN_RIGHT;
