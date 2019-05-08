@@ -1162,6 +1162,7 @@ namespace Mardis.Engine.Business.MardisCore
                 var boldFont2 = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
                 var boldFontTitle = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14);
                 var boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 7);
+                var boldFontcodcliente = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9);
                 #endregion
 
                 if (!Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -1212,6 +1213,7 @@ namespace Mardis.Engine.Business.MardisCore
                 tblCuerpo.AddCell(saltoLinea);
                 tblCuerpo.WidthPercentage = 100;
                 iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 7, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+                iTextSharp.text.Font _standardFontcodcliente = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
 
                 //Datos Local
                 PdfPTable tblInformación = new PdfPTable(3);
@@ -1308,8 +1310,8 @@ namespace Mardis.Engine.Business.MardisCore
 
                 clDato = null;
                 phraseDato = new Phrase();
-                phraseDato.Add(new Chunk("Cedula/Ruc: ", boldFont));
-                phraseDato.Add(new Chunk(model.tarea.BranchOwnerDocument, _standardFont));
+                phraseDato.Add(new Chunk("CODIGO CLIENTE: ", boldFontcodcliente));
+                phraseDato.Add(new Chunk(model.tarea.BranchOwnerDocument, _standardFontcodcliente));
                 clDato = new PdfPCell(phraseDato);
                 clDato.BorderWidth = 0;
                 clDato.PaddingTop = 3;
