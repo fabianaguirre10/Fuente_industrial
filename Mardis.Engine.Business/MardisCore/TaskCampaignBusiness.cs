@@ -1160,7 +1160,9 @@ namespace Mardis.Engine.Business.MardisCore
                 var normalFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
                 var boldFont1 = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 11);
                 var boldFont2 = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+                var boldFontTitle = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14);
                 var boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 7);
+                var boldFontcodcliente = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9);
                 #endregion
 
                 if (!Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -1199,7 +1201,7 @@ namespace Mardis.Engine.Business.MardisCore
                 saltoLinea.Border = 0;
 
                 // Escribimos el encabezamiento en el documento
-                PdfPCell cltitulo = new PdfPCell(new Paragraph("Pedido", boldFont2));
+                PdfPCell cltitulo = new PdfPCell(new Paragraph("PEDIDO No. " + model._id.ToString(), boldFontTitle));
                 cltitulo.Colspan = 2;
                 cltitulo.Border = 0;
                 cltitulo.PaddingTop = 10;
@@ -1211,7 +1213,7 @@ namespace Mardis.Engine.Business.MardisCore
                 tblCuerpo.AddCell(saltoLinea);
                 tblCuerpo.WidthPercentage = 100;
                 iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 7, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-
+                iTextSharp.text.Font _standardFontcodcliente = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
                 //Datos Local
                 PdfPTable tblInformación = new PdfPTable(3);
 
@@ -1307,8 +1309,8 @@ namespace Mardis.Engine.Business.MardisCore
 
                 clDato = null;
                 phraseDato = new Phrase();
-                phraseDato.Add(new Chunk("Cedula/Ruc: ", boldFont));
-                phraseDato.Add(new Chunk(model.tarea.BranchOwnerDocument, _standardFont));
+                phraseDato.Add(new Chunk("CODIGO CLIENTE: ", boldFontcodcliente));
+                phraseDato.Add(new Chunk(model.tarea.BranchOwnerDocument, _standardFontcodcliente));
                 clDato = new PdfPCell(phraseDato);
                 clDato.BorderWidth = 0;
                 clDato.PaddingTop = 3;
@@ -1338,19 +1340,19 @@ namespace Mardis.Engine.Business.MardisCore
                 tblCuerpo.AddCell(tblInformación);
 
                 //Numero de Orden
-                PdfPTable tblInfoOrden = new PdfPTable(2);
+                PdfPTable tblInfoOrden = new PdfPTable(1);
 
-                clDato = null;
-                phraseDato = new Phrase();
-                phraseDato.Add(new Chunk("Orden # ", boldFont));
-                phraseDato.Add(new Chunk(model._id.ToString(), _standardFont));
-                clDato = new PdfPCell(phraseDato);
-                clDato.BorderWidth = 0;
-                clDato.PaddingTop = 5;
-                clDato.PaddingBottom = 5;
-                tblInfoOrden.AddCell(clDato);
-                clDato = null;
-                phraseDato = new Phrase();
+                //clDato = null;
+                //phraseDato = new Phrase();
+                //phraseDato.Add(new Chunk("Orden # ", boldFont));
+                //phraseDato.Add(new Chunk(model._id.ToString(), _standardFont));
+                //clDato = new PdfPCell(phraseDato);
+                //clDato.BorderWidth = 0;
+                //clDato.PaddingTop = 5;
+                //clDato.PaddingBottom = 5;
+                //tblInfoOrden.AddCell(clDato);
+                //clDato = null;
+                //phraseDato = new Phrase();
 
                 clDato = null;
                 phraseDato = new Phrase();
@@ -1371,46 +1373,57 @@ namespace Mardis.Engine.Business.MardisCore
                 PdfPCell clTitulotabla = new PdfPCell(new Phrase("Pedidos"));
                 clTitulotabla.HorizontalAlignment = Element.ALIGN_CENTER;
 
-                PdfPTable tblPedido = new PdfPTable(10);
+                PdfPTable tblPedido = new PdfPTable(11);
                 tblPedido.WidthPercentage = 100;
 
                 PdfPCell clCodigo = new PdfPCell(new Phrase("Codigo", boldFont));
+                clCodigo.HorizontalAlignment = Element.ALIGN_CENTER;
                 clCodigo.BorderWidth = 0;
                 clCodigo.BorderWidthBottom = 0.75f;
 
                 PdfPCell clDescripcion = new PdfPCell(new Phrase("Descripcion", boldFont));
+                clDescripcion.HorizontalAlignment = Element.ALIGN_CENTER;
                 clDescripcion.BorderWidth = 0;
                 clDescripcion.BorderWidthBottom = 0.75f;
+                clDescripcion.Colspan = 2;
 
                 PdfPCell clCant = new PdfPCell(new Phrase("Cant.", boldFont));
+                clCant.HorizontalAlignment = Element.ALIGN_CENTER;
                 clCant.BorderWidth = 0;
                 clCant.BorderWidthBottom = 0.75f;
 
                 PdfPCell clPrecioUnitario = new PdfPCell(new Phrase("P.Unit", boldFont));
+                clPrecioUnitario.HorizontalAlignment = Element.ALIGN_CENTER;
                 clPrecioUnitario.BorderWidth = 0;
                 clPrecioUnitario.BorderWidthBottom = 0.75f;
 
                 PdfPCell clProntopago = new PdfPCell(new Phrase("Pronto Pago", boldFont));
+                clProntopago.HorizontalAlignment = Element.ALIGN_CENTER;
                 clProntopago.BorderWidth = 0;
                 clProntopago.BorderWidthBottom = 0.75f;
 
                 PdfPCell clValorDescuento = new PdfPCell(new Phrase("Desc(%)", boldFont));
+                clValorDescuento.HorizontalAlignment = Element.ALIGN_CENTER;
                 clValorDescuento.BorderWidth = 0;
                 clValorDescuento.BorderWidthBottom = 0.75f;
 
                 PdfPCell clSubtotal = new PdfPCell(new Phrase("Subtotal", boldFont));
+                clSubtotal.HorizontalAlignment = Element.ALIGN_CENTER;
                 clSubtotal.BorderWidth = 0;
                 clSubtotal.BorderWidthBottom = 0.75f;
 
                 PdfPCell clFormaPago = new PdfPCell(new Phrase("Forma Pago", boldFont));
+                clFormaPago.HorizontalAlignment = Element.ALIGN_CENTER;
                 clFormaPago.BorderWidth = 0;
                 clFormaPago.BorderWidthBottom = 0.75f;
 
                 PdfPCell clunidad = new PdfPCell(new Phrase("Unidad", boldFont));
+                clunidad.HorizontalAlignment = Element.ALIGN_CENTER;
                 clunidad.BorderWidth = 0;
                 clunidad.BorderWidthBottom = 0.75f;
 
                 PdfPCell clNumFactura = new PdfPCell(new Phrase("Num. Fact", boldFont));
+                clNumFactura.HorizontalAlignment = Element.ALIGN_CENTER;
                 clNumFactura.BorderWidth = 0;
                 clNumFactura.BorderWidthBottom = 0.75f;
 
@@ -1432,25 +1445,55 @@ namespace Mardis.Engine.Business.MardisCore
                 foreach (var pedido in model.PedidosItems)
                 {
                     clCodigo = new PdfPCell(new Phrase(pedido.idArticulo.ToString(), _standardFont));
-                    clCodigo.BorderWidth = 0;
+                    clCodigo.HorizontalAlignment = Element.ALIGN_CENTER;
+                    clCodigo.BorderWidthLeft = 0.75f;
+                    clCodigo.BorderWidthRight = 0.75f;
+                    clCodigo.BorderWidthBottom = 0.75f;
+
                     clDescripcion = new PdfPCell(new Phrase(pedido.articulos.descripcion, _standardFont));
-                    clDescripcion.BorderWidth = 0;
+                    clDescripcion.BorderWidthRight = 0.75f;
+                    clDescripcion.BorderWidthBottom = 0.75f;
+                    clDescripcion.Colspan = 2;
+
                     clCant = new PdfPCell(new Phrase(pedido.cantidad.ToString(), _standardFont));
-                    clCant.BorderWidth = 0;
+                    clCant.BorderWidthRight = 0.75f;
+                    clCant.BorderWidthBottom = 0.75f;
+                    clCant.HorizontalAlignment = Element.ALIGN_RIGHT;
+
                     clPrecioUnitario = new PdfPCell(new Phrase(pedido.importeUnitario.ToString(), _standardFont));
-                    clPrecioUnitario.BorderWidth = 0;
+                    clPrecioUnitario.BorderWidthRight = 0.75f;
+                    clPrecioUnitario.BorderWidthBottom = 0.75f;
+                    clPrecioUnitario.HorizontalAlignment = Element.ALIGN_RIGHT;
+
                     clProntopago = new PdfPCell(new Phrase(pedido.ppago.ToString(), _standardFont));
-                    clProntopago.BorderWidth = 0;
+                    clProntopago.BorderWidthRight = 0.75f;
+                    clProntopago.BorderWidthBottom = 0.75f;
+                    clProntopago.HorizontalAlignment = Element.ALIGN_RIGHT;
+
                     clValorDescuento = new PdfPCell(new Phrase(pedido.nespecial.ToString(), _standardFont));
-                    clValorDescuento.BorderWidth = 0;
+                    clValorDescuento.BorderWidthRight = 0.75f;
+                    clValorDescuento.BorderWidthBottom = 0.75f;
+                    clValorDescuento.HorizontalAlignment = Element.ALIGN_RIGHT;
+
                     clSubtotal = new PdfPCell(new Phrase(pedido.total.ToString(), _standardFont));
-                    clSubtotal.BorderWidth = 0;
+                    clSubtotal.BorderWidthRight = 0.75f;
+                    clSubtotal.BorderWidthBottom = 0.75f;
+                    clSubtotal.HorizontalAlignment = Element.ALIGN_RIGHT;
+
                     clFormaPago = new PdfPCell(new Phrase(pedido.FormaPago, _standardFont));
-                    clFormaPago.BorderWidth = 0;
+                    clFormaPago.HorizontalAlignment = Element.ALIGN_CENTER;
+                    clFormaPago.BorderWidthRight = 0.75f;
+                    clFormaPago.BorderWidthBottom = 0.75f;
+
                     clunidad = new PdfPCell(new Phrase(pedido.unidad, _standardFont));
-                    clunidad.BorderWidth = 0;
+                    clunidad.HorizontalAlignment = Element.ALIGN_CENTER;
+                    clunidad.BorderWidthRight = 0.75f;
+                    clunidad.BorderWidthBottom = 0.75f;
+
                     clNumFactura = new PdfPCell(new Phrase(pedido.numero_factura == null ? "0" : pedido.numero_factura.ToString(), _standardFont));
-                    clNumFactura.BorderWidth = 0;
+                    clNumFactura.BorderWidthRight = 0.75f;
+                    clNumFactura.BorderWidthBottom = 0.75f;
+                    clNumFactura.HorizontalAlignment = Element.ALIGN_CENTER;
 
                     tblPedido.AddCell(clCodigo);
                     tblPedido.AddCell(clDescripcion);
@@ -1483,6 +1526,7 @@ namespace Mardis.Engine.Business.MardisCore
                 phraseDato.Add(new Chunk(subtotalPedido.ToString(), _standardFont));
                 clDato = new PdfPCell(phraseDato);
                 clDato.BorderWidth = 0;
+                clDato.HorizontalAlignment = Element.ALIGN_RIGHT;
                 clDato.PaddingTop = 3;
                 clDato.PaddingBottom = 3;
                 tblDatosPedido.AddCell(clDato);
@@ -1492,6 +1536,7 @@ namespace Mardis.Engine.Business.MardisCore
                 phraseDato.Add(new Chunk("IVA (12%): ", boldFont));
                 phraseDato.Add(new Chunk(ivatotalPedido.ToString(), _standardFont));
                 clDato = new PdfPCell(phraseDato);
+                clDato.HorizontalAlignment = Element.ALIGN_RIGHT;
                 clDato.BorderWidth = 0;
                 clDato.PaddingTop = 3;
                 clDato.PaddingBottom = 3;
@@ -1502,6 +1547,7 @@ namespace Mardis.Engine.Business.MardisCore
                 phraseDato.Add(new Chunk("Total: ", boldFont));
                 phraseDato.Add(new Chunk(totalPedido.ToString(), _standardFont));
                 clDato = new PdfPCell(phraseDato);
+                clDato.HorizontalAlignment = Element.ALIGN_RIGHT;
                 clDato.BorderWidth = 0;
                 clDato.PaddingTop = 3;
                 clDato.PaddingBottom = 3;
