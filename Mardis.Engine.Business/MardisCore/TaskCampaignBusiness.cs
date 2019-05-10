@@ -1214,7 +1214,6 @@ namespace Mardis.Engine.Business.MardisCore
                 tblCuerpo.WidthPercentage = 100;
                 iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 7, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
                 iTextSharp.text.Font _standardFontcodcliente = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
-
                 //Datos Local
                 PdfPTable tblInformación = new PdfPTable(3);
 
