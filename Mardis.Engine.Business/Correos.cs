@@ -37,7 +37,7 @@ namespace Mardis.Engine.Business
         {
             server.Send(mensaje);
         }
-        public void enviar(string _subject, string _to, string _body, string mercaderista)
+        public void enviar(string _subject, string _to, string _body)
         {
 
             try
@@ -50,13 +50,7 @@ namespace Mardis.Engine.Business
 
                 foreach (string destinatario in destinatarios)
                 {
-                    if(mercaderista == destinatario)
-                    {
-                        mnsj.To.Add("faguirre@mardisresearch.com");
-                        mnsj.To.Add("dsamueza@mardisresearch.com");
-                        mnsj.To.Add(new MailAddress(destinatario));
-                    }
-                    
+                    mnsj.To.Add(new MailAddress(destinatario));
                 }
 
 

@@ -84,6 +84,7 @@ namespace Mardis.Engine.Web.Controllers
                 pedidomodelo.codCliente = model1.codCliente;
                 pedidomodelo.fecha = model1.fecha;
                 pedidomodelo.idVendedor = model1.idVendedor;
+                pedidomodelo.phone = task.MerchantPhone;
                 pedidomodelo.totalNeto = model1.totalNeto;
                 pedidomodelo.totalFinal = model1.totalFinal;
                 pedidomodelo.transferido = model1.transferido;
@@ -164,7 +165,7 @@ namespace Mardis.Engine.Web.Controllers
 
                 if (idStatusTaskPrevio != model.IdStatusTask)
                 {
-                    _pedidosBusiness.EnvioCorreo(idStatusTaskPrevio.ToUpper(),model.IdStatusTask.ToUpper(),model);
+                    _pedidosBusiness.EnvioCorreo(idStatusTaskPrevio.ToUpper(), model.IdStatusTask.ToUpper(), model);
                 }
 
                 return Json(model);

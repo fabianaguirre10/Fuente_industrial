@@ -15,6 +15,7 @@ namespace Mardis.Engine.Web.ViewModel.PedidosViewModels
         public string codCliente { get; set; }
         public string fecha { get; set; }
         public string idVendedor { get; set; }
+        public string phone { get; set; }
         public Decimal totalNeto { get; set; }
         public Decimal totalFinal { get; set; }
         public Decimal? transferido { get; set; }

@@ -31,6 +31,8 @@ namespace Mardis.Engine.Web.ViewModel.TaskViewModels
 
         public string MerchantName { get; set; }
 
+        public string MerchantPhone { get; set; }
+        
         public Guid IdMerchantPerson { get; set; }
 
         public string MerchantSurname { get; set; }

@@ -73,7 +73,7 @@ namespace Mardis.Engine.DataObject.MardisCore
             myWatch.Start();
 #endif
 
-            var task = Context.Query<MyTaskViewModel>($@"select a.*, b.Name as MerchantName, b.Surname as MerchantSurname,a.CodigoGemini as CodeGemini ,a.CommentTaskNoImplemented as CommentTaskNotImplemented
+            var task = Context.Query<MyTaskViewModel>($@"select a.*, b.Name as MerchantName, b.Phone as MerchantPhone, b.Surname as MerchantSurname,a.CodigoGemini as CodeGemini ,a.CommentTaskNoImplemented as CommentTaskNotImplemented
             from vw_Campaign_Information a
                 inner join mardiscommon.person b on a.idmerchantperson = b.id
             where a.IdTask='{idTask}'").FirstOrDefault();

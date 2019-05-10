@@ -51,11 +51,13 @@ namespace Mardis.Engine.Business.MardisPedidos
         public void EnvioCorreo(string estadoAnterior, string estadoActual, PedidoModel modelo)
         {
             var appSettings = ConfigurationSettings.AppSettings;
-            ////durbina@mardisresearch.com,dbanda@mardisresearch.com,edicion2@mardisresearch.com,evaca@mardisresearch.com,mpico@mardisresearch.com
+
             string contenido = "";
             string estadoCambiado = "";
             string subject = "Actualización de pedido";
             string des = appSettings["correos"]; //acorrales@mardisresearch.com;
+            string desFin = "";
+
 
             string pie = "<br/><br/><br/><p>Saludos Cordiales,</p>" +
                          "<img src=\'cid:imagen\' alt=\'Mardis.com\' width=\'200\' height=\'150\'>" +
@@ -65,11 +67,11 @@ namespace Mardis.Engine.Business.MardisPedidos
             {
                 if (estadoActual == "0FF1A786-A332-4252-AAEC-8AD3F2DB7BC9")//->AprobadoFacturación
                 {
-                    estadoCambiado = "APROBADA PARA FACTURACIÓN";
+                    estadoCambiado = "APROBADO PARA FACTURACIÓN";
                 }
                 if (estadoActual == "37694A60-8499-4DC6-9A53-950814381690")//->Rechazado
                 {
-                    estadoCambiado = "RECHAZADA";
+                    estadoCambiado = "RECHAZADO";
                 }
             }
 
@@ -77,19 +79,19 @@ namespace Mardis.Engine.Business.MardisPedidos
             {
                 if (estadoActual == "0FF1A786-A332-4252-AAEC-8AD3F2DB7BC9")//-> Aprobado
                 {
-                    estadoCambiado = "APROBADA PARA FACTURACIÓN";
+                    estadoCambiado = "APROBADO PARA FACTURACIÓN";
                 }
             }
 
-            if (estadoAnterior == "0FF1A786-A332-4252-AAEC-8AD3F2DB7BC9")//Aprobado 
+            if (estadoAnterior == "0FF1A786-A332-4252-AAEC-8AD3F2DB7BC9")//Aprobado Facturación
             {
                 if (estadoActual == "7B0D0269-1AEF-4B73-9089-20E53698FF75")//-> Facturado
                 {
-                    estadoCambiado = "FACTURADA";
+                    estadoCambiado = "FACTURADO";
                 }
             }
 
-            contenido += "<h3><strong>Actualización de pedido</strong></h3><p>Ponemos en su conocimiento que la orden No. <strong>" + modelo._id + "</strong> ha sido <strong>" + estadoCambiado+ "</strong> de acuerdo al siguiente detalle:</p>" +
+            contenido += "<h3><strong>Actualización de pedido</strong></h3><p>Ponemos en su conocimiento que el pedido No. <strong>" + modelo._id + "</strong> ha sido <strong>" + estadoCambiado + "</strong> de acuerdo al siguiente detalle:</p>" +
                     "<table border='1' style='height: 147px; width: 100 %; border - collapse: collapse; border - style: solid;'>" +
                     "<tbody><tr style='height: 21px; '>" +
                     "<td style='width: 25%; height: 21px; background-color: #B2BEB5; text-align: right;'><strong>Cliente:</strong></td>" +
@@ -119,9 +121,27 @@ namespace Mardis.Engine.Business.MardisPedidos
             }
 
             contenido += pie;
+
+
+            string[] destinatarios = des.Split(',');
+
+            foreach (string destinatario in destinatarios)
+            {
+                if (modelo.phone == destinatario)
+                {
+                    desFin += modelo.phone;
+                }
+            }
+
             
-            //_correo.enviar(subject, des, contenido, "acorrales@mardisresearch.com");
-            //_correo.enviar(subject, des, contenido, modelo.idVendedor.ToString());
+            //anloor@gnoboa.com
+            //fanchundia @gnoboa.com
+
+            //wyagual@gnoboa.com
+            //dreinoso @gnoboa.com
+            //rcarvajal @gnoboa.com
+
+            _correo.enviar(subject, desFin, contenido);
         }
     }
 }
