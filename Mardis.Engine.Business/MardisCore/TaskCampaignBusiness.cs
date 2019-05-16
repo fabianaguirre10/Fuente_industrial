@@ -1553,8 +1553,33 @@ namespace Mardis.Engine.Business.MardisCore
                 clDato.PaddingBottom = 3;
                 tblDatosPedido.AddCell(clDato);
 
+                PdfPTable tblObservaciones = new PdfPTable(2);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Estado: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.StatusTaskName, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                //clDato.HorizontalAlignment = Element.ALIGN_RIGHT;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblObservaciones.AddCell(clDato);
+
+                clDato = null;
+                phraseDato = new Phrase();
+                phraseDato.Add(new Chunk("Observación: ", boldFont));
+                phraseDato.Add(new Chunk(model.tarea.CommentTaskNotImplemented, _standardFont));
+                clDato = new PdfPCell(phraseDato);
+                clDato.BorderWidth = 0;
+                //clDato.HorizontalAlignment = Element.ALIGN_RIGHT;
+                clDato.PaddingTop = 3;
+                clDato.PaddingBottom = 3;
+                tblObservaciones.AddCell(clDato);
+
                 tblCuerpo.AddCell(clTablaPedido);
                 tblCuerpo.AddCell(tblDatosPedido);
+                tblCuerpo.AddCell(tblObservaciones);
 
                 document.Add(tblCuerpo);
 
